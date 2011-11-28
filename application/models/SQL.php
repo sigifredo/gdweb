@@ -23,6 +23,24 @@ class Application_Model_SQL
     }
 
     /**
+     * \brief Obtenemos la información de la empreza.
+     * Esta información puede ser, ¿Quiénes somos?, misión, visión, etc.
+     *
+     * @return Lista con la información. Cada registro está ordenado así: [id, title, description, image]
+     *
+     */
+    public function listInformation()
+    {
+        $r = $this->dbAdapter->fetchAll("SELECT id, title, description, image FROM tb_information");
+        foreach($r as $row)
+        {
+            $this->dbAdapter->fetchRow("SELECT lo_export(".$row['image'].", '".getcwd()."/img/inf/".$row['id']."')");
+            $row['image'] = getcwd()."/img/inf/".$row['id'];
+        }
+        return $r;
+    }
+
+    /**
      * \brief Obtenemos una lista de noticias.
      *
      * @return Lista de noticias. Cada registro está ordenado así: [id, title, description]

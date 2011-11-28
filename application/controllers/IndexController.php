@@ -19,7 +19,7 @@ class IndexController extends Zend_Controller_Action
         {
             if($i%2 == 0) echo "<article class='artr'>";
             else echo "<article class='artl'>";
-            echo "<header class='titulo'>".$line['title']."</header>";
+            echo "<header class='title'>".$line['title']."</header>";
             echo "<p>".$line['description']."</p>";
             echo "</article>";
             $i++;

@@ -16,10 +16,8 @@ div#content
 {
     margin-top: 5px;
 }
-div#news article
+#news article, #information article
 {
-    width: 470px;
-    height: 200px;
     padding: 0px;
     font-family: Arial, Helvetica, sans-serif;
     border: 1px outset #d7d7d7;
@@ -27,7 +25,12 @@ div#news article
     border-radius: 5px;
     background-color: #f3f5f3;
 }
-div#news article:hover
+#news article
+{
+    width: 470px;
+    height: 200px;
+}
+#news article:hover, #information article:hover
 {
     background-color: #fff;
 }
