@@ -34,8 +34,8 @@ class Application_Model_SQL
         $r = $this->dbAdapter->fetchAll("SELECT id, title, description, image FROM tb_information");
         foreach($r as $row)
         {
-            $this->dbAdapter->fetchRow("SELECT lo_export(".$row['image'].", '".getcwd()."/img/inf/".$row['id']."')");
-            $row['image'] = getcwd()."/img/inf/".$row['id'];
+            $this->dbAdapter->fetchRow("SELECT lo_export(".$row['image'].", '".getcwd()."/img/inf/".$row['image']."')");
+            // $row['image'] = getcwd()."/img/inf/".$row['id'];
         }
         return $r;
     }

@@ -45,21 +45,30 @@ div#news article.artr
     margin: 10px 10px 10px 5px;
     float: left;
 }
-div#clear
+div.clear
 {
     clear: both;
+}
+article p, article header
+{
+    margin: 15px;
+}
+#information img
+{
+    float: left;
+    height: 120px;
+    border-width: 2px;
+    margin: 0px 15px 15px 15px;
 }
 article header
 {
     color: #086900;
     font-size: 17px;
-    margin: 15px;
 }
 article p
 {
     color: #507050;
     font-size: 15px;
-    margin: 15px;
 }
 footer
 {

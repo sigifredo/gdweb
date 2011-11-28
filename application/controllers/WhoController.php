@@ -19,8 +19,9 @@ class WhoController extends Zend_Controller_Action
         {
             echo "<article>";
             echo "<header class='title'>".$line['title']."</header>";
+            echo "<img src='".$this->view->baseUrl()."/img/inf/".$line['image']."'></img>";
             echo "<p>".$line['description']."</p>";
-            echo "</article>";
+            echo "<div class='clear'></div></article>";
         }
         echo "</div>";
     }
