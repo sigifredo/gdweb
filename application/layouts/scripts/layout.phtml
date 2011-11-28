@@ -1,0 +1,29 @@
+<?php
+echo $this->doctype("HTML5");
+?>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <?php
+    echo $this->headMeta();
+    echo $this->headScript();
+    echo $this->headLink()->appendStylesheet($this->baseUrl().'/global.css');
+    echo $this->headLink(array('rel' => 'icon', 'href' => $this->baseUrl().'/img/favicon.png','type' => 'image/x-icon'));
+    $this->headTitle()->prepend('GfifDev - ');
+    echo $this->headTitle();
+  ?>
+<!--     <script type="application/x-javascript" src="main.php"></script> -->
+  </head>
+  <body>
+    <header id="hdppal"></header>
+  <ul id="menu">
+    <li><a href="<?php echo $this->url(array("controller" => "index", "action" => "index")); ?>">Inicio</a></li>
+    <li><a href="<?php echo $this->url(array("controller" => "who", "action" => "index")); ?>">¿Quiénes somos?</a></li>
+    <li><a href="<?php echo $this->url(array("controller" => "services", "action" => "index")); ?>">Nuestros servicios</a></li>
+    <li>Nuestros clientes</li>
+    <li>Contactenos</li>
+  </ul>
+    <div id="content"><?php echo $this->layout()->content; ?><div id="clear"></div></div>
+    <footer id="ftppal">Copyright © 2011 GfifDev S.A.S. Todos los derechos reservados.</footer>
+  </body>
+</html>

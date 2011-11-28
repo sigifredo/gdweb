@@ -1,0 +1,5 @@
+Autor: Sigifredo Escobar Gómez
+
+Configurar la base de datos:
+	modificar el archivo 'pg_hba.conf', agregamos 'local   all             all                                     trust'
+	ejecutamos el archivo ./config/db/prepararBD.sh

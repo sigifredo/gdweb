@@ -1,0 +1,31 @@
+Para configurar postgresql:
+
+# cambiamos de usuario a postgres
+$ su postgres
+
+# creamos un usuario
+$ createuser gdadmin
+# creamos la base de datos y asignamos un propietario
+$ createdb gfifdev --owner=gdadmin
+# importamos la base de datos
+$ psql -U gdadmin gfifdev < [archivo .sql que contiene la base de datos]
+
+
+# editamos el archivo pg_hba.conf para dar permisos a nuestro usuario
+$ vim /etc/postgresql/9.1/main/pg_hba.conf
+# añadimos la siguiente linea
+	# TYPE  DATABASE        USER            ADDRESS                 METHOD
+	local   all             all                                     trust
+
+# cambiamos la siguiente linea
+	host    all             all             127.0.0.1/32            md5 
+# por
+	host    all             all             127.0.0.1/32            trust
+
+# reiniciamos postgres como root
+$ sudo /etc/init.d/postgresql restart
+
+# entramos a postgres y asignamos el la contraseña al usuario <gdadmin>
+$ psql
+# cambiamos la contraseña así;
+=# alter user gdadmin password '<nueva contraseña>';
