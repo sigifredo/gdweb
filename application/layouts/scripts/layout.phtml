@@ -19,9 +19,11 @@ echo $this->doctype("HTML5");
   <ul id="menu">
     <li><a href="<?php echo $this->url(array("controller" => "index", "action" => "index")); ?>">Inicio</a></li>
     <li><a href="<?php echo $this->url(array("controller" => "who", "action" => "index")); ?>">¿Quiénes somos?</a></li>
-    <li><a href="<?php echo $this->url(array("controller" => "services", "action" => "index")); ?>">Nuestros servicios</a></li>
-    <li>Nuestros clientes</li>
-    <li>Contactenos</li>
+    <li>Productos</li>
+    <li><a href="<?php echo $this->url(array("controller" => "services", "action" => "index")); ?>">Servicios</a></li>
+    <li>Entrenamiento</li>
+    <li>Open Source</li>
+    <li>Contáctenos</li>
   </ul>
     <div id="content"><?php echo $this->layout()->content; ?><div class="clear"></div></div>
     <footer id="ftppal">Copyright © 2011 GfifDev S.A.S. Todos los derechos reservados.</footer>
