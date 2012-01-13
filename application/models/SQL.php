@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * version 1
+ */
+
 class Application_Model_SQL
 {
     protected $dbAdapter = null;
@@ -35,7 +39,7 @@ class Application_Model_SQL
         foreach($r as $row)
         {
             $this->dbAdapter->fetchRow("SELECT lo_export(".$row['image'].", '".getcwd()."/img/inf/".$row['image']."')");
-            // $row['image'] = getcwd()."/img/inf/".$row['id'];
+            $row['image'] = getcwd()."/img/inf/".$row['id'];
         }
         return $r;
     }
@@ -48,7 +52,28 @@ class Application_Model_SQL
      */
     public function listNews()
     {
-        return $this->dbAdapter->fetchAll("SELECT id, title, description FROM tb_news");
+        $r = $this->dbAdapter->fetchAll("SELECT id, title, description, image FROM tb_news");
+        foreach($r as $row)
+        {
+            $this->dbAdapter->fetchRow("SELECT lo_export(".$row['image'].", '".getcwd()."/img/news/".$row['image']."')");
+            $row['image'] = getcwd()."/img/news/".$row['id'];
+        }
+        return $r;
+    }
+
+    /**
+     * \brief Obtenemos el tipo del usuario en el momento de autenticarse.
+     *
+     * @param $sCCUser Cédula del usuario a validar.
+     * @param $Password Contraseña del usuario. La contraseña deberá ser pasada en encriptada, con el algoritmo de encriptación SHA1.
+     *
+     * @return Si el usuario y la contraseña coinciden, se retornará el tipo de usuario; de lo contrario se retornará null.
+     *
+     */
+    public function userType($sCCUser, $sPassword)
+    {
+        $r = $this->dbAdapter->fetchRow("SELECT id_usertype AS type FROM tb_user WHERE cc='$sCCUser' AND password='$sPassword'");
+        return $r['type'];
     }
 
 }
