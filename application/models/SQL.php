@@ -47,7 +47,7 @@ class Application_Model_SQL
     /**
      * \brief Obtenemos una lista de noticias.
      *
-     * @return Lista de noticias. Cada registro está ordenado así: [id, title, description]
+     * @return Lista de noticias. Cada registro está ordenado así: [id, title, description, image]
      *
      */
     public function listNews()
@@ -65,7 +65,7 @@ class Application_Model_SQL
      * \brief Obtenemos el tipo del usuario en el momento de autenticarse.
      *
      * @param $sCCUser Cédula del usuario a validar.
-     * @param $Password Contraseña del usuario. La contraseña deberá ser pasada en encriptada, con el algoritmo de encriptación SHA1.
+     * @param $sPassword Contraseña del usuario. La contraseña deberá ser pasada en encriptada, con el algoritmo de encriptación SHA1.
      *
      * @return Si el usuario y la contraseña coinciden, se retornará el tipo de usuario; de lo contrario se retornará null.
      *
