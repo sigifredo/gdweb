@@ -1,7 +1,7 @@
 <?php
 
 /**
- * version 1
+ * version 2
  */
 
 class Application_Model_SQL
@@ -24,6 +24,57 @@ class Application_Model_SQL
     public function getAuthDbTable($table, $cc_user, $password)
     {
         return new Zend_Auth_Adapter_DbTable($this->dbAdapter, $table, $cc_user, $password);
+    }
+
+    /**
+     * \brief Inserta un administrador en la base de datos.
+     *
+     * @param $sCC Cédula del administrador.
+     * @param $sPassword Contraseña del usuario. La contraseña deberá ser pasada en encriptada, con el algoritmo de encriptación SHA1.
+     * @param $sNames Nombres del administrador.
+     * @param $sLastNames Apellidos del administrador.
+     * @param $sTelephone Teléfono del administrador.
+     * @param $sMovil Celular del administrador.
+     * @param $sImage Ruta a la imagen donde está el administrador.
+     *
+     */
+    public function insertAdmin($sCC, $sPassword, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage)
+    {
+        $this->dbAdapter->fetchRow("SELECT * FROM f_insertadmin('$sCC', '$sPassword', '$sLastNames', '$sTelephone', '$sMovil', '$sImage')");
+    }
+
+    /**
+     * \brief Inserta un cliente en la base de datos.
+     *
+     * @param $sCC Cédula del cliente.
+     * @param $sPassword Contraseña del usuario. La contraseña deberá ser pasada en encriptada, con el algoritmo de encriptación SHA1.
+     * @param $sNames Nombres del cliente.
+     * @param $sLastNames Apellidos del cliente.
+     * @param $sTelephone Teléfono del cliente.
+     * @param $sMovil Celular del cliente.
+     * @param $sImage Ruta a la imagen donde está el cliente.
+     *
+     */
+    public function insertClient($sCC, $sPassword, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage)
+    {
+        $this->dbAdapter->fetchRow("SELECT * FROM f_insertclient('$sCC', '$sPassword', '$sLastNames', '$sTelephone', '$sMovil', '$sImage')");
+    }
+
+    /**
+     * \brief Inserta un programador en la base de datos.
+     *
+     * @param $sCC Cédula del programador.
+     * @param $sPassword Contraseña del usuario. La contraseña deberá ser pasada en encriptada, con el algoritmo de encriptación SHA1.
+     * @param $sNames Nombres del programador.
+     * @param $sLastNames Apellidos del programador.
+     * @param $sTelephone Teléfono del programador.
+     * @param $sMovil Celular del programador.
+     * @param $sImage Ruta a la imagen donde está el programador.
+     *
+     */
+    public function insertDeveloper($sCC, $sPassword, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage)
+    {
+        $this->dbAdapter->fetchRow("SELECT * FROM f_insertdeveloper('$sCC', '$sPassword', '$sLastNames', '$sTelephone', '$sMovil', '$sImage')");
     }
 
     /**
