@@ -24,6 +24,59 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 SET search_path = public, pg_catalog;
 
+--
+-- Name: f_insertadmin(character varying, character varying, character varying, character varying, character varying, character varying, character varying); Type: FUNCTION; Schema: public; Owner: gdadmin
+--
+
+CREATE FUNCTION f_insertadmin(cc1 character varying, password2 character varying, names3 character varying, lastnames4 character varying, telephone5 character varying, movil6 character varying, image7 character varying) RETURNS void
+    LANGUAGE plpgsql
+    AS $_$BEGIN
+  IF $7 = '' THEN
+    INSERT INTO tb_user (cc, password, names, lastnames, telephone, movil, id_usertype) VALUES ($1, $2, $3, $4, $5, $6, 1);
+  ELSE
+    INSERT INTO tb_user (cc, password, names, lastnames, telephone, movil, id_usertype, image) VALUES ($1, $2, $3, $4, $5, $6, 1, $7);
+  END IF;
+END;
+$_$;
+
+
+ALTER FUNCTION public.f_insertadmin(cc1 character varying, password2 character varying, names3 character varying, lastnames4 character varying, telephone5 character varying, movil6 character varying, image7 character varying) OWNER TO gdadmin;
+
+--
+-- Name: f_insertclient(character varying, character varying, character varying, character varying, character varying, character varying, character varying); Type: FUNCTION; Schema: public; Owner: gdadmin
+--
+
+CREATE FUNCTION f_insertclient(cc1 character varying, password2 character varying, names3 character varying, lastnames4 character varying, telephone5 character varying, movil6 character varying, image7 character varying) RETURNS void
+    LANGUAGE plpgsql
+    AS $_$BEGIN
+  IF $7 = '' THEN
+    INSERT INTO tb_user (cc, password, names, lastnames, telephone, movil, id_usertype) VALUES ($1, $2, $3, $4, $5, $6, 2);
+  ELSE
+    INSERT INTO tb_user (cc, password, names, lastnames, telephone, movil, id_usertype, image) VALUES ($1, $2, $3, $4, $5, $6, 2, lo_import($7));
+  END IF;
+END;$_$;
+
+
+ALTER FUNCTION public.f_insertclient(cc1 character varying, password2 character varying, names3 character varying, lastnames4 character varying, telephone5 character varying, movil6 character varying, image7 character varying) OWNER TO gdadmin;
+
+--
+-- Name: f_insertdeveloper(character varying, character varying, character varying, character varying, character varying, character varying, character varying); Type: FUNCTION; Schema: public; Owner: gdadmin
+--
+
+CREATE FUNCTION f_insertdeveloper(cc1 character varying, password2 character varying, names3 character varying, lastnames4 character varying, telephone5 character varying, movil6 character varying, image7 character varying) RETURNS void
+    LANGUAGE plpgsql
+    AS $_$BEGIN
+  IF $7 = '' THEN
+    INSERT INTO tb_user (cc, password, names, lastnames, telephone, movil, id_usertype) VALUES ($1, $2, $3, $4, $5, $6, 3);
+  ELSE
+    INSERT INTO tb_user (cc, password, names, lastnames, telephone, movil, id_usertype, image) VALUES ($1, $2, $3, $4, $5, $6, 3, $7);
+  END IF;
+END;
+$_$;
+
+
+ALTER FUNCTION public.f_insertdeveloper(cc1 character varying, password2 character varying, names3 character varying, lastnames4 character varying, telephone5 character varying, movil6 character varying, image7 character varying) OWNER TO gdadmin;
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -139,7 +192,7 @@ ALTER TABLE public.tb_user OWNER TO gdadmin;
 
 CREATE TABLE tb_usertype (
     id integer NOT NULL,
-    name character varying(10) NOT NULL
+    name character varying(15) NOT NULL
 );
 
 
@@ -170,7 +223,7 @@ ALTER SEQUENCE tb_usertype_id_seq OWNED BY tb_usertype.id;
 -- Name: tb_usertype_id_seq; Type: SEQUENCE SET; Schema: public; Owner: gdadmin
 --
 
-SELECT pg_catalog.setval('tb_usertype_id_seq', 1, false);
+SELECT pg_catalog.setval('tb_usertype_id_seq', 3, true);
 
 
 --
@@ -234,6 +287,9 @@ COPY tb_user (cc, password, names, lastnames, telephone, movil, id_usertype, ima
 --
 
 COPY tb_usertype (id, name) FROM stdin;
+1	Administrador
+2	Cliente
+3	Desarrollador
 \.
 
 
@@ -242,7 +298,7 @@ COPY tb_usertype (id, name) FROM stdin;
 --
 
 COPY version (version) FROM stdin;
-1
+2
 \.
 
 
