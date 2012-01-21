@@ -139,7 +139,7 @@ class Application_Model_SQL
      * @return Nombre asociado a un identificador de tipo.
      *
      */
-    public function userType($iId)
+    public function _userType($iId)
     {
         $r = $this->dbAdapter->fetchRow("SELECT name FROM tb_usertype WHERE id=$iId");
         return $r['name'];
