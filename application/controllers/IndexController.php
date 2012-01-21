@@ -8,7 +8,7 @@ class IndexController extends Zend_Controller_Action
 
     private $form = null;
     
-    protected $sql=null;
+    private $sql=null;
 
     /**
       * \brief Contruye las variables de la clase
@@ -42,7 +42,7 @@ class IndexController extends Zend_Controller_Action
     
     $image = new Zend_Form_Element_File('user');
     $image->setLabel('Load the image')
-	  //->setDestination(APPLICATION_PATH."/../public/img/")
+	  ->setDestination(APPLICATION_PATH."/../public/img/usr")
 	  ->setMaxFileSize(2097152); // limits the filesize on the client side	  
     $image->addValidator('Count', false, 1);                // ensure only 1 file
     $image->addValidator('Size', false, 2097152);            // limit to 2 meg
@@ -61,8 +61,6 @@ class IndexController extends Zend_Controller_Action
     $form->addElement('text','telephone',array('label'=>'Telephone','validator'=>'digits','validator'=>'StringLength',false,array(0,7)));
 
     $form->addElement('text','movil',array('label'=>'Movil','validator'=>'digits','validator'=>'StringLength',false,array(0,10)));
-
- //   $form->addElement('text','type',array('label'=>'Type User','required'=>true,'filter'=>'StringToLower','validator'=>'alfa','validator'=>'StringLength',false,array(4,10)));
 
     $form->addElement('submit','create',array('label'=>'Create'));
     
@@ -83,9 +81,9 @@ class IndexController extends Zend_Controller_Action
     $form->setAction($this->view->url(array("controller" => "index", "action" => "create-news")))
 	 ->setMethod('post');
     
-    $image = new Zend_Form_Element_File('new');
+    $image = new Zend_Form_Element_File('image');
     $image->setLabel('Load the image')
-	  //->setDestination(APPLICATION_PATH."/../public/img/")
+	  ->setDestination(APPLICATION_PATH."/../public/img/news")
 	  ->setMaxFileSize(2097152); // limits the filesize on the client side	  
     $image->addValidator('Count', false, 1);                // ensure only 1 file
     $image->addValidator('Size', false, 2097152);            // limit to 2 meg
@@ -96,8 +94,6 @@ class IndexController extends Zend_Controller_Action
     $form->addElement('text','title',array('label'=>'Title','required'=>true,'validator'=>'StringLength',false,array(1,20),'validator'=>'alnum'));
 
     $form->addElement('textarea','description',array('label'=>'Description','required'=>true));
-
- //   $form->addElement('text','cc',array('label'=>'CC','required'=>true,'validator'=>'StringLength',false,array(6,10),'validator'=>'alnum'));
 
     $form->addElement('submit','create',array('label'=>'Create'));
     
@@ -119,7 +115,7 @@ class IndexController extends Zend_Controller_Action
     $form->setAction($this->view->url(array("controller" => "index", "action" => "login")))
 	 ->setMethod('post');
     
-    $form->addElement('text','user',array('label'=>'User','required'=>true,'filter'=>'StringToLower','validator'=>'StringLength',false,array(6,10),'validator'=>'alnum','validator'=>'regex', false, array('/^[a-z]+/')));
+    $form->addElement('text','user',array('label'=>'User','required'=>true,'filter'=>'StringToLower','validator'=>'StringLength',false,array(6,10),'validator'=>'digits','validator'=>'regex', false, array('/^[a-z]+/')));
 
     $form->addElement('password','password',array('label'=>'Password','required'=>true,'validator'=>'StringLength',false,array(6,40)));
 	 
@@ -144,25 +140,25 @@ class IndexController extends Zend_Controller_Action
         {
 	    echo $this->form;
         }
-	elseif( $this->session->type == 'admin')
+	elseif( $this->session->type == '1')
 	{
 	echo "<div id='adminMenu' class='menu'>
 
 	    <div>
-	      <span>Cuentas</span>
+	      <span>Accounts</span>
 	      <ul>
-		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-user')).">Crear Cuenta</a><br>
-		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'update-user')).">Modificar Cuenta</a><br>
-		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'delete-user')).">Eliminar Cuenta</a><br>
+		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-user','id'=>'1')).">Create Account Administrator</a><br>
+		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-user','id'=>'2')).">Create Account Client</a><br>
+		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-user','id'=>'3')).">Create Account Developer</a><br>
 	      </ul>
 	    </div>
 
 	    <div>
 	      <span>Noticias</span>	
 	      <ul>
-		<a href=".$this->view->url(array('controller'=>'admin', 'action'=>'create-news')).">Crear Noticia</a><br>
-		<a href=".$this->view->url(array('controller'=>'admin', 'action'=>'update-news')).">Modificar Noticia</a><br>
-		<a href=".$this->view->url(array('controller'=>'admin', 'action'=>'delete-news')).">Borrar Noticia</a><br>
+		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-news')).">Crear Noticia</a><br>
+		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'update-news')).">Modificar Noticia</a><br>
+		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'delete-news')).">Borrar Noticia</a><br>
 	      </ul>
 	    </div>
 	</div>";
@@ -198,10 +194,11 @@ class IndexController extends Zend_Controller_Action
             $sPassword = sha1($f->filter($this->_request->getPost('password')));
 	    
 	    $this->session->type=$this->sql->userType($sCCUser, $sPassword);
-
+	    $this->session->user=$sCCUser;
+	    
 	    if($this->session->type==null)
 	    {
-		echo "<h4 id='error' class='login'>El Usuario y/o la contraseña no coinciden</h4>";
+		echo "<h4 id='error' class='login'>The user or password is incorrect</h4>";
 		echo $this->form;
 	    }
 	    else
@@ -216,7 +213,10 @@ class IndexController extends Zend_Controller_Action
      */
 
    public function createUserAction()
-   {
+   { 
+    
+    $iUserType = $this->getRequest()->getParam('id');
+
     $form = $this->createUserForm();
 
 	if(!$this->getRequest()->isPost())
@@ -224,13 +224,41 @@ class IndexController extends Zend_Controller_Action
 	    echo $form;
 	    return;
 	}
-	if(!$this->form->isValid($this->_getAllParams()))
+	if(!$form->isValid($this->_getAllParams()))
 	{
 	    echo $form;
 	    return;
 	}
+
 	$values = $form->getValues();
-//funcion para ingresar datos (values) a la tabla tb_user
+
+	if(isset($values['image']))
+        {
+            $image = APPLICATION_PATH."/../public/img/news".$form->image->getFileName(null,false);
+        } 
+	else 
+	{
+	    $image = '';
+        }
+
+	switch ($iUserType) 
+	{
+	    case 1:
+
+		$this->sql->insertAdmin($values['cc'],sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
+		break;
+
+	    case 2:
+
+		$this->sql->insertClient($values['cc'],sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
+		break;
+
+	    case 3:
+
+		$this->sql->insertDeveloper($values['cc'],sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
+		break;
+	}
+     $this->_helper->redirector('index', 'index');
    }
 
     /**
@@ -249,13 +277,25 @@ class IndexController extends Zend_Controller_Action
 	    echo $form;
 	    return;
 	}
-	if(!$this->form->isValid($this->_getAllParams()))
+	if(!$form->isValid($this->_getAllParams()))
 	{
 	    echo $form;
 	    return;
 	}
 	$values = $form->getValues();
-//funcion para ingresar datos (values) a la tabla tb_news
+    
+	if(isset($values['user']))
+        {
+            $image = APPLICATION_PATH."/../public/img/usr".$form->user->getFileName(null,false);
+        } 
+	else 
+	{
+	    $image = '';
+        }
+      
+    $this->sql->insertNews($values['title'],$values['description'],$this->session->user,$image); 
+
+    $this->_helper->redirector('index', 'index');
    }
 
 }
