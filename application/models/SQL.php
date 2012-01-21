@@ -1,7 +1,7 @@
 <?php
 
 /**
- * version 2
+ * version 3
  */
 
 class Application_Model_SQL
@@ -35,12 +35,13 @@ class Application_Model_SQL
      * @param $sLastNames Apellidos del administrador.
      * @param $sTelephone Teléfono del administrador.
      * @param $sMovil Celular del administrador.
-     * @param $sImage Ruta a la imagen donde está el administrador.
+     * @param $sImage Ruta a la imagen donde está el administrador. Este parámetro es opcional.
      *
      */
-    public function insertAdmin($sCC, $sPassword, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage)
+    public function insertAdmin($sCC, $sPassword, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
     {
-        $this->dbAdapter->fetchRow("SELECT * FROM f_insertadmin('$sCC', '$sPassword', '$sLastNames', '$sTelephone', '$sMovil', '$sImage')");
+        $sImage = $sImage==''?$sImage:"'$sImage'";
+        $this->dbAdapter->fetchRow("SELECT * FROM f_insertadmin('$sCC', '$sPassword', '$sLastNames', '$sTelephone', '$sMovil', $sImage)");
     }
 
     /**
@@ -52,12 +53,13 @@ class Application_Model_SQL
      * @param $sLastNames Apellidos del cliente.
      * @param $sTelephone Teléfono del cliente.
      * @param $sMovil Celular del cliente.
-     * @param $sImage Ruta a la imagen donde está el cliente.
+     * @param $sImage Ruta a la imagen donde está el cliente. Este parámetro es opcional.
      *
      */
-    public function insertClient($sCC, $sPassword, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage)
+    public function insertClient($sCC, $sPassword, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
     {
-        $this->dbAdapter->fetchRow("SELECT * FROM f_insertclient('$sCC', '$sPassword', '$sLastNames', '$sTelephone', '$sMovil', '$sImage')");
+        $sImage = $sImage==''?$sImage:"'$sImage'";
+        $this->dbAdapter->fetchRow("SELECT * FROM f_insertclient('$sCC', '$sPassword', '$sLastNames', '$sTelephone', '$sMovil', $sImage)");
     }
 
     /**
@@ -69,12 +71,28 @@ class Application_Model_SQL
      * @param $sLastNames Apellidos del programador.
      * @param $sTelephone Teléfono del programador.
      * @param $sMovil Celular del programador.
-     * @param $sImage Ruta a la imagen donde está el programador.
+     * @param $sImage Ruta a la imagen donde está el programador. Este parámetro es opcional.
      *
      */
-    public function insertDeveloper($sCC, $sPassword, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage)
+    public function insertDeveloper($sCC, $sPassword, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
     {
-        $this->dbAdapter->fetchRow("SELECT * FROM f_insertdeveloper('$sCC', '$sPassword', '$sLastNames', '$sTelephone', '$sMovil', '$sImage')");
+        $sImage = $sImage==''?$sImage:"'$sImage'";
+        $this->dbAdapter->fetchRow("SELECT * FROM f_insertdeveloper('$sCC', '$sPassword', '$sLastNames', '$sTelephone', '$sMovil', $sImage)");
+    }
+
+    /**
+     * \brief Insertamos una noticia.
+     *
+     * @param $sTitle Título de la noticia.
+     * @param $sDescription Descripción o cuerpo de la noticia.
+     * @param $sCCOwner Cédula del usuario que crea la noticia.
+     * @param $sImage Ruta a la imágen que se adjuntará en la noticia. Este parámetro es opcional.
+     *
+     */
+    public function insertNews($sTitle, $sDescription, $sCCOwner, $sImage = '')
+    {
+        $sImage = $sImage==''?$sImage:"'$sImage'";
+        $this->dbAdapter->fetchRow("SELECT * FROM f_insertnews('$sTitle', '$sDescription', '$sCCOwner', '$sImage')");
     }
 
     /**
@@ -110,6 +128,21 @@ class Application_Model_SQL
             $row['image'] = getcwd()."/img/news/".$row['id'];
         }
         return $r;
+    }
+
+    /**
+     * \brief Obtenemos el tipo de usuario (nombre) con base en el identificador.
+     * Cada tipo de usuario tiene un nombre y un identificador único.
+     * Ejemplo: Nombre 'Desarrollador', identificador 3
+     * Este método retorna el nombre asociado a un identificador de tipo.
+     *
+     * @return Nombre asociado a un identificador de tipo.
+     *
+     */
+    public function userType($iId)
+    {
+        $r = $this->dbAdapter->fetchRow("SELECT name FROM tb_usertype WHERE id=$iId");
+        return $r['name'];
     }
 
     /**
