@@ -192,19 +192,45 @@ class IndexController extends Zend_Controller_Action
 	$values = $this->form->getValues();
 
 	$sCCUser=$values['user'];
-	$sPassword=$values['password'];
+	$sPassword=sha1($values['password']);
 	
-	$this->session->type=$this->sql->userType($sCCUser, $sPassword);
+	$authAdapter = $this->sql->getAuthDbTable('tb_user','cc','password');
+                
+        $authAdapter->setIdentity($sCCUser);
+        $authAdapter->setCredential($sPassword);
+
+	$result = $this->auth->authenticate($authAdapter);
+
+ 	$this->session->type=$this->sql->userType($sCCUser, $sPassword);
 	$this->session->user=$sCCUser;
-	    
+
+	if(!$result->isValid())
+	{           
+    
 	    if($this->session->type==null)
 	    {
 		echo "<h4 id='error' class='login'>The user or password is incorrect</h4>";
 		echo $this->form;
 	    }
-	    else
-	        $this->_helper->redirector('index', 'index');
+	}
+	else
+	    $this->_helper->redirector('index', 'index');
+	    return;
     }
+
+    /**
+     * \brief action para borrar session
+     *
+     * @return N/A
+     *
+     */
+
+    public function logoutAction()
+    {
+	Zend_Auth::getInstance()->clearIdentity();
+	$this->_helper->redirector('index', 'index');
+    }
+
     
     /**
      * \brief action para crear usuario
@@ -222,7 +248,7 @@ class IndexController extends Zend_Controller_Action
 
 	if(!$this->getRequest()->isPost())
 	{
-	    echo "<h4 id='inf'>Ingrese Los Datos Del Usuario</h4>";
+	    echo "<h4 id='inf'>Enter The User Data</h4>";
 	    echo $form;
 	    return;
 	}
@@ -247,6 +273,9 @@ class IndexController extends Zend_Controller_Action
 	{
 	    case 1:
 
+		echo "se guardo el administrador con exito";
+		echo "<br>User:".$values['cc'];
+		echo "<br>Password:".$values['password'];
 		$this->sql->insertAdmin($values['cc'],sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
 		break;
 
@@ -276,7 +305,7 @@ class IndexController extends Zend_Controller_Action
 
 	if(!$this->getRequest()->isPost())
 	{
-	    echo "<h4 id='inf'>Datos de Noticias</h4>";
+	    echo "<h4 id='inf'>Create News</h4>";
 	    echo $form;
 	    return;
 	}

@@ -11,6 +11,17 @@ echo $this->doctype("HTML5");
     echo $this->headLink(array('rel' => 'icon', 'href' => $this->baseUrl().'/img/favicon.png','type' => 'image/x-icon'));
     $this->headTitle()->prepend('GfifDev - ');
     echo $this->headTitle();
+    $auth = Zend_Auth::getInstance();
+    if ( $auth->hasIdentity())
+    {
+	echo "<li>Usuario: ".$auth->getIdentity()."</li>
+	      <li><a href='".$this->url(array("controller" => "index", "action" => "logout"))."'>Logout</a>";
+    }
+    else
+    {
+	echo "<li><a href='".$this->url(array("controller" => "index", "action" => "index"))."'>Login</a>";
+    }
+
   ?>
 <!--     <script type="application/x-javascript" src="main.php"></script> -->
   </head>
