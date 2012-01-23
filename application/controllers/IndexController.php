@@ -115,7 +115,7 @@ class IndexController extends Zend_Controller_Action
     $form->setAction($this->view->url(array("controller" => "index", "action" => "login")))
 	 ->setMethod('post');
     
-    $form->addElement('text','user',array('label'=>'User','required'=>true,'filter'=>'StringToLower','validator'=>'StringLength',false,array(6,10),'validator'=>'digits','validator'=>'regex', false, array('/^[a-z]+/')));
+    $form->addElement('text','user',array('label'=>'User','required'=>true,'filter'=>'StringToLower','validator'=>'StringLength',false,array(6,10),'validator'=>'alnum','validator'=>'regex', false, array('/^[a-z]+/')));
 
     $form->addElement('password','password',array('label'=>'Password','required'=>true,'validator'=>'StringLength',false,array(6,40)));
 	 
@@ -179,7 +179,7 @@ class IndexController extends Zend_Controller_Action
     {
 	
 	if(!$this->getRequest()->isPost())
-	{
+	{	    
 	    echo $this->form;
 	    return;
 	}
@@ -188,13 +188,14 @@ class IndexController extends Zend_Controller_Action
 	    echo $this->form;
 	    return;
 	}
-	Zend_Loader::loadClass('Zend_Filter_StripTags');
-            $f = new Zend_Filter_StripTags();
-            $sCCUser = $f->filter($this->_request->getPost('user'));
-            $sPassword = sha1($f->filter($this->_request->getPost('password')));
-	    
-	    $this->session->type=$this->sql->userType($sCCUser, $sPassword);
-	    $this->session->user=$sCCUser;
+
+	$values = $this->form->getValues();
+
+	$sCCUser=$values['user'];
+	$sPassword=$values['password'];
+	
+	$this->session->type=$this->sql->userType($sCCUser, $sPassword);
+	$this->session->user=$sCCUser;
 	    
 	    if($this->session->type==null)
 	    {
@@ -221,6 +222,7 @@ class IndexController extends Zend_Controller_Action
 
 	if(!$this->getRequest()->isPost())
 	{
+	    echo "<h4 id='inf'>Ingrese Los Datos Del Usuario</h4>";
 	    echo $form;
 	    return;
 	}
@@ -232,9 +234,9 @@ class IndexController extends Zend_Controller_Action
 
 	$values = $form->getValues();
 
-	if(isset($values['image']))
+	if(isset($values['user']))
         {
-            $image = APPLICATION_PATH."/../public/img/news".$form->image->getFileName(null,false);
+            $image = APPLICATION_PATH."/../public/img/usr".$form->user->getFileName(null,false);
         } 
 	else 
 	{
@@ -274,6 +276,7 @@ class IndexController extends Zend_Controller_Action
 
 	if(!$this->getRequest()->isPost())
 	{
+	    echo "<h4 id='inf'>Datos de Noticias</h4>";
 	    echo $form;
 	    return;
 	}
@@ -284,9 +287,9 @@ class IndexController extends Zend_Controller_Action
 	}
 	$values = $form->getValues();
     
-	if(isset($values['user']))
+	if(isset($values['image']))
         {
-            $image = APPLICATION_PATH."/../public/img/usr".$form->user->getFileName(null,false);
+            $image = APPLICATION_PATH."/../public/img/news".$form->image->getFileName(null,false);
         } 
 	else 
 	{
