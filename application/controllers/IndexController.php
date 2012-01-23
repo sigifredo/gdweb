@@ -236,7 +236,7 @@ class IndexController extends Zend_Controller_Action
 
 	if(isset($values['user']))
         {
-            $image = APPLICATION_PATH."/../public/img/usr".$form->user->getFileName(null,false);
+            $image = APPLICATION_PATH."/../public/img/usr/".$form->user->getFileName(null,false);
         } 
 	else 
 	{
@@ -289,7 +289,7 @@ class IndexController extends Zend_Controller_Action
     
 	if(isset($values['image']))
         {
-            $image = APPLICATION_PATH."/../public/img/news".$form->image->getFileName(null,false);
+            $image = APPLICATION_PATH."/../public/img/news/".$form->image->getFileName(null,false);
         } 
 	else 
 	{
