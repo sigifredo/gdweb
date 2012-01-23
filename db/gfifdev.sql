@@ -94,6 +94,23 @@ END;$_$;
 
 ALTER FUNCTION public.f_insertnews(title1 character varying, description2 text, cc_owner3 character varying, image4 character varying) OWNER TO gdadmin;
 
+--
+-- Name: f_updateuser(character varying, character varying, character varying, character varying, character varying, character varying, character varying); Type: FUNCTION; Schema: public; Owner: gdadmin
+--
+
+CREATE FUNCTION f_updateuser(cc1 character varying, password2 character varying, names3 character varying, lastnames4 character varying, telephone5 character varying, movil6 character varying, image7 character varying) RETURNS void
+    LANGUAGE plpgsql
+    AS $_$BEGIN
+  IF $7 = '' THEN
+    UPDATE tb_user SET password=$2, names=$3, lastnames=$4, telephone=$5, movil=$6 WHERE cc=$1;
+  ELSE
+    UPDATE tb_user SET password=$2, names=$3, lastnames=$4, telephone=$5, movil=lo_import($6) WHERE cc=$1;
+  END IF;
+END;$_$;
+
+
+ALTER FUNCTION public.f_updateuser(cc1 character varying, password2 character varying, names3 character varying, lastnames4 character varying, telephone5 character varying, movil6 character varying, image7 character varying) OWNER TO gdadmin;
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -324,7 +341,7 @@ COPY tb_usertype (id, name) FROM stdin;
 --
 
 COPY version (version) FROM stdin;
-3
+4
 \.
 
 
