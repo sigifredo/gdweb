@@ -91,8 +91,8 @@ class Application_Model_SQL
      */
     public function insertNews($sTitle, $sDescription, $sCCOwner, $sImage = '')
     {
-        $sImage = $sImage==''?$sImage:"'$sImage'";
-        $this->dbAdapter->fetchRow("SELECT * FROM f_insertnews('$sTitle', '$sDescription', '$sCCOwner', '$sImage')");
+        $sImage = $sImage=="''"?$sImage:"'$sImage'";
+        $this->dbAdapter->fetchRow("SELECT * FROM f_insertnews('$sTitle', '$sDescription', '$sCCOwner', $sImage)");
     }
 
     /**

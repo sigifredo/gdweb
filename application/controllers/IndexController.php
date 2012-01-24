@@ -54,6 +54,8 @@ class IndexController extends Zend_Controller_Action
 
     $form->addElement('password','password',array('label'=>'Password','required'=>true,'validator'=>'StringLength',false,array(6,40)));
 
+    $form->addElement('password','verifypassword',array('label'=>'Verify Password','required'=>true,'validator'=>'StringLength',false,array(6,40)));
+
     $form->addElement('text','names',array('label'=>'Names','required'=>true,'filter'=>'StringToLower','validator'=>'alfa','validator'=>'StringLength',false,array(4,25)));
 
     $form->addElement('text','lastnames',array('label'=>'Last Names','required'=>true,'filter'=>'StringToLower','validator'=>'alfa','validator'=>'StringLength',false,array(4,25)));
@@ -145,11 +147,11 @@ class IndexController extends Zend_Controller_Action
 	echo "<div id='adminMenu' class='menu'>
 
 	    <div>
-	      <span>Accounts</span>
+	      <span>Cuentas</span>
 	      <ul>
-		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-user','id'=>'1')).">Create Account Administrator</a><br>
-		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-user','id'=>'2')).">Create Account Client</a><br>
-		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-user','id'=>'3')).">Create Account Developer</a><br>
+		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-user','id'=>'1')).">Crear Cuenta Administrador</a><br>
+		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-user','id'=>'2')).">Crear Cuenta Cliente</a><br>
+		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-user','id'=>'3')).">Crear Cuenta Desarrollador</a><br>
 	      </ul>
 	    </div>
 
@@ -209,7 +211,7 @@ class IndexController extends Zend_Controller_Action
     
 	    if($this->session->type==null)
 	    {
-		echo "<h4 id='error' class='login'>The user or password is incorrect</h4>";
+		echo "<h4 id='error' class='login'>El usuario o la contraseña no coincide</h4>";
 		echo $this->form;
 	    }
 	}
@@ -248,7 +250,7 @@ class IndexController extends Zend_Controller_Action
 
 	if(!$this->getRequest()->isPost())
 	{
-	    echo "<h4 id='inf'>Enter The User Data</h4>";
+	    echo "<h4 id='infusr'>Datos del Usuario</h4>";
 	    echo $form;
 	    return;
 	}
@@ -259,6 +261,13 @@ class IndexController extends Zend_Controller_Action
 	}
 
 	$values = $form->getValues();
+
+	if($values['password'] != $values['verifypassword'])
+	{
+	echo "La contraseña no coincide";
+	echo $form;
+	return;
+	}
 
 	if(isset($values['user']))
         {
@@ -273,9 +282,6 @@ class IndexController extends Zend_Controller_Action
 	{
 	    case 1:
 
-		echo "se guardo el administrador con exito";
-		echo "<br>User:".$values['cc'];
-		echo "<br>Password:".$values['password'];
 		$this->sql->insertAdmin($values['cc'],sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
 		break;
 
@@ -293,6 +299,69 @@ class IndexController extends Zend_Controller_Action
    }
 
     /**
+     * \brief action para modificar usuario
+     *
+     * @return N/A
+     *
+     */
+
+  public function updateUserAction()
+  {
+      $iUserType = $this->getRequest()->getParam('id');
+
+    $form = $this->createUserForm();
+
+	if(!$this->getRequest()->isPost())
+	{
+	    echo "<h4 id='infusr'>Nuevos Datos De Usuario</h4>";
+	    echo $form;
+	    return;
+	}
+	if(!$form->isValid($this->_getAllParams()))
+	{
+	    echo $form;
+	    return;
+	}
+
+	$values = $form->getValues();
+
+	if($values['password'] != $values['verifypassword'])
+	{
+	echo "La contraseña no coincide";
+	echo $form;
+	return;
+	}
+
+	if(isset($values['user']))
+        {
+            $image = APPLICATION_PATH."/../public/img/usr/".$form->user->getFileName(null,false);
+        } 
+	else 
+	{
+	    $image = '';
+        }
+
+	switch ($iUserType) 
+	{
+	    case 1:
+
+		$this->sql->updateAdmin($values['cc'],sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
+		break;
+
+	    case 2:
+
+		$this->sql->updateClient($values['cc'],sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
+		break;
+
+	    case 3:
+
+		$this->sql->updateDeveloper($values['cc'],sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
+		break;
+	}
+     $this->_helper->redirector('index', 'index');
+  }
+
+    /**
      * \brief action para crear noticia
      *
      * @return N/A
@@ -305,7 +374,7 @@ class IndexController extends Zend_Controller_Action
 
 	if(!$this->getRequest()->isPost())
 	{
-	    echo "<h4 id='inf'>Create News</h4>";
+	    echo "<h4 id='infnews'>Datos de noticia</h4>";
 	    echo $form;
 	    return;
 	}
@@ -329,6 +398,8 @@ class IndexController extends Zend_Controller_Action
 
     $this->_helper->redirector('index', 'index');
    }
+
+
 
 }
 
