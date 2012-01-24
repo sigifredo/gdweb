@@ -1,7 +1,7 @@
 <?php
 
 /**
- * version 4
+ * version 4.1
  */
 
 class Application_Model_SQL
@@ -116,15 +116,17 @@ class Application_Model_SQL
     /**
      * \brief Obtenemos una lista de noticias.
      *
+     * @param $sImageDir Directorio donde se guardarán las imágenes.
+     *
      * @return Lista de noticias. Cada registro está ordenado así: [id, title, description, image]
      *
      */
-    public function listNews()
+    public function listNews($sImageDir)
     {
         $r = $this->dbAdapter->fetchAll("SELECT id, title, description, image FROM tb_news");
         foreach($r as $row)
         {
-            $this->dbAdapter->fetchRow("SELECT lo_export(".$row['image'].", '".getcwd()."/img/news/".$row['image']."')");
+            $this->dbAdapter->fetchRow("SELECT lo_export(".$row['image'].", '"$sImageDir."/".$row['image']."')");
             $row['image'] = getcwd()."/img/news/".$row['id'];
         }
         return $r;

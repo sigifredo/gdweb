@@ -167,7 +167,7 @@ CREATE TABLE tb_news (
     title character varying(20) NOT NULL,
     description text NOT NULL,
     cc_owner character varying(10) NOT NULL,
-    image oid NOT NULL,
+    image oid DEFAULT 20382 NOT NULL,
     date timestamp without time zone DEFAULT now() NOT NULL
 );
 
@@ -341,7 +341,7 @@ COPY tb_usertype (id, name) FROM stdin;
 --
 
 COPY version (version) FROM stdin;
-4
+4.0999999
 \.
 
 
