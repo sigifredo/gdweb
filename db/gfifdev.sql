@@ -261,6 +261,36 @@ SELECT pg_catalog.setval('tb_usertype_id_seq', 3, true);
 
 
 --
+-- Name: v_admin; Type: VIEW; Schema: public; Owner: gdadmin
+--
+
+CREATE VIEW v_admin AS
+    SELECT tb_user.cc, tb_user.names, tb_user.lastnames, tb_user.telephone, tb_user.movil FROM tb_user WHERE (tb_user.id_usertype = 1);
+
+
+ALTER TABLE public.v_admin OWNER TO gdadmin;
+
+--
+-- Name: v_client; Type: VIEW; Schema: public; Owner: gdadmin
+--
+
+CREATE VIEW v_client AS
+    SELECT tb_user.cc, tb_user.names, tb_user.lastnames, tb_user.telephone, tb_user.movil FROM tb_user WHERE (tb_user.id_usertype = 2);
+
+
+ALTER TABLE public.v_client OWNER TO gdadmin;
+
+--
+-- Name: v_developer; Type: VIEW; Schema: public; Owner: gdadmin
+--
+
+CREATE VIEW v_developer AS
+    SELECT tb_user.cc, tb_user.names, tb_user.lastnames, tb_user.telephone, tb_user.movil FROM tb_user WHERE (tb_user.id_usertype = 3);
+
+
+ALTER TABLE public.v_developer OWNER TO gdadmin;
+
+--
 -- Name: version; Type: TABLE; Schema: public; Owner: gdadmin; Tablespace: 
 --
 
@@ -341,7 +371,7 @@ COPY tb_usertype (id, name) FROM stdin;
 --
 
 COPY version (version) FROM stdin;
-4.0999999
+5
 \.
 
 
