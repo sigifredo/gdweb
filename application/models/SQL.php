@@ -1,7 +1,7 @@
 <?php
 
 /**
- * version 4.1
+ * version 5
  */
 
 class Application_Model_SQL
@@ -93,6 +93,39 @@ class Application_Model_SQL
     {
         $sImage = $sImage=="''"?$sImage:"'$sImage'";
         $this->dbAdapter->fetchRow("SELECT * FROM f_insertnews('$sTitle', '$sDescription', '$sCCOwner', $sImage)");
+    }
+
+    /**
+     * \brief Obtenemos la lista de los usuarios con el rol de administradores.
+     *
+     * @return Lista de administradores. Cada registro está ordenado así: [cc, names, lastnames, telephone, movil]
+     *
+     */
+    public function listAdmin()
+    {
+        return $this->dbAdapter->fetchRow("SELECT * FROM v_admin");
+    }
+
+    /**
+     * \brief Obtenemos la lista de los usuarios con el rol de cliente.
+     *
+     * @return Lista de clientes. Cada registro está ordenado así: [cc, names, lastnames, telephone, movil]
+     *
+     */
+    public function listClient()
+    {
+        return $this->dbAdapter->fetchRow("SELECT * FROM v_client");
+    }
+
+    /**
+     * \brief Obtenemos la lista de los usuarios con el rol de desarrollador.
+     *
+     * @return Lista de desarrolladores. Cada registro está ordenado así: [cc, names, lastnames, telephone, movil]
+     *
+     */
+    public function listDeveloper()
+    {
+        return $this->dbAdapter->fetchRow("SELECT * FROM v_developer");
     }
 
     /**
