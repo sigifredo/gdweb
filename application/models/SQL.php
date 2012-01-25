@@ -126,7 +126,7 @@ class Application_Model_SQL
         $r = $this->dbAdapter->fetchAll("SELECT id, title, description, image FROM tb_news");
         foreach($r as $row)
         {
-            $this->dbAdapter->fetchRow("SELECT lo_export(".$row['image'].", '"$sImageDir."/".$row['image']."')");
+            $this->dbAdapter->fetchRow("SELECT lo_export(".$row['image'].", '".$sImageDir."/".$row['image']."')");
             $row['image'] = getcwd()."/img/news/".$row['id'];
         }
         return $r;

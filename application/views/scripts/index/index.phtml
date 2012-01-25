@@ -11,6 +11,7 @@
         {
 	    if($i%2 == 0) echo "<article class='artr'>";
             else echo "<article class='artl'>";
+
 	    echo "<table>
 	    <tr> 
 		<td> 
@@ -19,7 +20,7 @@
 	    </tr>
 	    <tr> 
 		<td> 
-		    <img class='image' src='".$line['image']."'/> 
+		    <img class='image' src='".$this->baseUrl()."/pg/img/news/".$line['image']."'/> 
 		</td>
 		<td> 
 		    <p class='description'>".$line['description']."</p>

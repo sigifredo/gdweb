@@ -78,28 +78,30 @@ class IndexController extends Zend_Controller_Action
 
     public function createNewsForm()
     {
-    $form=new Zend_Form;
-    $form->setAttrib('class','createnews');
-    $form->setAction($this->view->url(array("controller" => "index", "action" => "create-news")))
-	 ->setMethod('post');
-    
-    $image = new Zend_Form_Element_File('image');
-    $image->setLabel('Load the image')
-	  ->setDestination(APPLICATION_PATH."/../public/img/news")
-	  ->setMaxFileSize(2097152); // limits the filesize on the client side	  
-    $image->addValidator('Count', false, 1);                // ensure only 1 file
-    $image->addValidator('Size', false, 2097152);            // limit to 2 meg
-    $image->addValidator('Extension', false, 'jpg,jpeg,png,gif');// only JPEG, PNG, and GIFs
+        $form=new Zend_Form;
+        $form->setAttrib('class','createnews');
+        $form->setAction($this->view->url(array("controller" => "index", "action" => "create-news")))
+             ->setMethod('post');
 
-    $form->addElement($image);
+        $image = new Zend_Form_Element_File('image');
+        $image->setLabel('Load the image')
+              ->setDestination(APPLICATION_PATH."/../public/img/news/")
+              ->setMaxFileSize(2097152); // limits the filesize on the client side	  
+        $image->addValidator('Count', false, 1);                // ensure only 1 file
+        $image->addValidator('Size', false, 2097152);            // limit to 2 meg
+        $image->addValidator('Extension', false, 'jpg,jpeg,png,gif');// only JPEG, PNG, and GIFs
 
-    $form->addElement('text','title',array('label'=>'Title','required'=>true,'validator'=>'StringLength',false,array(1,20),'validator'=>'alnum'));
 
-    $form->addElement('textarea','description',array('label'=>'Description','required'=>true));
 
-    $form->addElement('submit','create',array('label'=>'Create'));
-    
-    return $form;
+        $form->addElement($image);
+
+        $form->addElement('text','title',array('label'=>'Title','required'=>true,'validator'=>'StringLength',false,array(1,20),'validator'=>'alnum'));
+
+        $form->addElement('textarea','description',array('label'=>'Description','required'=>true));
+
+        $form->addElement('submit','create',array('label'=>'Create'));
+
+        return $form;
     }
 
 
@@ -166,7 +168,7 @@ class IndexController extends Zend_Controller_Action
 	</div>";
 	}
 
-	$this->view->news = $this->sql->listNews();
+	$this->view->news = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news/");
 
 	}
 
@@ -368,36 +370,37 @@ class IndexController extends Zend_Controller_Action
      *
      */
 
-   public function createNewsAction()
-   {
-    $form = $this->createNewsForm();
-
-	if(!$this->getRequest()->isPost())
-	{
-	    echo "<h4 id='infnews'>Datos de noticia</h4>";
-	    echo $form;
-	    return;
-	}
-	if(!$form->isValid($this->_getAllParams()))
-	{
-	    echo $form;
-	    return;
-	}
-	$values = $form->getValues();
-    
-	if(isset($values['image']))
+    public function createNewsAction()
+    {
+        $form = $this->createNewsForm();
+        
+        if(!$this->getRequest()->isPost())
         {
-            $image = APPLICATION_PATH."/../public/img/news/".$form->image->getFileName(null,false);
-        } 
-	else 
-	{
-	    $image = '';
+            echo "<h4 id='infnews'>Datos de noticia</h4>";
+            echo $form;
+            return;
         }
-      
-    $this->sql->insertNews($values['title'],$values['description'],$this->session->user,$image); 
-
-    $this->_helper->redirector('index', 'index');
-   }
+        if(!$form->isValid($this->_getAllParams()))
+        {
+            echo $form;
+            return;
+        }
+        $values = $form->getValues();
+        
+        if(isset($values['image']))
+        {
+            $image = APPLICATION_PATH."/../public/img/usr/".$form->image->getFileName(null,false);
+           
+        } 
+        else 
+        {
+            $image = '';
+        }
+        
+        $this->sql->insertNews($values['title'],$values['description'],$this->session->user,$image); 
+        
+        $this->_helper->redirector('index', 'index');
+    }
 
 
 
