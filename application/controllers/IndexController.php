@@ -70,6 +70,47 @@ class IndexController extends Zend_Controller_Action
     }
 
     /**
+     * \brief Formulario para modificar usuario
+     *
+     * @return Formulario a action updateUser
+     *
+     */
+
+    public function updateUserForm()
+    {
+    $form=new Zend_Form;
+    $form->setAttrib('class','updateuser');
+    $form->setAction($this->view->url(array("controller" => "index", "action" => "update-user")))
+	 ->setMethod('post');
+    
+    $image = new Zend_Form_Element_File('updateuser');
+    $image->setLabel('Load the image')
+	  ->setDestination(APPLICATION_PATH."/../public/img/usr")
+	  ->setMaxFileSize(2097152); // limits the filesize on the client side	  
+    $image->addValidator('Count', false, 1);                // ensure only 1 file
+    $image->addValidator('Size', false, 2097152);            // limit to 2 meg
+    $image->addValidator('Extension', false, 'jpg,jpeg,png,gif');// only JPEG, PNG, and GIFs
+
+    $form->addElement($image);
+
+    $form->addElement('password','password',array('label'=>'Password','required'=>true,'validator'=>'StringLength',false,array(6,40)));
+
+    $form->addElement('password','verifypassword',array('label'=>'Verify Password','required'=>true,'validator'=>'StringLength',false,array(6,40)));
+
+    $form->addElement('text','names',array('label'=>'Names','required'=>true,'filter'=>'StringToLower','validator'=>'alfa','validator'=>'StringLength',false,array(4,25)));
+
+    $form->addElement('text','lastnames',array('label'=>'Last Names','required'=>true,'filter'=>'StringToLower','validator'=>'alfa','validator'=>'StringLength',false,array(4,25)));
+
+    $form->addElement('text','telephone',array('label'=>'Telephone','validator'=>'digits','validator'=>'StringLength',false,array(0,7)));
+
+    $form->addElement('text','movil',array('label'=>'Movil','validator'=>'digits','validator'=>'StringLength',false,array(0,10)));
+
+    $form->addElement('submit','update',array('label'=>'Update'));
+    
+    return $form;
+    }
+
+    /**
      * \brief Formulario para crear noticia
      *
      * @return Formulario a action createNews
@@ -154,6 +195,9 @@ class IndexController extends Zend_Controller_Action
 		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-user','id'=>'1')).">Crear Cuenta Administrador</a><br>
 		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-user','id'=>'2')).">Crear Cuenta Cliente</a><br>
 		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-user','id'=>'3')).">Crear Cuenta Desarrollador</a><br>
+		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','id'=>'1')).">Editar Cuenta Administrador</a><br>
+		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','id'=>'2')).">Editar Cuenta Cliente</a><br>
+		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','id'=>'3')).">Editar Cuenta Desarrollador</a><br>
 	      </ul>
 	    </div>
 
@@ -168,9 +212,46 @@ class IndexController extends Zend_Controller_Action
 	</div>";
 	}
 
-	$this->view->news = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news/");
-
+	$this->view->news = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news");
+	return;
 	}
+
+  /**
+     * \brief action para listar usuarios
+     *
+     * @return N/A
+     *
+     */
+
+    public function listUserAction()
+    {
+      if(!$this->_hasParam('id'))
+      {
+	  $this->_helper->redirector('index', 'index');
+	  return;
+      }
+	$iUserType = $this->getRequest()->getParam('id');
+	$this->view->userType = $iUserType;
+
+	switch ($iUserType) 
+	{
+	    case 1:
+
+		$this->view->user = $this->sql->listAdmin();
+		break;
+
+	    case 2:
+
+		$this->view->user = $this->sql->listClient();
+		break;
+
+	    case 3:
+
+		$this->view->user = $this->sql->listDeveloper();
+		break;
+	}
+	return;
+    }
 
     /**
      * \brief action para auntenticacion del usuario
@@ -233,6 +314,7 @@ class IndexController extends Zend_Controller_Action
     {
 	Zend_Auth::getInstance()->clearIdentity();
 	$this->_helper->redirector('index', 'index');
+	return;
     }
 
     
@@ -245,7 +327,13 @@ class IndexController extends Zend_Controller_Action
 
    public function createUserAction()
    { 
-    
+
+      if(!$this->_hasParam('id'))
+      {
+	  $this->_helper->redirector('index', 'index');
+	  return;
+      }
+
     $iUserType = $this->getRequest()->getParam('id');
 
     $form = $this->createUserForm();
@@ -297,7 +385,9 @@ class IndexController extends Zend_Controller_Action
 		$this->sql->insertDeveloper($values['cc'],sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
 		break;
 	}
+
      $this->_helper->redirector('index', 'index');
+     return;
    }
 
     /**
@@ -309,9 +399,21 @@ class IndexController extends Zend_Controller_Action
 
   public function updateUserAction()
   {
-      $iUserType = $this->getRequest()->getParam('id');
+      if(!$this->_hasParam('id'))
+      {
+	  $this->_helper->redirector('index', 'index');
+	  return;
+      }
+      if(!$this->_hasParam('cc'))
+      {
+	  $this->_helper->redirector('list-user', 'index');
+	  return;
+      }
 
-    $form = $this->createUserForm();
+      $iUserType = $this->getRequest()->getParam('id');
+      $iCCUser = $this->getRequest()->getParam('cc');
+
+      $form = $this->updateUserForm();
 
 	if(!$this->getRequest()->isPost())
 	{
@@ -334,7 +436,7 @@ class IndexController extends Zend_Controller_Action
 	return;
 	}
 
-	if(isset($values['user']))
+	if(isset($values['updateuser']))
         {
             $image = APPLICATION_PATH."/../public/img/usr/".$form->user->getFileName(null,false);
         } 
@@ -347,20 +449,21 @@ class IndexController extends Zend_Controller_Action
 	{
 	    case 1:
 
-		$this->sql->updateAdmin($values['cc'],sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
+		$this->sql->updateAdmin($iCCUser,sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
 		break;
 
 	    case 2:
 
-		$this->sql->updateClient($values['cc'],sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
+		$this->sql->updateClient($iCCUser,sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
 		break;
 
 	    case 3:
 
-		$this->sql->updateDeveloper($values['cc'],sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
+		$this->sql->updateDeveloper($iCCUser,sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
 		break;
 	}
      $this->_helper->redirector('index', 'index');
+     return;
   }
 
     /**
@@ -400,9 +503,8 @@ class IndexController extends Zend_Controller_Action
         $this->sql->insertNews($values['title'],$values['description'],$this->session->user,$image); 
         
         $this->_helper->redirector('index', 'index');
+	return;
     }
-
-
 
 }
 
