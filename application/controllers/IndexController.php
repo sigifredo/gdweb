@@ -92,10 +92,6 @@ class IndexController extends Zend_Controller_Action
 
     $form->addElement($image);
 
-    $form->addElement('password','password',array('label'=>'Password','required'=>true,'validator'=>'StringLength',false,array(6,40)));
-
-    $form->addElement('password','verifypassword',array('label'=>'Verify Password','required'=>true,'validator'=>'StringLength',false,array(6,40)));
-
     $form->addElement('text','names',array('label'=>'Names','required'=>true,'filter'=>'StringToLower','validator'=>'alfa','validator'=>'StringLength',false,array(4,25)));
 
     $form->addElement('text','lastnames',array('label'=>'Last Names','required'=>true,'filter'=>'StringToLower','validator'=>'alfa','validator'=>'StringLength',false,array(4,25)));
@@ -442,6 +438,7 @@ class IndexController extends Zend_Controller_Action
 
 	if(!$this->getRequest()->isPost())
 	{
+	    $this->view->parametros=$this->sql->
 	    echo "<h4 id='infusr'>Nuevos Datos De Usuario</h4>";
 	    echo $form;
 	    return;
@@ -453,13 +450,6 @@ class IndexController extends Zend_Controller_Action
 	}
 
 	$values = $form->getValues();
-
-	if($values['password'] != $values['verifypassword'])
-	{
-	echo "La contraseña no coincide";
-	echo $form;
-	return;
-	}
 
 	if(isset($values['updateuser']))
         {
