@@ -1,7 +1,7 @@
 <?php
 
 /**
- * version 5
+ * version 5.1
  */
 
 class Application_Model_SQL
@@ -103,7 +103,7 @@ class Application_Model_SQL
      */
     public function listAdmin()
     {
-        return $this->dbAdapter->fetchRow("SELECT * FROM v_admin");
+        return $this->dbAdapter->fetchAll("SELECT * FROM v_admin");
     }
 
     /**
@@ -114,7 +114,7 @@ class Application_Model_SQL
      */
     public function listClient()
     {
-        return $this->dbAdapter->fetchRow("SELECT * FROM v_client");
+        return $this->dbAdapter->fetchAll("SELECT * FROM v_client");
     }
 
     /**
@@ -125,7 +125,7 @@ class Application_Model_SQL
      */
     public function listDeveloper()
     {
-        return $this->dbAdapter->fetchRow("SELECT * FROM v_developer");
+        return $this->dbAdapter->fetchAll("SELECT * FROM v_developer");
     }
 
     /**
