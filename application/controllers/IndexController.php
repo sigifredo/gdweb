@@ -187,12 +187,12 @@ class IndexController extends Zend_Controller_Action
 	    <div>
 	      <span>Cuentas</span>
 	      <ul>
-		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-user','id'=>'1')).">Crear Cuenta Administrador</a><br>
-		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-user','id'=>'2')).">Crear Cuenta Cliente</a><br>
-		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-user','id'=>'3')).">Crear Cuenta Desarrollador</a><br>
-		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','id'=>'1')).">Editar Cuenta Administrador</a><br>
-		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','id'=>'2')).">Editar Cuenta Cliente</a><br>
-		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','id'=>'3')).">Editar Cuenta Desarrollador</a><br>
+		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-user','usr'=>'1')).">Crear Cuenta Administrador</a><br>
+		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-user','usr'=>'2')).">Crear Cuenta Cliente</a><br>
+		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-user','usr'=>'3')).">Crear Cuenta Desarrollador</a><br>
+		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','usr'=>'1')).">Editar Cuenta Administrador</a><br>
+		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','usr'=>'2')).">Editar Cuenta Cliente</a><br>
+		<a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','usr'=>'3')).">Editar Cuenta Desarrollador</a><br>
 	      </ul>
 	    </div>
 
@@ -237,13 +237,13 @@ class IndexController extends Zend_Controller_Action
 	    return;
       }
 
-      if(!$this->_hasParam('id'))
+      if(!$this->_hasParam('usr'))
       {
 	  $this->_helper->redirector('index', 'index');
 	  return;
       }
 
-	$iUserType = $this->getRequest()->getParam('id');
+	$iUserType = $this->getRequest()->getParam('usr');
 	$this->view->userType = $iUserType;
 
 	switch ($iUserType) 
@@ -344,7 +344,7 @@ class IndexController extends Zend_Controller_Action
 	    $this->_helper->redirector('index', 'index');
 	    return;
 	}
-	if(!$this->_hasParam('id'))
+	if(!$this->_hasParam('usr'))
 	{
 	    $this->_helper->redirector('index', 'index');
 	    return;
@@ -420,7 +420,7 @@ class IndexController extends Zend_Controller_Action
 	  $this->_helper->redirector('index', 'index');
 	  return;
       }
-      if(!$this->_hasParam('id'))
+      if(!$this->_hasParam('usr'))
       {
 	  $this->_helper->redirector('index', 'index');
 	  return;
@@ -431,14 +431,13 @@ class IndexController extends Zend_Controller_Action
 	  return;
       }
 
-      $iUserType = $this->getRequest()->getParam('id');
+      $iUserType = $this->getRequest()->getParam('usr');
       $iCCUser = $this->getRequest()->getParam('cc');
 
       $form = $this->updateUserForm();
 
 	if(!$this->getRequest()->isPost())
 	{
-	    $this->view->parametros=$this->sql->
 	    echo "<h4 id='infusr'>Nuevos Datos De Usuario</h4>";
 	    echo $form;
 	    return;
