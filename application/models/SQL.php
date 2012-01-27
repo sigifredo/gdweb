@@ -1,7 +1,7 @@
 <?php
 
 /**
- * version 5.1
+ * version 5.5
  */
 
 class Application_Model_SQL
@@ -169,7 +169,6 @@ class Application_Model_SQL
      * \brief Actualiza una cuenta de administrador en la base de datos.
      *
      * @param $sCC Cédula del administrador.
-     * @param $sPassword Contraseña del usuario. La contraseña deberá ser pasada en encriptada, con el algoritmo de encriptación SHA1.
      * @param $sNames Nombres del administrador.
      * @param $sLastNames Apellidos del administrador.
      * @param $sTelephone Teléfono del administrador.
@@ -177,17 +176,16 @@ class Application_Model_SQL
      * @param $sImage Ruta a la imagen donde está el administrador. Este parámetro es opcional.
      *
      */
-    public function updateAdmin($sCC, $sPassword, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
+    public function updateAdmin($sCC, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
     {
         $sImage = $sImage==''?$sImage:"'$sImage'";
-        $this->dbAdapter->fetchRow("SELECT * FROM f_updateuser('$sCC', '$sPassword', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', $sImage)");
+        $this->dbAdapter->fetchRow("SELECT * FROM f_updateuser('$sCC', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', $sImage)");
     }
 
     /**
      * \brief Actualiza una cuenta de cliente en la base de datos.
      *
      * @param $sCC Cédula del cliente.
-     * @param $sPassword Contraseña del usuario. La contraseña deberá ser pasada en encriptada, con el algoritmo de encriptación SHA1.
      * @param $sNames Nombres del cliente.
      * @param $sLastNames Apellidos del cliente.
      * @param $sTelephone Teléfono del cliente.
@@ -195,17 +193,16 @@ class Application_Model_SQL
      * @param $sImage Ruta a la imagen donde está el cliente. Este parámetro es opcional.
      *
      */
-    public function updateClient($sCC, $sPassword, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
+    public function updateClient($sCC, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
     {
         $sImage = $sImage==''?$sImage:"'$sImage'";
-        $this->dbAdapter->fetchRow("SELECT * FROM f_updateuser('$sCC', '$sPassword', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', $sImage)");
+        $this->dbAdapter->fetchRow("SELECT * FROM f_updateuser('$sCC', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', $sImage)");
     }
 
     /**
      * \brief Actualiza una cuenta de programador en la base de datos.
      *
      * @param $sCC Cédula del programador.
-     * @param $sPassword Contraseña del usuario. La contraseña deberá ser pasada en encriptada, con el algoritmo de encriptación SHA1.
      * @param $sNames Nombres del programador.
      * @param $sLastNames Apellidos del programador.
      * @param $sTelephone Teléfono del programador.
@@ -213,10 +210,10 @@ class Application_Model_SQL
      * @param $sImage Ruta a la imagen donde está el programador. Este parámetro es opcional.
      *
      */
-    public function updateDeveloper($sCC, $sPassword, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
+    public function updateDeveloper($sCC, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
     {
         $sImage = $sImage==''?$sImage:"'$sImage'";
-        $this->dbAdapter->fetchRow("SELECT * FROM f_updateuser('$sCC', '$sPassword', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', $sImage)");
+        $this->dbAdapter->fetchRow("SELECT * FROM f_updateuser('$sCC', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', $sImage)");
     }
 
     /**
