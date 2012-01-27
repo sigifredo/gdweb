@@ -22,8 +22,7 @@ class IndexController extends Zend_Controller_Action
       $this->sql = new Application_Model_SQL();
       $this->session=new Zend_Session_Namespace('Users');
       $this->form=$this->loginForm();
-      $this->auth = Zend_Auth::getInstance();
-        
+      $this->auth = Zend_Auth::getInstance();        
     }
 
     /**
@@ -213,6 +212,17 @@ class IndexController extends Zend_Controller_Action
 	}
 
 	$this->view->news = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news");
+	
+	Zend_View_Helper_PaginationControl::setDefaultViewPartial("paginator/items.phtml");
+
+	$paginator = Zend_Paginator::factory($this->view->news);
+
+	if($this->_hasParam('page'))
+	{
+	$paginator->setCurrentPageNumber($this->_getParam('page'));
+	}
+	$this->view->paginator = $paginator;
+
 	return;
 	}
 
@@ -225,11 +235,18 @@ class IndexController extends Zend_Controller_Action
 
     public function listUserAction()
     {
+      if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
+      {
+	    $this->_helper->redirector('index', 'index');
+	    return;
+      }
+
       if(!$this->_hasParam('id'))
       {
 	  $this->_helper->redirector('index', 'index');
 	  return;
       }
+
 	$iUserType = $this->getRequest()->getParam('id');
 	$this->view->userType = $iUserType;
 
@@ -262,7 +279,6 @@ class IndexController extends Zend_Controller_Action
 
     public function loginAction()
     {
-	
 	if(!$this->getRequest()->isPost())
 	{	    
 	    echo $this->form;
@@ -327,16 +343,20 @@ class IndexController extends Zend_Controller_Action
 
    public function createUserAction()
    { 
+	if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
+	{
+	    $this->_helper->redirector('index', 'index');
+	    return;
+	}
+	if(!$this->_hasParam('id'))
+	{
+	    $this->_helper->redirector('index', 'index');
+	    return;
+	}
 
-      if(!$this->_hasParam('id'))
-      {
-	  $this->_helper->redirector('index', 'index');
-	  return;
-      }
+	$iUserType = $this->getRequest()->getParam('id');
 
-    $iUserType = $this->getRequest()->getParam('id');
-
-    $form = $this->createUserForm();
+	$form = $this->createUserForm();
 
 	if(!$this->getRequest()->isPost())
 	{
@@ -399,6 +419,11 @@ class IndexController extends Zend_Controller_Action
 
   public function updateUserAction()
   {
+      if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
+      {
+	  $this->_helper->redirector('index', 'index');
+	  return;
+      }
       if(!$this->_hasParam('id'))
       {
 	  $this->_helper->redirector('index', 'index');
@@ -475,6 +500,11 @@ class IndexController extends Zend_Controller_Action
 
     public function createNewsAction()
     {
+	if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
+	{
+	    $this->_helper->redirector('index', 'index');
+	    return;
+	}
         $form = $this->createNewsForm();
         
         if(!$this->getRequest()->isPost())

@@ -1,0 +1,33 @@
+<?php 
+
+if ($this->pageCount)
+{
+    echo "<div class='pagination'><table><tr>";
+
+    if(isset($this->previous))
+    {
+	echo "<td><a href=".$this->url(array('page' => $this->previous))."> Anterior </a></td>";
+    }
+    else
+	echo "<td> Anterior </td>";
+
+    foreach($this->pagesInRange as $page)
+    {
+	if($page != $this->current)
+	{
+	    echo "<td><a href=".$this->url(array('page' => $page))."> ".$page." </a></td>";
+	}
+	else 
+	    echo "<td> ".$page." </td>";	
+    }
+
+    if(isset($this->next))
+    {
+	echo "<td><a href=".$this->url(array('page' => $this->next))."> Siguiente </a></td>";
+    }
+    else
+	echo "<td> Siguiente </td>";
+    
+    echo "</tr></table></div>";
+  }
+?>

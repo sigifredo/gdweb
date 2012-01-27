@@ -6,8 +6,8 @@
     <?php 
 
     $i=1;
-    if(!count($this->news)) echo "<h3>No news</h3>";
-	foreach($this->news as $line)
+    if(!count($this->paginator)) echo "<h3>No news</h3>";
+	foreach($this->paginator as $line)
         {
 	    if($i%2 == 0) echo "<article class='artr'>";
             else echo "<article class='artl'>";
@@ -30,6 +30,7 @@
 	    </article>";
 	    $i++;
         }
+      echo $this->paginator;
     ?>
  </div>
 </body>
