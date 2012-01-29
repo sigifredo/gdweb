@@ -1,7 +1,7 @@
 <?php
 
 /**
- * version 5.5
+ * version 6
  */
 
 class Application_Model_SQL
@@ -214,6 +214,18 @@ class Application_Model_SQL
     {
         $sImage = $sImage==''?$sImage:"'$sImage'";
         $this->dbAdapter->fetchRow("SELECT * FROM f_updateuser('$sCC', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', $sImage)");
+    }
+
+    /**
+     * \brief Cambia la contraseña de un usuario.
+     *
+     * @param $sCC Cédula del usuario al que cambiaremos la contraseña.
+     * @param $sNewPassword Nueva contraseña del usuario. La contraseña deberá ser pasada en encriptada, con el algoritmo de encriptación SHA1.
+     *
+     */
+    public function updatePassword($sCC, $sNewPassword)
+    {
+        $thsis->dbAdapter->fetchRow("UPDATE tb_user SET password='$sNewPassword' WHERE cc='$sCC'");
     }
 
     /**
