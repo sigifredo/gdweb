@@ -95,7 +95,7 @@ END;$_$;
 ALTER FUNCTION public.f_insertnews(title1 character varying, description2 text, cc_owner3 character varying, image4 character varying) OWNER TO gdadmin;
 
 --
--- Name: f_updateuser(character varying, character varying, character varying, character varying, character varying, character varying, character varying); Type: FUNCTION; Schema: public; Owner: gdadmin
+-- Name: f_updateuser(character varying, character varying, character varying, character varying, character varying, character varying); Type: FUNCTION; Schema: public; Owner: gdadmin
 --
 
 CREATE FUNCTION f_updateuser(cc1 character varying, names2 character varying, lastnames3 character varying, telephone4 character varying, movil5 character varying, image6 character varying) RETURNS void
@@ -109,7 +109,7 @@ CREATE FUNCTION f_updateuser(cc1 character varying, names2 character varying, la
 END;$_$;
 
 
-ALTER FUNCTION public.f_updateuser(cc1 character varying, password2 character varying, names3 character varying, lastnames4 character varying, telephone5 character varying, movil6 character varying, image7 character varying) OWNER TO gdadmin;
+ALTER FUNCTION public.f_updateuser(cc1 character varying, names2 character varying, lastnames3 character varying, telephone4 character varying, movil5 character varying, image6 character varying) OWNER TO gdadmin;
 
 SET default_tablespace = '';
 
@@ -371,7 +371,7 @@ COPY tb_usertype (id, name) FROM stdin;
 --
 
 COPY version (version) FROM stdin;
-5
+6
 \.
 
 
