@@ -103,3 +103,8 @@ ul#menu li a
     text-decoration: none;
     color: #383838;
 }
+img
+{
+width: 50px;
+height: 50px;
+}
