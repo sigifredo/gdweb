@@ -114,7 +114,7 @@ ALTER FUNCTION public.f_insertnews(title1 character varying, description2 text, 
 CREATE FUNCTION f_updateuser(cc1 character varying, names2 character varying, lastnames3 character varying, telephone4 character varying, movil5 character varying, image6 character varying) RETURNS void
     LANGUAGE plpgsql
     AS $_$BEGIN
-  IF $7 = '' THEN
+  IF $6 = '' THEN
     UPDATE tb_user SET names=$2, lastnames=$3, telephone=$4, movil=$5 WHERE cc=$1;
   ELSE
     UPDATE tb_user SET names=$2, lastnames=$3, telephone=$4, movil=$5, image=lo_import($6) WHERE cc=$1;
@@ -453,7 +453,7 @@ COPY tb_usertype (id, name) FROM stdin;
 --
 
 COPY version (version) FROM stdin;
-7
+7.19999981
 \.
 
 

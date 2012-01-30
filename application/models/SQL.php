@@ -1,7 +1,7 @@
 <?php
 
 /**
- * version 7.1
+ * version 7.2
  */
 
 class Application_Model_SQL
@@ -214,7 +214,7 @@ class Application_Model_SQL
      */
     public function updateAdmin($sCC, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
     {
-        $sImage = $sImage==''?$sImage:"'$sImage'";
+        $sImage = $sImage==""?$sImage:"'$sImage'";
         $this->dbAdapter->fetchRow("SELECT * FROM f_updateuser('$sCC', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', $sImage)");
     }
 
@@ -231,24 +231,24 @@ class Application_Model_SQL
      */
     public function updateClient($sCC, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
     {
-        $sImage = $sImage==''?$sImage:"'$sImage'";
+        $sImage = $sImage==""?$sImage:"'$sImage'";
         $this->dbAdapter->fetchRow("SELECT * FROM f_updateuser('$sCC', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', $sImage)");
     }
 
     /**
-     * \brief Actualiza una cuenta de programador en la base de datos.
+     * \brief actualiza una cuenta de programador en la base de datos.
      *
-     * @param $sCC Cédula del programador.
-     * @param $sNames Nombres del programador.
-     * @param $sLastNames Apellidos del programador.
-     * @param $sTelephone Teléfono del programador.
-     * @param $sMovil Celular del programador.
-     * @param $sImage Ruta a la imagen donde está el programador. Este parámetro es opcional.
+     * @param $sCC cédula del programador.
+     * @param $sNames nombres del programador.
+     * @param $sLastNames apellidos del programador.
+     * @param $sTelephone teléfono del programador.
+     * @param $sMovil celular del programador.
+     * @param $sImage ruta a la imagen donde está el programador. este parámetro es opcional.
      *
      */
     public function updateDeveloper($sCC, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
     {
-        $sImage = $sImage==''?$sImage:"'$sImage'";
+        $sImage = $sImage==""?$sImage:"'$sImage'";
         $this->dbAdapter->fetchRow("SELECT * FROM f_updateuser('$sCC', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', $sImage)");
     }
 
