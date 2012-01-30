@@ -1,7 +1,7 @@
 <?php
 
 /**
- * version 8
+ * version 8.1
  */
 
 class Application_Model_SQL
@@ -63,8 +63,7 @@ class Application_Model_SQL
      */
     public function insertAdmin($sCC, $sPassword, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
     {
-        $sImage = $sImage==''?$sImage:"'$sImage'";
-        $this->dbAdapter->fetchRow("SELECT * FROM f_insertadmin('$sCC', '$sPassword', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', $sImage)");
+        $this->dbAdapter->fetchRow("SELECT * FROM f_insertadmin('$sCC', '$sPassword', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', '$sImage')");
     }
 
     /**
@@ -81,8 +80,7 @@ class Application_Model_SQL
      */
     public function insertClient($sCC, $sPassword, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
     {
-        $sImage = $sImage==''?$sImage:"'$sImage'";
-        $this->dbAdapter->fetchRow("SELECT * FROM f_insertclient('$sCC', '$sPassword', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', $sImage)");
+        $this->dbAdapter->fetchRow("SELECT * FROM f_insertclient('$sCC', '$sPassword', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', '$sImage')");
     }
 
     /**
@@ -99,8 +97,7 @@ class Application_Model_SQL
      */
     public function insertDeveloper($sCC, $sPassword, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
     {
-        $sImage = $sImage==''?$sImage:"'$sImage'";
-        $this->dbAdapter->fetchRow("SELECT * FROM f_insertdeveloper('$sCC', '$sPassword', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', $sImage)");
+        $this->dbAdapter->fetchRow("SELECT * FROM f_insertdeveloper('$sCC', '$sPassword', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', '$sImage')");
     }
 
     /**
@@ -214,8 +211,7 @@ class Application_Model_SQL
      */
     public function updateAdmin($sCC, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
     {
-        $sImage = $sImage==""?$sImage:"'$sImage'";
-        $this->dbAdapter->fetchRow("SELECT * FROM f_updateuser('$sCC', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', $sImage)");
+        $this->dbAdapter->fetchRow("SELECT * FROM f_updateuser('$sCC', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', '$sImage')");
     }
 
     /**
@@ -231,8 +227,7 @@ class Application_Model_SQL
      */
     public function updateClient($sCC, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
     {
-        $sImage = $sImage==""?$sImage:"'$sImage'";
-        $this->dbAdapter->fetchRow("SELECT * FROM f_updateuser('$sCC', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', $sImage)");
+        $this->dbAdapter->fetchRow("SELECT * FROM f_updateuser('$sCC', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', '$sImage')");
     }
 
     /**
@@ -248,8 +243,7 @@ class Application_Model_SQL
      */
     public function updateDeveloper($sCC, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
     {
-        $sImage = $sImage==""?$sImage:"'$sImage'";
-        $this->dbAdapter->fetchRow("SELECT * FROM f_updateuser('$sCC', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', $sImage)");
+        $this->dbAdapter->fetchRow("SELECT * FROM f_updateuser('$sCC', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', '$sImage')");
     }
 
     /**

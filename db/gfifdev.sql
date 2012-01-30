@@ -435,9 +435,9 @@ COPY tb_news (id, title, description, cc_owner, image, date) FROM stdin;
 --
 
 COPY tb_user (cc, password, names, lastnames, telephone, movil, id_usertype, image, activated) FROM stdin;
-1	e285e2e264f407492baeeb10e313981369a35259	Administrador	GfifDev	496	314	1	20382	t
 2	e285e2e264f407492baeeb10e313981369a35259	Cliente	GfifDev	496	314	2	20382	t
 3	e285e2e264f407492baeeb10e313981369a35259	Desarrollador	GfifDev	496	314	3	20382	t
+1	da39a3ee5e6b4b0d3255bfef95601890afd80709	Administrador	GfifDev	496	2314asd	1	20382	t
 \.
 
 
@@ -457,7 +457,7 @@ COPY tb_usertype (id, name) FROM stdin;
 --
 
 COPY version (version) FROM stdin;
-8
+8.10000038
 \.
 
 
