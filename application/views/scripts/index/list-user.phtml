@@ -10,6 +10,7 @@
         <td>Apellido</td>
         <td></td>
         <td></td>
+	<td></td>
         </tr>
         <?php
 
@@ -19,7 +20,8 @@
     <td>".$line['cc']."</td>
     <td>".$line['names']."</td>
     <td>".$line['lastnames']."</td>
-    <td><a href=".$this->url(array('controller'=>'index', 'action'=>'update-user','usr'=>$this->userType,'cc'=>$line['cc'])).">Editar</a></td>
+    <td><a href=".$this->url(array('controller'=>'index', 'action'=>'update-user','usr'=>$this->userType,'cc'=>$line['cc'])).">Editar Datos</a></td>
+    <td><a href=".$this->url(array('controller'=>'index', 'action'=>'update-password','usr'=>$this->userType,'cc'=>$line['cc'])).">Editar Contraseña</a></td>
     <td><a href=".$this->url(array('controller'=>'index', 'action'=>'delete-user','usr'=>$this->userType,'cc'=>$line['cc'])).">Borrar</a></td>
     </tr>";
 }
