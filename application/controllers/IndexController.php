@@ -95,9 +95,9 @@ class IndexController extends Zend_Controller_Action
 
         $form->addElement('text','lastnames',array('label'=>'Last Names','required'=>true,'filter'=>'StringToLower','validator'=>'alfa','validator'=>'StringLength',false,array(4,25)));
 
-        $form->addElement('password','newpassword',array('label'=>'New Password','required'=>true,'validator'=>'StringLength',false,array(6,40)));
+        $form->addElement('password','newpassword',array('label'=>'New Password','validator'=>'StringLength',false,array(6,40)));
 
-        $form->addElement('password','verifypassword',array('label'=>'Verify Password','required'=>true,'validator'=>'StringLength',false,array(6,40)));
+        $form->addElement('password','verifypassword',array('label'=>'Verify Password','validator'=>'StringLength',false,array(6,40)));
 
         $form->addElement('text','telephone',array('label'=>'Telephone','validator'=>'digits','validator'=>'StringLength',false,array(0,7)));
 
