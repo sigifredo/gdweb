@@ -1,7 +1,7 @@
 <?php
 
 /**
- * version 6
+ * version 7
  */
 
 class Application_Model_SQL
@@ -11,6 +11,7 @@ class Application_Model_SQL
     {
         $this->dbAdapter = Zend_Db_Table::getDefaultAdapter();
     }
+
     /**
      * \brief Obtenemos una instancia de la clase 'Zend_Auth_Adapter_DbTable'.
      *
@@ -24,6 +25,28 @@ class Application_Model_SQL
     public function getAuthDbTable($table, $cc_user, $password)
     {
         return new Zend_Auth_Adapter_DbTable($this->dbAdapter, $table, $cc_user, $password);
+    }
+
+    /**
+     * \brief Elimina una noticia de la base de datos.
+     *
+     * @param $iId Número de identificación de la noticia.
+     *
+     */
+    public function deleteNews($iId)
+    {
+        $this->dbAdapter->fetchRow("DELETE FROM tb_news WHERE id=$iId");
+    }
+
+    /**
+     * \brief Elimina virtualmente un usuario de la base de datos.
+     *
+     * @param $sCC Cédula del usuario que vamos a eliminar.
+     *
+     */
+    public function deleteUser($sCC)
+    {
+        $this->dbAdapter->fetchRow("UPDATE tb_user SET activated=FALSE WHERE cc='$sCC'");
     }
 
     /**
@@ -78,6 +101,19 @@ class Application_Model_SQL
     {
         $sImage = $sImage==''?$sImage:"'$sImage'";
         $this->dbAdapter->fetchRow("SELECT * FROM f_insertdeveloper('$sCC', '$sPassword', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', $sImage)");
+    }
+
+    /**
+     * \brief Inserta un memo a un usuario.
+     *
+     * @param $sCC Cédula del usuario al que se le hará el memo.
+     * @param $sTitle título del memo.
+     * @param $sDescription Descripcion del memo.
+     *
+     */
+    public function insertMemo($sCC, $sTitle, $sDescription)
+    {
+        $this->dbAdapter->fetchRow("SELECT * FROM f_insertmemo('$sCC', '$sTitle', '$sDescription')");
     }
 
     /**
@@ -159,7 +195,7 @@ class Application_Model_SQL
         $r = $this->dbAdapter->fetchAll("SELECT id, title, description, image FROM tb_news");
         foreach($r as $row)
         {
-            $this->dbAdapter->fetchRow("SELECT lo_export(".$row['image'].", '"$sImageDir."/".$row['image']."')");
+            $this->dbAdapter->fetchRow("SELECT lo_export(".$row['image'].", '".$sImageDir."/".$row['image']."')");
             $row['image'] = getcwd()."/img/news/".$row['id'];
         }
         return $r;

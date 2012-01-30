@@ -78,6 +78,19 @@ $_$;
 ALTER FUNCTION public.f_insertdeveloper(cc1 character varying, password2 character varying, names3 character varying, lastnames4 character varying, telephone5 character varying, movil6 character varying, image7 character varying) OWNER TO gdadmin;
 
 --
+-- Name: f_insertmemo(character varying, character varying, text); Type: FUNCTION; Schema: public; Owner: gdadmin
+--
+
+CREATE FUNCTION f_insertmemo(cc1 character varying, title2 character varying, description3 text) RETURNS void
+    LANGUAGE plpgsql
+    AS $_$BEGIN
+  INSERT INTO tb_memo (cc_owner, title, description) VALUES ($1, $2, $3);
+END;$_$;
+
+
+ALTER FUNCTION public.f_insertmemo(cc1 character varying, title2 character varying, description3 text) OWNER TO gdadmin;
+
+--
 -- Name: f_insertnews(character varying, text, character varying, character varying); Type: FUNCTION; Schema: public; Owner: gdadmin
 --
 
@@ -159,6 +172,49 @@ SELECT pg_catalog.setval('tb_information_id_seq', 1, false);
 
 
 --
+-- Name: tb_memo; Type: TABLE; Schema: public; Owner: gdadmin; Tablespace: 
+--
+
+CREATE TABLE tb_memo (
+    id integer NOT NULL,
+    cc_owner character varying(10) NOT NULL,
+    title character varying(20) NOT NULL,
+    description text NOT NULL,
+    activated boolean DEFAULT true NOT NULL
+);
+
+
+ALTER TABLE public.tb_memo OWNER TO gdadmin;
+
+--
+-- Name: tb_memo_id_seq; Type: SEQUENCE; Schema: public; Owner: gdadmin
+--
+
+CREATE SEQUENCE tb_memo_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tb_memo_id_seq OWNER TO gdadmin;
+
+--
+-- Name: tb_memo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: gdadmin
+--
+
+ALTER SEQUENCE tb_memo_id_seq OWNED BY tb_memo.id;
+
+
+--
+-- Name: tb_memo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: gdadmin
+--
+
+SELECT pg_catalog.setval('tb_memo_id_seq', 1, false);
+
+
+--
 -- Name: tb_news; Type: TABLE; Schema: public; Owner: gdadmin; Tablespace: 
 --
 
@@ -214,7 +270,8 @@ CREATE TABLE tb_user (
     telephone character varying(7),
     movil character varying(10),
     id_usertype integer NOT NULL,
-    image oid DEFAULT 20382 NOT NULL
+    image oid DEFAULT 20382 NOT NULL,
+    activated boolean DEFAULT true NOT NULL
 );
 
 
@@ -265,7 +322,7 @@ SELECT pg_catalog.setval('tb_usertype_id_seq', 3, true);
 --
 
 CREATE VIEW v_admin AS
-    SELECT tb_user.cc, tb_user.names, tb_user.lastnames, tb_user.telephone, tb_user.movil FROM tb_user WHERE (tb_user.id_usertype = 1);
+    SELECT tb_user.cc, tb_user.names, tb_user.lastnames, tb_user.telephone, tb_user.movil FROM tb_user WHERE ((tb_user.id_usertype = 1) AND (tb_user.activated = true));
 
 
 ALTER TABLE public.v_admin OWNER TO gdadmin;
@@ -275,7 +332,7 @@ ALTER TABLE public.v_admin OWNER TO gdadmin;
 --
 
 CREATE VIEW v_client AS
-    SELECT tb_user.cc, tb_user.names, tb_user.lastnames, tb_user.telephone, tb_user.movil FROM tb_user WHERE (tb_user.id_usertype = 2);
+    SELECT tb_user.cc, tb_user.names, tb_user.lastnames, tb_user.telephone, tb_user.movil FROM tb_user WHERE ((tb_user.id_usertype = 2) AND (tb_user.activated = true));
 
 
 ALTER TABLE public.v_client OWNER TO gdadmin;
@@ -285,10 +342,20 @@ ALTER TABLE public.v_client OWNER TO gdadmin;
 --
 
 CREATE VIEW v_developer AS
-    SELECT tb_user.cc, tb_user.names, tb_user.lastnames, tb_user.telephone, tb_user.movil FROM tb_user WHERE (tb_user.id_usertype = 3);
+    SELECT tb_user.cc, tb_user.names, tb_user.lastnames, tb_user.telephone, tb_user.movil FROM tb_user WHERE ((tb_user.id_usertype = 3) AND (tb_user.activated = true));
 
 
 ALTER TABLE public.v_developer OWNER TO gdadmin;
+
+--
+-- Name: v_memo; Type: VIEW; Schema: public; Owner: gdadmin
+--
+
+CREATE VIEW v_memo AS
+    SELECT tb_memo.id, tb_memo.cc_owner, tb_memo.title, tb_memo.description FROM tb_memo WHERE (tb_memo.activated = true);
+
+
+ALTER TABLE public.v_memo OWNER TO gdadmin;
 
 --
 -- Name: version; Type: TABLE; Schema: public; Owner: gdadmin; Tablespace: 
@@ -306,6 +373,13 @@ ALTER TABLE public.version OWNER TO gdadmin;
 --
 
 ALTER TABLE tb_information ALTER COLUMN id SET DEFAULT nextval('tb_information_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: gdadmin
+--
+
+ALTER TABLE tb_memo ALTER COLUMN id SET DEFAULT nextval('tb_memo_id_seq'::regclass);
 
 
 --
@@ -340,6 +414,14 @@ COPY tb_information (id, title, description, cc_owner, image) FROM stdin;
 
 
 --
+-- Data for Name: tb_memo; Type: TABLE DATA; Schema: public; Owner: gdadmin
+--
+
+COPY tb_memo (id, cc_owner, title, description, activated) FROM stdin;
+\.
+
+
+--
 -- Data for Name: tb_news; Type: TABLE DATA; Schema: public; Owner: gdadmin
 --
 
@@ -351,7 +433,7 @@ COPY tb_news (id, title, description, cc_owner, image, date) FROM stdin;
 -- Data for Name: tb_user; Type: TABLE DATA; Schema: public; Owner: gdadmin
 --
 
-COPY tb_user (cc, password, names, lastnames, telephone, movil, id_usertype, image) FROM stdin;
+COPY tb_user (cc, password, names, lastnames, telephone, movil, id_usertype, image, activated) FROM stdin;
 \.
 
 
@@ -371,7 +453,7 @@ COPY tb_usertype (id, name) FROM stdin;
 --
 
 COPY version (version) FROM stdin;
-6
+7
 \.
 
 
@@ -407,6 +489,14 @@ ALTER TABLE ONLY tb_information
 
 
 --
+-- Name: tb_memo_pkey; Type: CONSTRAINT; Schema: public; Owner: gdadmin; Tablespace: 
+--
+
+ALTER TABLE ONLY tb_memo
+    ADD CONSTRAINT tb_memo_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: tb_news_pkey; Type: CONSTRAINT; Schema: public; Owner: gdadmin; Tablespace: 
 --
 
@@ -436,6 +526,14 @@ ALTER TABLE ONLY tb_usertype
 
 ALTER TABLE ONLY tb_information
     ADD CONSTRAINT tb_information_cc_owner_fkey FOREIGN KEY (cc_owner) REFERENCES tb_user(cc);
+
+
+--
+-- Name: tb_memo_cc_owner_fkey; Type: FK CONSTRAINT; Schema: public; Owner: gdadmin
+--
+
+ALTER TABLE ONLY tb_memo
+    ADD CONSTRAINT tb_memo_cc_owner_fkey FOREIGN KEY (cc_owner) REFERENCES tb_user(cc);
 
 
 --
