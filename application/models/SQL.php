@@ -1,7 +1,7 @@
 <?php
 
 /**
- * version 7
+ * version 7.1
  */
 
 class Application_Model_SQL
@@ -261,7 +261,7 @@ class Application_Model_SQL
      */
     public function updatePassword($sCC, $sNewPassword)
     {
-        $thsis->dbAdapter->fetchRow("UPDATE tb_user SET password='$sNewPassword' WHERE cc='$sCC'");
+        $this->dbAdapter->fetchRow("UPDATE tb_user SET password='$sNewPassword' WHERE cc='$sCC'");
     }
 
     /**
