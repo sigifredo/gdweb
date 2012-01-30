@@ -95,6 +95,10 @@ class IndexController extends Zend_Controller_Action
 
         $form->addElement('text','lastnames',array('label'=>'Last Names','required'=>true,'filter'=>'StringToLower','validator'=>'alfa','validator'=>'StringLength',false,array(4,25)));
 
+        $form->addElement('password','newpassword',array('label'=>'New Password','required'=>true,'validator'=>'StringLength',false,array(6,40)));
+
+        $form->addElement('password','verifypassword',array('label'=>'Verify Password','required'=>true,'validator'=>'StringLength',false,array(6,40)));
+
         $form->addElement('text','telephone',array('label'=>'Telephone','validator'=>'digits','validator'=>'StringLength',false,array(0,7)));
 
         $form->addElement('text','movil',array('label'=>'Movil','validator'=>'digits','validator'=>'StringLength',false,array(0,10)));
@@ -103,31 +107,6 @@ class IndexController extends Zend_Controller_Action
 
         return $form;
 
-    }
-
-    /**
-     * \brief Formulario para modificar contraseña de usuario
-     *
-     * @return Formulario a action updatePassword
-     *
-     */
-
-    public function updatePasswordForm()
-    {
-        $form=new Zend_Form;
-        $form->setAttrib('class','updatepassword');
-        $form->setAction($this->view->url(array("controller" => "index", "action" => "update-password")))
-        ->setMethod('post');
-
-        $form->addElement('password','password',array('label'=>'Current Password','required'=>true,'validator'=>'StringLength',false,array(6,40)));
-
-        $form->addElement('password','verifypassword',array('label'=>'Verify Password','required'=>true,'validator'=>'StringLength',false,array(6,40)));
-
-        $form->addElement('password','newpassword',array('label'=>'New Password','required'=>true,'validator'=>'StringLength',false,array(6,40)));
-
-        $form->addElement('submit','update',array('label'=>'Update'));
-
-        return $form;
     }
 
     /**
@@ -517,6 +496,18 @@ class IndexController extends Zend_Controller_Action
             $image = '';
         }
 
+        if(isset($values['newpassword']))
+        {
+
+            if($values['newpassword'] != $values['verifypassword'])
+            {
+                echo "La contraseña no coincide";
+                echo $form;
+                return;
+            }
+            $this->sql->updatePassword($iCCUser,sha1($values['newpassword']));
+        }
+
         switch ($iUserType)
         {
         case 1:
@@ -537,62 +528,6 @@ class IndexController extends Zend_Controller_Action
         $this->_helper->redirector('index', 'index');
         return;
     }
-
-    /**
-     * \brief action para modificar contraseña
-     *
-     * @return N/A
-     *
-     */
-
-    public function updatePasswordAction()
-    {
-        if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
-        {
-            $this->_helper->redirector('index', 'index');
-            return;
-        }
-        if(!$this->_hasParam('usr'))
-        {
-            $this->_helper->redirector('index', 'index');
-            return;
-        }
-        if(!$this->_hasParam('cc'))
-        {
-            $this->_helper->redirector('list-user', 'index');
-            return;
-        }
-
-        $iCCUser = $this->getRequest()->getParam('cc');
-        $form = $this->updatePasswordForm();
-
-        if(!$this->getRequest()->isPost())
-        {
-            echo "<h4 id='infusr'>Nueva Contraseña De Usuario</h4>";
-            echo $form;
-            return;
-        }
-        if(!$form->isValid($this->_getAllParams()))
-        {
-            echo $form;
-            return;
-        }
-
-        $values = $form->getValues();
-
-        if($values['password'] != $values['verifypassword'])
-        {
-            echo "La contraseña no coincide";
-            echo $form;
-            return;
-        }
-
-        $this->sql->updatePassword($iCCUser,sha1($values['newpassword']));
-
-        $this->_helper->redirector('index', 'index');
-        return;
-    }
-
 
     /**
      * \brief action para crear noticia
