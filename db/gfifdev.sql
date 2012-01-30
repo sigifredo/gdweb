@@ -255,7 +255,7 @@ ALTER SEQUENCE tb_news_id_seq OWNED BY tb_news.id;
 -- Name: tb_news_id_seq; Type: SEQUENCE SET; Schema: public; Owner: gdadmin
 --
 
-SELECT pg_catalog.setval('tb_news_id_seq', 1, false);
+SELECT pg_catalog.setval('tb_news_id_seq', 1, true);
 
 
 --
@@ -426,6 +426,7 @@ COPY tb_memo (id, cc_owner, title, description, activated) FROM stdin;
 --
 
 COPY tb_news (id, title, description, cc_owner, image, date) FROM stdin;
+1	Nuenas Cuentas	Administrador: 1<br>Cliente: 2<br>Desarrollador: 3	1	20382	2012-01-30 14:07:11.285038
 \.
 
 
@@ -434,6 +435,9 @@ COPY tb_news (id, title, description, cc_owner, image, date) FROM stdin;
 --
 
 COPY tb_user (cc, password, names, lastnames, telephone, movil, id_usertype, image, activated) FROM stdin;
+1	e285e2e264f407492baeeb10e313981369a35259	Administrador	GfifDev	496	314	1	20382	t
+2	e285e2e264f407492baeeb10e313981369a35259	Cliente	GfifDev	496	314	2	20382	t
+3	e285e2e264f407492baeeb10e313981369a35259	Desarrollador	GfifDev	496	314	3	20382	t
 \.
 
 
@@ -453,7 +457,7 @@ COPY tb_usertype (id, name) FROM stdin;
 --
 
 COPY version (version) FROM stdin;
-7.19999981
+8
 \.
 
 
