@@ -1,7 +1,7 @@
 <?php
 
 /**
- * version 8.1
+ * version 9
  */
 
 class Application_Model_SQL
@@ -25,6 +25,17 @@ class Application_Model_SQL
     public function getAuthDbTable($table, $cc_user, $password)
     {
         return new Zend_Auth_Adapter_DbTable($this->dbAdapter, $table, $cc_user, $password);
+    }
+
+    /**
+     * \brief Eliminar memo. Este método elimina el memo de forma virtual.
+     *
+     * @param $iId Número de identificación del memo.
+     *
+     */
+    public function deleteMemo($iId)
+    {
+        $this->dbAdapter->fetchRow("UPDATE tb_memo SET activated=FALSE WHERE id=$iId");
     }
 
     /**
@@ -241,7 +252,7 @@ class Application_Model_SQL
     }
 
     /**
-     * \brief actualiza una cuenta de programador en la base de datos.
+     * \brief Actualiza una cuenta de programador en la base de datos.
      *
      * @param $sCC cédula del programador.
      * @param $sNames nombres del programador.
@@ -259,6 +270,36 @@ class Application_Model_SQL
 =======
         $this->dbAdapter->fetchRow("SELECT * FROM f_updateuser('$sCC', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', '$sImage')");
 >>>>>>> f67ba6a07824f1fcf7a2a3d8441423fd738bbba4
+    }
+
+    /**
+     * \brief Actualiza un memo.
+     *
+     * @param $iId Número de identificación del memo.
+     * @param $sTitle Titulo del memo.
+     * @param $sDescription Descripción del memo.
+     *
+     */
+    public function updateMemo($iId, $sTitle, $sDescription)
+    {
+        $this->dbAdapter->fetchRow("UPDATE tb_memo SET title='$sTitle', description='$sDescription' WHERE id=$iId");
+    }
+
+    /**
+     * \brief Actualiza una noticia.
+     *
+     * @param $iId Número de identificación de la noticia. 
+     * @param $sTitle Titulo de la noticia.
+     * @param $sDescription Cuerpo de la noticia.
+     * @param $sImage Ruta a la imagen. Este parámetro es opcional.
+     *
+     */
+    public function updateNews($iId, $sTitle, $sDescription, $sImage = '')
+    {
+        if($sImage == '')
+            $this->dbAdapter->fetchRow("UPDATE tb_news SET title='$sTitle', description='$sDescription' WHERE id=$iId");
+        else
+            $this->dbAdapter->fetchRow("UPDATE tb_news SET title='$sTitle', description='$sDescription', image=lo_import('$sImage') WHERE id=$iId");
     }
 
     /**
