@@ -457,7 +457,7 @@ COPY tb_usertype (id, name) FROM stdin;
 --
 
 COPY version (version) FROM stdin;
-9
+10
 \.
 
 
