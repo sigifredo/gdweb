@@ -20,7 +20,7 @@
     <td>".$line['names']."</td>
     <td>".$line['lastnames']."</td>
     <td><a href=".$this->url(array('controller'=>'user', 'action'=>'update-user','usr'=>$this->userType,'cc'=>$line['cc'])).">Editar</a></td>
-    <td><a href=".$this->url(array('controller'=>'user', 'action'=>'delete-user','usr'=>$this->userType,'cc'=>$line['cc'])).">Borrar</a></td>
+    <td><a href=".$this->url(array('controller'=>'user', 'action'=>'delete-user','cc'=>$line['cc'])).">Borrar</a></td>
     </tr>";
 }
 ?>

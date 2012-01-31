@@ -3,6 +3,8 @@
 class UserController extends Zend_Controller_Action
 {
 
+    private $session = null;
+
     private $auth = null;
 
     private $sql=null;
@@ -17,7 +19,7 @@ class UserController extends Zend_Controller_Action
     public function init()
     {
         $this->sql = new Application_Model_SQL();
-
+        $this->session=new Zend_Session_Namespace('Users');
         $this->auth = Zend_Auth::getInstance();
     }
 
@@ -302,50 +304,33 @@ class UserController extends Zend_Controller_Action
     }
 
     /**
-     * \brief action para crear noticia
+     * \brief action para borrar usuario
      *
      * @return N/A
      *
      */
 
-    public function createNewsAction()
+    public function deleteUserAction()
     {
         if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
         {
             $this->_helper->redirector('index', 'index');
             return;
         }
-        $form = $this->createNewsForm();
 
-        if(!$this->getRequest()->isPost())
+        if(!$this->_hasParam('cc'))
         {
-            echo "<h4 id='infnews'>Datos de noticia</h4>";
-            echo $form;
+            $this->_helper->redirector('list-user', 'index');
             return;
         }
-        if(!$form->isValid($this->_getAllParams()))
-        {
-            echo $form;
-            return;
-        }
-        $values = $form->getValues();
 
-        if(isset($values['image']))
-        {
-            $image = APPLICATION_PATH."/../public/img/usr/".$form->image->getFileName(null,false);
+        $iCCUser = $this->getRequest()->getParam('cc');
 
-        }
-        else
-        {
-            $image = '';
-        }
-
-        $this->sql->insertNews($values['title'],$values['description'],$this->session->user,$image);
+        $this->sql->deleteUser($iCCUser);
 
         $this->_helper->redirector('index', 'index');
+
         return;
     }
-
-
 }
 

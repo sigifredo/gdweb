@@ -4,34 +4,37 @@
 <body>
 <div id='news'>
 
-        <?php
+<?php
 
-        $i=1;
+$i=1;
 if(!count($this->paginator)) echo "<h3>No news</h3>";
-foreach($this->paginator as $line)
-{
-    if($i%2 == 0) echo "<article class='artr'>";
-    else echo "<article class='artl'>";
 
-    echo "<table>
-    <tr>
-    <td>
-    <header class='title'>".$line['title']."</header>
-    </td>
-    </tr>
-    <tr>
-    <td>
-    <img class='image' src='".$this->baseUrl()."/pg/img/news/".$line['image']."'/>
-    </td>
-    <td>
-    <p class='description'>".$line['description']."</p>
-    </td>
-    </tr>
-    </table>
-    </article>";
-    $i++;
-}
+    foreach($this->paginator as $line)
+    {
+	if($i%2 == 0) echo "<article class='artr'>";
+	else echo "<article class='artl'>";
+
+	echo "<table>
+	<tr>
+	<td>
+	<header class='title'>".$line['title']."</header>
+	</td>
+	</tr>
+	<tr>
+	<td>
+	<img class='image' src='".$this->baseUrl()."/pg/img/news/".$line['image']."'/>
+	</td>
+	<td>
+	<p class='description'>".$line['description']."</p>
+	</td>
+	</tr>
+	</table>
+	</article>";
+	$i++;
+    }
+
 echo $this->paginator;
+
 ?>
 </div>
 </body>

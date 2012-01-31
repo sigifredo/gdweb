@@ -111,18 +111,17 @@ class IndexController extends Zend_Controller_Action
             <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create-user','usr'=>'1')).">Crear Cuenta Administrador</a><br>
             <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create-user','usr'=>'2')).">Crear Cuenta Cliente</a><br>
             <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create-user','usr'=>'3')).">Crear Cuenta Desarrollador</a><br>
-            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'list-user','usr'=>'1')).">Editar Cuenta Administrador</a><br>
-            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'list-user','usr'=>'2')).">Editar Cuenta Cliente</a><br>
-            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'list-user','usr'=>'3')).">Editar Cuenta Desarrollador</a><br>
+            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','usr'=>'1')).">Editar Cuenta Administrador</a><br>
+            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','usr'=>'2')).">Editar Cuenta Cliente</a><br>
+            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','usr'=>'3')).">Editar Cuenta Desarrollador</a><br>
             </ul>
             </div>
 
             <div>
             <span>Noticias</span>
             <ul>
-            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create-news')).">Crear Noticia</a><br>
-            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'update-news')).">Modificar Noticia</a><br>
-            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'delete-news')).">Borrar Noticia</a><br>
+            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-news')).">Crear Noticia</a><br>
+            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-news')).">Editar Noticia</a><br>
             </ul>
             </div>
             </div>";
@@ -233,6 +232,100 @@ class IndexController extends Zend_Controller_Action
         }
         else
             $this->_helper->redirector('index', 'index');
+        return;
+    }
+
+    /**
+       * \brief action para listar noticias
+       *
+       * @return N/A
+       *
+       */
+
+    public function listNewsAction()
+    {
+        if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
+        {
+            $this->_helper->redirector('index', 'index');
+            return;
+        }
+
+        $this->view->news = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news");
+
+        return;
+    }
+
+    /**
+     * \brief action para crear noticia
+     *
+     * @return N/A
+     *
+     */
+
+    public function createNewsAction()
+    {
+        if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
+        {
+            $this->_helper->redirector('index', 'index');
+            return;
+        }
+        $form = $this->createNewsForm();
+
+        if(!$this->getRequest()->isPost())
+        {
+            echo "<h4 id='infnews'>Datos De Noticia</h4>";
+            echo $form;
+            return;
+        }
+        if(!$form->isValid($this->_getAllParams()))
+        {
+            echo $form;
+            return;
+        }
+        $values = $form->getValues();
+
+        if(isset($values['image']))
+        {
+            $image = APPLICATION_PATH."/../public/img/usr/".$form->image->getFileName(null,false);
+
+        }
+        else
+        {
+            $image = '';
+        }
+
+        $this->sql->insertNews($values['title'],$values['description'],$this->session->user,$image);
+
+        $this->_helper->redirector('index', 'index');
+        return;
+    }
+
+
+    /**
+     * \brief action para borrar noticia
+     *
+     * @return N/A
+     *
+     */
+
+    public function deleteNewsAction()
+    {
+        if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
+        {
+            $this->_helper->redirector('index', 'index');
+            return;
+        }
+        if(!$this->_hasParam('news'))
+        {
+            $this->_helper->redirector('list-news', 'index');
+            return;
+        }
+
+        $iIdNews = $this->getRequest()->getParam('news');
+
+        $this->sql->deleteNews($iIdNews);
+
+        $this->_helper->redirector('index', 'index');
         return;
     }
 
