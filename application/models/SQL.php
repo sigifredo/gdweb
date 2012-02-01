@@ -1,7 +1,7 @@
 <?php
 
 /**
- * version 10
+ * version 11
  */
 
 class Application_Model_SQL
@@ -25,6 +25,17 @@ class Application_Model_SQL
     public function getAuthDbTable($table, $cc_user, $password)
     {
         return new Zend_Auth_Adapter_DbTable($this->dbAdapter, $table, $cc_user, $password);
+    }
+
+    /**
+     * \brief Elimina una publicación de información del sistema.
+     *
+     * @param $iId Número de identificación de la información.
+     *
+     */
+    public function deleteInfo($iId)
+    {
+        $this->dbAdapter->fetchRow("DELETE FROM tb_info WHERE id=$iId");
     }
 
     /**
@@ -109,6 +120,19 @@ class Application_Model_SQL
     public function insertDeveloper($sCC, $sPassword, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
     {
         $this->dbAdapter->fetchRow("SELECT * FROM f_insertdeveloper('$sCC', '$sPassword', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', '$sImage')");
+    }
+
+    /**
+     * \brief Inserta información empresarial.
+     *
+     * @param $sTitle Titulo de la información, ejemplo: Misión.
+     * @param $sDescription Descripción o cuerpo de la información.
+     * @param $sImage Ruta una imágen representativa de la información. Este campo es opcional.
+     *
+     */
+    public function insertInfo($sTitle, $sDescription, $sImage = '')
+    {
+        $this->dbAdapter->fetchRow("SELECT * FROM f_insertinfo('$sTitle', '$sDescription', '$sImage')");
     }
 
     /**
@@ -268,6 +292,23 @@ class Application_Model_SQL
     public function updateDeveloper($sCC, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
     {
         $this->dbAdapter->fetchRow("SELECT * FROM f_updateuser('$sCC', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', '$sImage')");
+    }
+
+    /**
+     * \brief Actualiza información empresarial.
+     *
+     * @param $iId Número de identificación de la información.
+     * @param $sTitle Titulo de la información, ejemplo: Misión.
+     * @param $sDescription Descripción o cuerpo de la información.
+     * @param $sImage Ruta una imágen representativa de la información. Este campo es opcional.
+     *
+     */
+    public function updateInfo($iId, $sTitle, $sDescription, $sImage = '')
+    {
+        if($sImage == '')
+            $this->dbAdapter->fetchRow("UPDATE tb_info SET title='$sTitle', description='$sDescription' WHERE id=$iId");
+        else
+            $this->dbAdapter->fetchRow("UPDATE tb_info SET title='$sTitle', description='$sDescription', image=lo_import('$sImage') WHERE id=$iId");
     }
 
     /**
