@@ -1,7 +1,7 @@
 <?php
 
 /**
- * version 9
+ * version 10
  */
 
 class Application_Model_SQL
@@ -207,6 +207,19 @@ class Application_Model_SQL
             $row['image'] = getcwd()."/img/news/".$row['id'];
         }
         return $r;
+    }
+
+    /**
+     * \brief Lista los memos activos de un usuario.
+     *
+     * @param $sCC Cédula del usuario.
+     *
+     * @return Lista de los memos activos de un usuario. Cada registro está ordenado así: [id, title, description]
+     *
+     */
+    public function listMemos($sCC)
+    {
+        return $this->dbAdapter->fetchAll("SELECT id, title, description FROM v_memo WHERE cc_owner='$sCC'");
     }
 
     /**
