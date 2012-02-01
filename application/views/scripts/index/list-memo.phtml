@@ -1,0 +1,52 @@
+<html>
+<head>
+</head>
+<body>
+<div id='listMemo'>
+
+        <?php
+        $sql = new Application_Model_SQL();
+
+if($this->memos == 1)
+{
+    echo "<table>
+    <tr>
+    <td>Titulo</td>
+    <td></td>
+    <td></td>
+    </tr>";
+
+    foreach($sql->listMemos($this->user) as $line)
+    {
+        echo "<tr>
+        <td>".$line['title']."</td>
+        <td><a href=".$this->url(array('controller'=>'index', 'action'=>'update-memo','memo'=>$line['id'],'cc'=>$this->user)).">Editar</a></td>
+        <td><a href=".$this->url(array('controller'=>'index', 'action'=>'delete-memo','memo'=>$line['id'])).">Borrar</a></td>
+        </tr>";
+    }
+}
+elseif($this->memos == 0)
+{
+    foreach($sql->listMemos($this->user) as $line)
+    {
+        echo "<div class='memo'>
+        <table>
+        <tr>
+        <td>
+        <header class='title'>".$line['title']."</header>
+        </td>
+        </tr>
+        <tr>
+        <td>
+        <p class='description'>".$line['description']."</p>
+        </td>
+        </tr>
+        </table>
+        </div>";
+
+    }
+}
+?>
+</div>
+</body>
+</html>

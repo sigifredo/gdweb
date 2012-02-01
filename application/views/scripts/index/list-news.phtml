@@ -12,13 +12,13 @@
         <?php
 
         foreach($this->news as $line)
-{
-    echo "<tr>
-    <td>".$line['title']."</td>
-    <td><a href=".$this->url(array('controller'=>'index', 'action'=>'update-news','news'=>$line['id'])).">Editar</a></td>
-    <td><a href=".$this->url(array('controller'=>'index', 'action'=>'delete-news','news'=>$line['id'])).">Borrar</a></td>
-    </tr>";
-}
+	    {
+		echo "<tr>
+		<td>".$line['title']."</td>
+		<td><a href=".$this->url(array('controller'=>'index', 'action'=>'update-news','news'=>$line['id'])).">Editar</a></td>
+		<td><a href=".$this->url(array('controller'=>'index', 'action'=>'delete-news','news'=>$line['id'])).">Borrar</a></td>
+		</tr>";
+	    }
 ?>
 </table>
 </div>
