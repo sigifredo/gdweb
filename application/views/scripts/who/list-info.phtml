@@ -1,0 +1,26 @@
+<html>
+<head>
+</head>
+<body>
+<div id='listInfo'>
+        <table>
+        <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        </tr>
+        <?php
+        if(!count($this->info)) echo "no hay info";
+foreach($this->info as $line)
+{
+    echo "<tr>
+    <td>".$line['title']."</td>
+    <td><a href=".$this->url(array('controller'=>'who', 'action'=>'update-info','info'=>$line['id'])).">Editar</a></td>
+    <td><a href=".$this->url(array('controller'=>'who', 'action'=>'delete-info','info'=>$line['id'])).">Borrar</a></td>
+    </tr>";
+}
+?>
+</table>
+</div>
+</body>
+</html>

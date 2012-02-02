@@ -2,14 +2,14 @@
 <head>
 </head>
 <body>
-<div id='listMemo'>
 
         <?php
         $sql = new Application_Model_SQL();
 
 if($this->memos == 1)
 {
-    echo "<table>
+    echo "<div id='editMemo'>
+    <table>
     <tr>
     <td>Titulo</td>
     <td></td>
@@ -24,22 +24,19 @@ if($this->memos == 1)
         <td><a href=".$this->url(array('controller'=>'index', 'action'=>'delete-memo','memo'=>$line['id'])).">Borrar</a></td>
         </tr>";
     }
+    echo "</table>"
 }
 elseif($this->memos == 0)
 {
     foreach($sql->listMemos($this->user) as $line)
     {
-        echo "<div class='memo'>
+        echo "<div class='listmemo'>
         <table>
         <tr>
-        <td>
-        <header class='title'>".$line['title']."</header>
-        </td>
+        <td>".$line['title']."</td>
         </tr>
         <tr>
-        <td>
-        <p class='description'>".$line['description']."</p>
-        </td>
+        <td>".$line['description']."</td>
         </tr>
         </table>
         </div>";

@@ -187,6 +187,7 @@ class IndexController extends Zend_Controller_Action
         return $form;
     }
 
+
     /**
      * \brief action para noticias e ingreso de usuario
      *
@@ -354,6 +355,12 @@ class IndexController extends Zend_Controller_Action
 
     public function listMemoAction()
     {
+        if ((!$this->auth->hasIdentity()) || ($this->session->type == '2'))
+        {
+            $this->_helper->redirector('index', 'index');
+            return;
+        }
+
         $form = $this->ListMemoForm();
 
         if(!$this->getRequest()->isPost())
