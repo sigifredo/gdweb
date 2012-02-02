@@ -189,49 +189,6 @@ SELECT pg_catalog.setval('tb_info_id_seq', 1, false);
 
 
 --
--- Name: tb_information; Type: TABLE; Schema: public; Owner: gdadmin; Tablespace: 
---
-
-CREATE TABLE tb_information (
-    id integer NOT NULL,
-    title character varying(20) NOT NULL,
-    description text NOT NULL,
-    cc_owner character varying(10) NOT NULL,
-    image oid NOT NULL
-);
-
-
-ALTER TABLE public.tb_information OWNER TO gdadmin;
-
---
--- Name: tb_information_id_seq; Type: SEQUENCE; Schema: public; Owner: gdadmin
---
-
-CREATE SEQUENCE tb_information_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.tb_information_id_seq OWNER TO gdadmin;
-
---
--- Name: tb_information_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: gdadmin
---
-
-ALTER SEQUENCE tb_information_id_seq OWNED BY tb_information.id;
-
-
---
--- Name: tb_information_id_seq; Type: SEQUENCE SET; Schema: public; Owner: gdadmin
---
-
-SELECT pg_catalog.setval('tb_information_id_seq', 1, false);
-
-
---
 -- Name: tb_memo; Type: TABLE; Schema: public; Owner: gdadmin; Tablespace: 
 --
 
@@ -439,13 +396,6 @@ ALTER TABLE tb_info ALTER COLUMN id SET DEFAULT nextval('tb_info_id_seq'::regcla
 -- Name: id; Type: DEFAULT; Schema: public; Owner: gdadmin
 --
 
-ALTER TABLE tb_information ALTER COLUMN id SET DEFAULT nextval('tb_information_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: gdadmin
---
-
 ALTER TABLE tb_memo ALTER COLUMN id SET DEFAULT nextval('tb_memo_id_seq'::regclass);
 
 
@@ -490,14 +440,6 @@ COPY tb_info (id, title, description, date, image) FROM stdin;
 
 
 --
--- Data for Name: tb_information; Type: TABLE DATA; Schema: public; Owner: gdadmin
---
-
-COPY tb_information (id, title, description, cc_owner, image) FROM stdin;
-\.
-
-
---
 -- Data for Name: tb_memo; Type: TABLE DATA; Schema: public; Owner: gdadmin
 --
 
@@ -521,7 +463,7 @@ COPY tb_news (id, title, description, cc_owner, image, date) FROM stdin;
 COPY tb_user (cc, password, names, lastnames, telephone, movil, id_usertype, image, activated) FROM stdin;
 2	e285e2e264f407492baeeb10e313981369a35259	Cliente	GfifDev	496	314	2	20382	t
 3	e285e2e264f407492baeeb10e313981369a35259	Desarrollador	GfifDev	496	314	3	20382	t
-1	da39a3ee5e6b4b0d3255bfef95601890afd80709	Administrador	GfifDev	496	2314asd	1	20382	t
+1	e285e2e264f407492baeeb10e313981369a35259	Administrador	GfifDev	496	2314asd	1	20382	t
 \.
 
 
@@ -541,7 +483,7 @@ COPY tb_usertype (id, name) FROM stdin;
 --
 
 COPY version (version) FROM stdin;
-11
+11.1000004
 \.
 
 
@@ -582,14 +524,6 @@ ALTER TABLE ONLY tb_info
 
 
 --
--- Name: tb_information_pkey; Type: CONSTRAINT; Schema: public; Owner: gdadmin; Tablespace: 
---
-
-ALTER TABLE ONLY tb_information
-    ADD CONSTRAINT tb_information_pkey PRIMARY KEY (id);
-
-
---
 -- Name: tb_memo_pkey; Type: CONSTRAINT; Schema: public; Owner: gdadmin; Tablespace: 
 --
 
@@ -619,14 +553,6 @@ ALTER TABLE ONLY tb_user
 
 ALTER TABLE ONLY tb_usertype
     ADD CONSTRAINT tb_usertype_pkey PRIMARY KEY (id);
-
-
---
--- Name: tb_information_cc_owner_fkey; Type: FK CONSTRAINT; Schema: public; Owner: gdadmin
---
-
-ALTER TABLE ONLY tb_information
-    ADD CONSTRAINT tb_information_cc_owner_fkey FOREIGN KEY (cc_owner) REFERENCES tb_user(cc);
 
 
 --

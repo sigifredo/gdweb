@@ -1,7 +1,7 @@
 <?php
 
 /**
- * version 11
+ * version 11.1
  */
 
 class Application_Model_SQL
@@ -205,7 +205,7 @@ class Application_Model_SQL
      */
     public function listInformation()
     {
-        $r = $this->dbAdapter->fetchAll("SELECT id, title, description, image FROM tb_information");
+        $r = $this->dbAdapter->fetchAll("SELECT id, title, description, image FROM tb_info");
         foreach($r as $row)
         {
             $this->dbAdapter->fetchRow("SELECT lo_export(".$row['image'].", '".getcwd()."/img/inf/".$row['image']."')");
