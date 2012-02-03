@@ -364,7 +364,7 @@ class Application_Model_SQL
     /**
      * \brief Actualiza una noticia.
      *
-     * @param $iId Número de identificación de la noticia. 
+     * @param $iId Número de identificación de la noticia.
      * @param $sTitle Titulo de la noticia.
      * @param $sDescription Cuerpo de la noticia.
      * @param $sImage Ruta a la imagen. Este parámetro es opcional.

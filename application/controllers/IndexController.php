@@ -236,20 +236,15 @@ class IndexController extends Zend_Controller_Action
             </ul>
             </div>
             </div>";
+
         }
-
-        $this->view->news = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news");
-
-        Zend_View_Helper_PaginationControl::setDefaultViewPartial("paginator/items.phtml");
-
-        $paginator = Zend_Paginator::factory($this->view->news);
-
-        if($this->_hasParam('page'))
+        if(!$this->_hasParam('page'))
         {
-            $paginator->setCurrentPageNumber($this->_getParam('page'));
+            $this->view->page = '1';
+            $this->view->news = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news",$this->view->page);
         }
-        $this->view->paginator = $paginator;
-
+        $this->view->page = $this->_getParam('page');
+        $this->view->news = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news",$this->view->page);
         return;
     }
 
@@ -355,28 +350,28 @@ class IndexController extends Zend_Controller_Action
 
     public function profileAction()
     {
-	if(!$this->auth->hasIdentity())
-	    {
-		$this->_helper->redirector('index', 'index');
-		return;
-	    }
-	switch ($this->session->type)
-	    {
-		case 1:
+        if(!$this->auth->hasIdentity())
+        {
+            $this->_helper->redirector('index', 'index');
+            return;
+        }
+        switch ($this->session->type)
+        {
+        case 1:
 
-		    $this->view->datos = $this->sql->listAdmin();
-		    break;
+            $this->view->datos = $this->sql->listAdmin();
+            break;
 
-		case 2:
+        case 2:
 
-		    $this->view->datos = $this->sql->listClient();
-		    break;
+            $this->view->datos = $this->sql->listClient();
+            break;
 
-		case 3:
+        case 3:
 
-		    $this->view->datos = $this->sql->listDeveloper();
-		    break;
-	    }
+            $this->view->datos = $this->sql->listDeveloper();
+            break;
+        }
     }
 
     /**
@@ -566,9 +561,12 @@ class IndexController extends Zend_Controller_Action
             $this->_helper->redirector('index', 'index');
             return;
         }
-
-        $this->view->news = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news");
-
+        if(!$this->_hasParam('page'))
+        {
+            $this->_helper->_redirect($this->url(array('controller'=>'index','action'=>'index','page' => '1')));
+        }
+        $this->view->page = $this->_getParam('page');
+        $this->view->news = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news",$this->view->page);
         return;
     }
 
@@ -641,7 +639,7 @@ class IndexController extends Zend_Controller_Action
 
         $iIdNews = $this->getRequest()->getParam('news');
         $form = $this->updateNewsForm();
-        $datos = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news");
+        $datos = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news",1);
 
         if(!$this->getRequest()->isPost())
         {

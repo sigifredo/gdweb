@@ -12,15 +12,44 @@
         <?php
 
         foreach($this->news as $line)
-	    {
-		echo "<tr>
-		<td>".$line['title']."</td>
-		<td><a href=".$this->url(array('controller'=>'index', 'action'=>'update-news','news'=>$line['id'])).">Editar</a></td>
-		<td><a href=".$this->url(array('controller'=>'index', 'action'=>'delete-news','news'=>$line['id'])).">Borrar</a></td>
-		</tr>";
-	    }
+{
+    echo "<tr>
+    <td>".$line['title']."</td>
+    <td><a href=".$this->url(array('controller'=>'index', 'action'=>'update-news','news'=>$line['id'])).">Editar</a></td>
+    <td><a href=".$this->url(array('controller'=>'index', 'action'=>'delete-news','news'=>$line['id'])).">Borrar</a></td>
+    </tr>";
+}
+echo "</table></div>";
+
+$sql = new Application_Model_SQL();
+$numPages = $sql->newsNumber();
+$page = $this->page;
+
+echo "<div class='pagination'><table><tr>";
+if($page-1 > 0)
+{
+    echo "<td><a href=".$this->url(array('controller'=>'index','action'=>'index','page' => $page-1))."> Anterior </a></td>";
+}
+
+for($j=1; $j<=$numPages; $j++)
+{
+
+    if($j != $page)
+        echo "<td><a href=".$this->url(array('controller'=>'index','action'=>'index','page' => $j)).">".$j."</a></td>";
+
+    else
+    {
+        echo "<td> ".$j." </td>";
+    }
+}
+
+if($page!=$numPages)
+{
+    echo "<td><a href=".$this->url(array('controller'=>'index','action'=>'index','page' => $page+1))."> Siguiente </a></td>";
+
+}
+
+echo "</tr></table></div>";
 ?>
-</table>
-</div>
 </body>
 </html>
