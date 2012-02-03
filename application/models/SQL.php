@@ -1,7 +1,7 @@
 <?php
 
 /**
- * version 13
+ * version 13.1
  */
 
 class Application_Model_SQL
@@ -225,7 +225,8 @@ class Application_Model_SQL
      */
     public function listNews($sImageDir, $iPage)
     {
-        $iCount = $this->dbAdapter->fetchRow("SELECT COUNT(*) AS c FROM tb_news")['c'];
+        $iCount = $this->dbAdapter->fetchRow("SELECT COUNT(*) AS c FROM tb_news");
+        $iCount = $iCount['c'];;
 
         $nPages = (int)($iCount/10);
 
@@ -267,7 +268,9 @@ class Application_Model_SQL
      */
     public function newsNumber()
     {
-        $iCount = $this->dbAdapter->fetchRow("SELECT COUNT(*) AS c FROM tb_news")['c'];
+        $iCount = $this->dbAdapter->fetchRow("SELECT COUNT(*) AS c FROM tb_news");
+        $iCount = $iCount['c'];;
+
         $nPages = (int)($iCount/10);
         if(($iCount % 10) > 0)
             return $nPages+1;
