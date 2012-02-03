@@ -483,7 +483,7 @@ COPY tb_usertype (id, name) FROM stdin;
 --
 
 COPY version (version) FROM stdin;
-12
+13
 \.
 
 

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * version 12
+ * version 13
  */
 
 class Application_Model_SQL
@@ -257,6 +257,22 @@ class Application_Model_SQL
     public function listMemos($sCC)
     {
         return $this->dbAdapter->fetchAll("SELECT id, title, description FROM v_memo WHERE cc_owner='$sCC'");
+    }
+
+    /**
+     * \brief Número de noticias.
+     *
+     * @return Número de noticias en la base de datos.
+     *
+     */
+    public function newsNumber()
+    {
+        $iCount = $this->dbAdapter->fetchRow("SELECT COUNT(*) AS c FROM tb_news")['c'];
+        $nPages = (int)($iCount/10);
+        if(($iCount % 10) > 0)
+            return $nPages+1;
+        else
+            return $nPages;
     }
 
     /**
