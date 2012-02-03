@@ -1,7 +1,7 @@
 <?php
 
 /**
- * version 13.1
+ * version 14
  */
 
 class Application_Model_SQL
@@ -85,7 +85,14 @@ class Application_Model_SQL
      */
     public function insertAdmin($sCC, $sPassword, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
     {
-        $this->dbAdapter->fetchRow("SELECT * FROM f_insertadmin('$sCC', '$sPassword', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', '$sImage')");
+        try
+        {
+            $this->dbAdapter->fetchRow("SELECT * FROM f_insertadmin('$sCC', '$sPassword', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', '$sImage')");
+        }
+        catch(Exception $e)
+        {
+            echo "<span class='dberror'>No se ha podido crear el administrador. Por favor verifique que los datos son correctos.</span>";
+        }
     }
 
     /**
@@ -102,7 +109,14 @@ class Application_Model_SQL
      */
     public function insertClient($sCC, $sPassword, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
     {
-        $this->dbAdapter->fetchRow("SELECT * FROM f_insertclient('$sCC', '$sPassword', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', '$sImage')");
+        try
+        {
+            $this->dbAdapter->fetchRow("SELECT * FROM f_insertclient('$sCC', '$sPassword', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', '$sImage')");
+        }
+        catch(Exception $e)
+        {
+            echo "<span class='dberror'>No se ha podido crear el cliente. Por favor verifique que los datos son correctos.</span>";
+        }
     }
 
     /**
@@ -119,7 +133,14 @@ class Application_Model_SQL
      */
     public function insertDeveloper($sCC, $sPassword, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
     {
-        $this->dbAdapter->fetchRow("SELECT * FROM f_insertdeveloper('$sCC', '$sPassword', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', '$sImage')");
+        try
+        {
+            $this->dbAdapter->fetchRow("SELECT * FROM f_insertdeveloper('$sCC', '$sPassword', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', '$sImage')");
+        }
+        catch(Exception $e)
+        {
+            echo "<span class='dberror'>No se ha podido crear el desarrollador. Por favor verifique que los datos son correctos.</span>";
+        }
     }
 
     /**
@@ -132,7 +153,14 @@ class Application_Model_SQL
      */
     public function insertInfo($sTitle, $sDescription, $sImage = '')
     {
-        $this->dbAdapter->fetchRow("SELECT * FROM f_insertinfo('$sTitle', '$sDescription', '$sImage')");
+        try
+        {
+            $this->dbAdapter->fetchRow("SELECT * FROM f_insertinfo('$sTitle', '$sDescription', '$sImage')");
+        }
+        catch(Exception $e)
+        {
+            echo "<span class='dberror'>No se ha podido insertar la información. Por favor verifique que los datos son correctos.</span>";
+        }
     }
 
     /**
@@ -145,7 +173,14 @@ class Application_Model_SQL
      */
     public function insertMemo($sCC, $sTitle, $sDescription)
     {
-        $this->dbAdapter->fetchRow("SELECT * FROM f_insertmemo('$sCC', '$sTitle', '$sDescription')");
+        try
+        {
+            $this->dbAdapter->fetchRow("SELECT * FROM f_insertmemo('$sCC', '$sTitle', '$sDescription')");
+        }
+        catch(Exception $e)
+        {
+            echo "<span class='dberror'>No se ha podido insertar el memorando. Por favor verifique que los datos son correctos.</span>";
+        }
     }
 
     /**
@@ -159,8 +194,14 @@ class Application_Model_SQL
      */
     public function insertNews($sTitle, $sDescription, $sCCOwner, $sImage = '')
     {
-        $sImage = $sImage=="''"?$sImage:"'$sImage'";
-        $this->dbAdapter->fetchRow("SELECT * FROM f_insertnews('$sTitle', '$sDescription', '$sCCOwner', $sImage)");
+        try
+        {
+            $this->dbAdapter->fetchRow("SELECT * FROM f_insertnews('$sTitle', '$sDescription', '$sCCOwner', '$sImage')");
+        }
+        catch(Exception $e)
+        {
+            echo "<span class='dberror'>No se ha podido insertar la noticia. Por favor verifique que los datos son correctos.</span>";
+        }
     }
 
     /**
