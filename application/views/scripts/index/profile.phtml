@@ -1,0 +1,30 @@
+<html>
+<head>
+</head>
+<body>
+<div id='profile'>
+
+<?php
+
+$auth = Zend_Auth::getInstance();
+
+foreach($this->datos as $line)
+	{
+	    if($line['cc'] == $auth->getIdentity())
+		{
+		    echo "<table>
+		   ".// <td><img id='image' src='".$this->baseUrl()."/pg/img/usr/".$line['image']."'/>
+		    //</td>
+		    "<td><li id='name'>".$line['names']." ".$line['lastnames']."</li>
+		    <li id='cc'>CC: ".$line['cc']."</li>
+		    <li id='telephone'>Telphone: ".$line['telephone']."</li>
+		    <li id='movil'>Movil: ".$line['movil']."</li>
+		    </td>
+		    </tr>
+		    </table>";
+		 }
+	}
+?>
+</div>
+</body>
+</html> 

@@ -11,11 +11,44 @@ echo $this->doctype("HTML5");
     echo $this->headLink(array('rel' => 'icon', 'href' => $this->baseUrl().'/img/favicon.png','type' => 'image/x-icon'));
     $this->headTitle()->prepend('GfifDev - ');
     echo $this->headTitle();
+
     $auth = Zend_Auth::getInstance();
+    $session = new Zend_Session_Namespace('Users');
+    $sql = new Application_Model_SQL();
+
     if ( $auth->hasIdentity())
-    {
-	echo "<li>Usuario: ".$auth->getIdentity()."</li>
-	      <li><a href='".$this->url(array("controller" => "index", "action" => "logout"))."'>Logout</a>";
+	{
+	    switch ($session->type)
+		{
+		    case 1:
+
+			$datos = $sql->listAdmin();
+
+			break;
+
+		    case 2:
+
+			$datos = $sql->listClient();
+
+			break;
+
+		    case 3:
+
+			$datos = $sql->listDeveloper();
+
+			break;
+		}
+
+    foreach($datos as $line)
+	{
+	    if($line['cc'] == $auth->getIdentity())
+		{
+		    echo "<li>Perfil: <a href='".$this->url(array("controller" => "index", "action" => "profile"))."'>".$line['names']." ".$line['lastnames']."</a></li>";
+
+		 }
+	}
+
+	echo "<li><a href='".$this->url(array("controller" => "index", "action" => "logout"))."'>Logout</a>";
     }
     else
     {

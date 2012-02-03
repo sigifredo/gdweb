@@ -347,6 +347,39 @@ class IndexController extends Zend_Controller_Action
     }
 
     /**
+      * \brief action para mostrar perfiles
+      *
+      * @return N/A
+      *
+      */
+
+    public function profileAction()
+    {
+	if(!$this->auth->hasIdentity())
+	    {
+		$this->_helper->redirector('index', 'index');
+		return;
+	    }
+	switch ($this->session->type)
+	    {
+		case 1:
+
+		    $this->view->datos = $this->sql->listAdmin();
+		    break;
+
+		case 2:
+
+		    $this->view->datos = $this->sql->listClient();
+		    break;
+
+		case 3:
+
+		    $this->view->datos = $this->sql->listDeveloper();
+		    break;
+	    }
+    }
+
+    /**
        * \brief action para listar memos
        *
        * @return N/A

@@ -86,7 +86,7 @@ class WhoController extends Zend_Controller_Action
     {
         $this->view->headTitle("¿Quiénes somos?");
 
-        $info = $this->sql->listInformation();
+        $info = $this->sql->listInformation(APPLICATION_PATH."/../public/pg/img/inf");
         echo "<div id='information'>";
 
         if(!count($info)) echo "no hay info";
@@ -94,7 +94,7 @@ class WhoController extends Zend_Controller_Action
         {
             echo "<article>";
             echo "<header class='title'>".$line['title']."</header>";
-            echo "<img src='".$this->view->baseUrl()."/pg/img/inf/".$line['image']."'></img>";
+            //echo "<img src='".$this->view->baseUrl()."/pg/img/inf/".$line['image']."'/>";
             echo "<p>".$line['description']."</p>";
             echo "<div class='clear'></div></article>";
         }
@@ -117,7 +117,7 @@ class WhoController extends Zend_Controller_Action
         }
         else
 
-            $this->view->info = $this->sql->listInformation();
+            $this->view->info = $this->sql->listInformation(APPLICATION_PATH."/../public/pg/img/inf");
 
         return;
     }
@@ -191,7 +191,7 @@ class WhoController extends Zend_Controller_Action
 
         $iIdInfo = $this->getRequest()->getParam('info');
         $form = $this->updateInfoForm();
-        $datos = $this->sql->listInformation();
+        $datos = $this->sql->listInformation(APPLICATION_PATH."/../public/pg/img/inf");
 
         if(!$this->getRequest()->isPost())
         {
