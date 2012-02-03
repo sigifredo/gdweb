@@ -1,7 +1,7 @@
 <?php
 
 /**
- * version 11.1
+ * version 13
  */
 
 class Application_Model_SQL
@@ -218,13 +218,26 @@ class Application_Model_SQL
      * \brief Obtenemos una lista de noticias.
      *
      * @param $sImageDir Directorio donde se guardarán las imágenes.
+     * @param $iPage Número de página de la que se desean conocer las noticias.
      *
      * @return Lista de noticias. Cada registro está ordenado así: [id, title, description, image]
      *
      */
-    public function listNews($sImageDir)
+    public function listNews($sImageDir, $iPage)
     {
-        $r = $this->dbAdapter->fetchAll("SELECT id, title, description, image FROM tb_news");
+        $iCount = $this->dbAdapter->fetchRow("SELECT COUNT(*) AS c FROM tb_news")['c'];
+
+        $nPages = (int)($iCount/10);
+
+        $iLimit = 10;
+
+        if($iPage > $nPages)
+            $iLimit = $iCount % 10;
+
+        $iEnd = 10*$iPage;
+
+
+        $r = $this->dbAdapter->fetchAll("SELECT * FROM (SELECT id, title, description, image FROM tb_news LIMIT $iEnd) AS news ORDER BY id DESC LIMIT $iLimit");
         foreach($r as $row)
         {
             $this->dbAdapter->fetchRow("SELECT lo_export(".$row['image'].", '".$sImageDir."/".$row['image']."')");
@@ -244,6 +257,22 @@ class Application_Model_SQL
     public function listMemos($sCC)
     {
         return $this->dbAdapter->fetchAll("SELECT id, title, description FROM v_memo WHERE cc_owner='$sCC'");
+    }
+
+    /**
+     * \brief Número de noticias.
+     *
+     * @return Número de noticias en la base de datos.
+     *
+     */
+    public function newsNumber()
+    {
+        $iCount = $this->dbAdapter->fetchRow("SELECT COUNT(*) AS c FROM tb_news")['c'];
+        $nPages = (int)($iCount/10);
+        if(($iCount % 10) > 0)
+            return $nPages+1;
+        else
+            return $nPages;
     }
 
     /**
