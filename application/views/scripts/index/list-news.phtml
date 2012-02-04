@@ -28,14 +28,14 @@ $page = $this->page;
 echo "<div class='pagination'><table><tr>";
 if($page-1 > 0)
 {
-    echo "<td><a href=".$this->url(array('controller'=>'index','action'=>'index','page' => $page-1))."> Anterior </a></td>";
+    echo "<td><a href=".$this->url(array('controller'=>'index','action'=>'list-news','page' => $page-1))."> Anterior </a></td>";
 }
 
 for($j=1; $j<=$numPages; $j++)
 {
 
     if($j != $page)
-        echo "<td><a href=".$this->url(array('controller'=>'index','action'=>'index','page' => $j)).">".$j."</a></td>";
+        echo "<td><a href=".$this->url(array('controller'=>'index','action'=>'list-news','page' => $j)).">".$j."</a></td>";
 
     else
     {
@@ -45,7 +45,7 @@ for($j=1; $j<=$numPages; $j++)
 
 if($page!=$numPages)
 {
-    echo "<td><a href=".$this->url(array('controller'=>'index','action'=>'index','page' => $page+1))."> Siguiente </a></td>";
+    echo "<td><a href=".$this->url(array('controller'=>'index','action'=>'list-news','page' => $page+1))."> Siguiente </a></td>";
 
 }
 

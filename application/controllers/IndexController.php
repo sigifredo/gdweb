@@ -10,6 +10,7 @@ class IndexController extends Zend_Controller_Action
 
     private $sql=null;
 
+
     /**
       * \brief Contruye las variables de la clase
       *
@@ -23,6 +24,7 @@ class IndexController extends Zend_Controller_Action
         $this->session=new Zend_Session_Namespace('Users');
         $this->form = $this->loginForm();
         $this->auth = Zend_Auth::getInstance();
+
     }
 
     /**
@@ -240,8 +242,7 @@ class IndexController extends Zend_Controller_Action
         }
         if(!$this->_hasParam('page'))
         {
-            $this->view->page = '1';
-            $this->view->news = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news",$this->view->page);
+            $this->_helper->redirector->gotoUrl('/index/index/page/1');
         }
         $this->view->page = $this->_getParam('page');
         $this->view->news = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news",$this->view->page);
@@ -563,8 +564,9 @@ class IndexController extends Zend_Controller_Action
         }
         if(!$this->_hasParam('page'))
         {
-            $this->_helper->_redirect($this->url(array('controller'=>'index','action'=>'index','page' => '1')));
+            $this->_helper->redirector->gotoUrl('/index/list-news/page/1');
         }
+
         $this->view->page = $this->_getParam('page');
         $this->view->news = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news",$this->view->page);
         return;
