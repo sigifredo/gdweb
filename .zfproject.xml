@@ -22,6 +22,9 @@
         <controllerFile controllerName="User">
           <actionMethod actionName="index"/>
         </controllerFile>
+        <controllerFile controllerName="Proyects">
+          <actionMethod actionName="index"/>
+        </controllerFile>
       </controllersDirectory>
       <formsDirectory enabled="false"/>
       <layoutsDirectory>
@@ -49,6 +52,9 @@
             <viewScriptFile forActionName="createUser"/>
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="User">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Proyects">
             <viewScriptFile forActionName="index"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>

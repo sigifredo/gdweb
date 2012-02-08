@@ -206,40 +206,6 @@ class IndexController extends Zend_Controller_Action
         {
             echo $this->form;
         }
-        elseif( $this->session->type == '1')
-        {
-            echo "<div id='adminMenu' class='menu'>
-
-            <div>
-            <span>Cuentas</span>
-            <ul>
-            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create-user','usr'=>'1')).">Crear Cuenta Administrador</a><br>
-            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create-user','usr'=>'2')).">Crear Cuenta Cliente</a><br>
-            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create-user','usr'=>'3')).">Crear Cuenta Desarrollador</a><br>
-            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','usr'=>'1')).">Editar Cuenta Administrador</a><br>
-            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','usr'=>'2')).">Editar Cuenta Cliente</a><br>
-            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','usr'=>'3')).">Editar Cuenta Desarrollador</a><br>
-            </ul>
-            </div>
-
-            <div>
-            <span>Noticias</span>
-            <ul>
-            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-news')).">Crear Noticia</a><br>
-            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-news')).">Editar Noticia</a><br>
-            </ul>
-            </div>
-
-            <div>
-            <span>Memorandos</span>
-            <ul>
-            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-memo')).">Crear Memorando</a><br>
-            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-memo', 'typememo'=>'edit')).">Editar Memorando</a><br>
-            </ul>
-            </div>
-            </div>";
-
-        }
         if(!$this->_hasParam('page'))
         {
             $this->_helper->redirector->gotoUrl('/index/index/page/1');
@@ -356,13 +322,43 @@ class IndexController extends Zend_Controller_Action
             $this->_helper->redirector('index', 'index');
             return;
         }
+        elseif( $this->session->type == '1')
+        {
+            echo "<div id='adminMenu' class='menu'>
+
+            <div>
+            <span>Cuentas</span>
+            <ul>
+            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create-user','usr'=>'1')).">Crear Cuenta Administrador</a><br>
+            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create-user','usr'=>'2')).">Crear Cuenta Cliente</a><br>
+            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create-user','usr'=>'3')).">Crear Cuenta Desarrollador</a><br>
+            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','usr'=>'1')).">Editar Cuenta Administrador</a><br>
+            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','usr'=>'2')).">Editar Cuenta Cliente</a><br>
+            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','usr'=>'3')).">Editar Cuenta Desarrollador</a><br>
+            </ul>
+            </div>
+
+            <div>
+            <span>Noticias</span>
+            <ul>
+            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-news')).">Crear Noticia</a><br>
+            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-news')).">Editar Noticia</a><br>
+            </ul>
+            </div>
+
+            <div>
+            <span>Memorandos</span>
+            <ul>
+            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-memo')).">Crear Memorando</a><br>
+            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-memo', 'typememo'=>'edit')).">Editar Memorando</a><br>
+            </ul>
+            </div>
+            </div>";
+            $this->view->datos = $this->sql->listAdmin();
+        }
+
         switch ($this->session->type)
         {
-        case 1:
-
-            $this->view->datos = $this->sql->listAdmin();
-            break;
-
         case 2:
 
             $this->view->datos = $this->sql->listClient();
@@ -373,6 +369,24 @@ class IndexController extends Zend_Controller_Action
             $this->view->datos = $this->sql->listDeveloper();
             break;
         }
+        if((!$this->_hasParam('memo')) && ($this->session->type != '2'))
+        {
+            echo "<a href=".$this->view->url(array('controller'=>'index', 'action'=>'profile', 'memo'=>'list')).">Ver Mis Memorandos</a>";
+            return;
+        }
+
+        if((!count($this->sql->listMemos($this->session->user))) && ($this->session->type != '2'))
+        {
+            echo "<h3>El Usuario No Tiene Memorandos</h3>";
+            return;
+        }
+        if(($this->_hasParam('memo')=='list') && ($this->session->type != '2'))
+        {
+            $this->view->memo = true;
+            $this->view->listmemos = $this->sql->listMemos($this->session->user);
+            return;
+        }
+
     }
 
     /**
@@ -424,7 +438,6 @@ class IndexController extends Zend_Controller_Action
         }
         else
         {
-
             $this->view->memos = 0;
 
             return;

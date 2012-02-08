@@ -3,8 +3,8 @@
 </head>
 <body>
 
-        <?php
-        $sql = new Application_Model_SQL();
+<?php
+$sql = new Application_Model_SQL();
 
 if($this->memos == 1)
 {
@@ -24,7 +24,7 @@ if($this->memos == 1)
         <td><a href=".$this->url(array('controller'=>'index', 'action'=>'delete-memo','memo'=>$line['id'])).">Borrar</a></td>
         </tr>";
     }
-    echo "</table>"
+    echo "</table>";
 }
 elseif($this->memos == 0)
 {

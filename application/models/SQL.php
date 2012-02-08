@@ -204,6 +204,10 @@ class Application_Model_SQL
         }
     }
 
+    public function insertProyect($sName, $sDescription, $sImage, $sCCCliente)
+    {
+    }
+
     /**
      * \brief Obtenemos la lista de los usuarios con el rol de administradores.
      *
@@ -317,6 +321,24 @@ class Application_Model_SQL
             return $nPages+1;
         else
             return $nPages;
+    }
+
+    /**
+     *
+     * @return [id, name, description, image]
+     *
+     */
+    public function listOpenSourceProyects()
+    {
+    }
+
+    /**
+     *
+     * @return [id, name, description, image]
+     *
+     */
+    public function listProyects($sCCCliente = '')
+    {
     }
 
     /**
