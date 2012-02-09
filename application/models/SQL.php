@@ -204,7 +204,10 @@ class Application_Model_SQL
         }
     }
 
-    public function insertProyect($sName, $sDescription, $sImage, $sCCCliente)
+    /**
+     * el tipo es 1 opensource, 2 privado
+     */
+    public function insertProyect($sName, $sDescription, $sImage, $sCCCliente, $iType)
     {
     }
 
@@ -334,7 +337,7 @@ class Application_Model_SQL
 
     /**
      *
-     * @return [id, name, description, image]
+     * @return [id, name, description, type, image]
      *
      */
     public function listProyects($sCCCliente = '')
