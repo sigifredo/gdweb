@@ -24,7 +24,6 @@ class IndexController extends Zend_Controller_Action
         $this->session=new Zend_Session_Namespace('Users');
         $this->form = $this->loginForm();
         $this->auth = Zend_Auth::getInstance();
-
     }
 
     /**
@@ -353,6 +352,14 @@ class IndexController extends Zend_Controller_Action
             <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-memo', 'typememo'=>'edit')).">Editar Memorando</a><br>
             </ul>
             </div>
+
+            <div>
+            <span>Proyectos</span>
+            <ul>
+            <a href=".$this->view->url(array('controller'=>'products', 'action'=>'create-proyect')).">Crear Proyecto</a><br>
+            <a href=".$this->view->url(array('controller'=>'products', 'action'=>'list-proyect')).">Editar proyecto</a><br>
+            </ul>
+            </div>
             </div>";
             $this->view->datos = $this->sql->listAdmin();
         }
@@ -367,6 +374,20 @@ class IndexController extends Zend_Controller_Action
         case 3:
 
             $this->view->datos = $this->sql->listDeveloper();
+            echo "<h4>Proyectos:</h4>";
+            foreach($this->sql->listProyects($this->session->user) as $line)
+            {
+                echo "
+                <table>
+                <tr>
+                <td>".$line['name']."</td>
+                </tr>
+                <tr>
+                <td>".$line['description']."</td>
+                </tr>
+                </table>
+                </div>";
+            };
             break;
         }
         if((!$this->_hasParam('memo')) && ($this->session->type != '2'))

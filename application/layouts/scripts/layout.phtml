@@ -66,7 +66,7 @@ echo $this->doctype("HTML5");
     <li><a href="<?php echo $this->url(array("controller" => "products", "action" => "index")); ?>">Productos</a></li>
     <li><a href="<?php echo $this->url(array("controller" => "services", "action" => "index")); ?>">Servicios</a></li>
     <li>Entrenamiento</li>
-    <li>Open Source</li>
+    <li><a href="<?php echo $this->url(array("controller" => "opensource", "action" => "index")); ?>">Open Source</a></li>
     <li>Contáctenos</li>
   </ul>
     <div id="content"><?php echo $this->layout()->content; ?><div class="clear"></div></div>

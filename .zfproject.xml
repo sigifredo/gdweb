@@ -25,6 +25,12 @@
         <controllerFile controllerName="Proyects">
           <actionMethod actionName="index"/>
         </controllerFile>
+        <controllerFile controllerName="Proyect">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Opensource">
+          <actionMethod actionName="index"/>
+        </controllerFile>
       </controllersDirectory>
       <formsDirectory enabled="false"/>
       <layoutsDirectory>
@@ -55,6 +61,12 @@
             <viewScriptFile forActionName="index"/>
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Proyects">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Proyect">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Opensource">
             <viewScriptFile forActionName="index"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
