@@ -202,16 +202,9 @@ class IndexController extends Zend_Controller_Action
         $this->view->headTitle("Inicio");
 
         if(!$this->auth->hasIdentity())
-        {
             echo $this->form;
-        }
-        if(!$this->_hasParam('page'))
-        {
-            $this->_helper->redirector->gotoUrl('/index/index/page/1');
-        }
-        $this->view->page = $this->_getParam('page');
-        $this->view->news = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news",$this->view->page);
-        return;
+
+        $this->view->news = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news", $this->view->page = ($this->_hasParam('page')?$this->_getParam('page'):1));
     }
 
     /**
@@ -308,115 +301,11 @@ class IndexController extends Zend_Controller_Action
     }
 
     /**
-      * \brief action para mostrar perfiles
-      *
-      * @return N/A
-      *
-      */
-
-    public function profileAction()
-    {
-        if(!$this->auth->hasIdentity())
-        {
-            $this->_helper->redirector('index', 'index');
-            return;
-        }
-        elseif( $this->session->type == '1')
-        {
-            echo "<div id='adminMenu' class='menu'>
-
-            <div>
-            <span>Cuentas</span>
-            <ul>
-            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create-user','usr'=>'1')).">Crear Cuenta Administrador</a><br>
-            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create-user','usr'=>'2')).">Crear Cuenta Cliente</a><br>
-            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create-user','usr'=>'3')).">Crear Cuenta Desarrollador</a><br>
-            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','usr'=>'1')).">Editar Cuenta Administrador</a><br>
-            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','usr'=>'2')).">Editar Cuenta Cliente</a><br>
-            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','usr'=>'3')).">Editar Cuenta Desarrollador</a><br>
-            </ul>
-            </div>
-
-            <div>
-            <span>Noticias</span>
-            <ul>
-            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-news')).">Crear Noticia</a><br>
-            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-news')).">Editar Noticia</a><br>
-            </ul>
-            </div>
-
-            <div>
-            <span>Memorandos</span>
-            <ul>
-            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-memo')).">Crear Memorando</a><br>
-            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-memo', 'typememo'=>'edit')).">Editar Memorando</a><br>
-            </ul>
-            </div>
-
-            <div>
-            <span>Proyectos</span>
-            <ul>
-            <a href=".$this->view->url(array('controller'=>'products', 'action'=>'create-proyect')).">Crear Proyecto</a><br>
-            <a href=".$this->view->url(array('controller'=>'products', 'action'=>'list-proyect')).">Editar proyecto</a><br>
-            </ul>
-            </div>
-            </div>";
-            $this->view->datos = $this->sql->listAdmin();
-        }
-
-        switch ($this->session->type)
-        {
-        case 2:
-
-            $this->view->datos = $this->sql->listClient();
-            break;
-
-        case 3:
-
-            $this->view->datos = $this->sql->listDeveloper();
-            echo "<h4>Proyectos:</h4>";
-            foreach($this->sql->listProyects($this->session->user) as $line)
-            {
-                echo "
-                <table>
-                <tr>
-                <td>".$line['name']."</td>
-                </tr>
-                <tr>
-                <td>".$line['description']."</td>
-                </tr>
-                </table>
-                </div>";
-            };
-            break;
-        }
-        if((!$this->_hasParam('memo')) && ($this->session->type != '2'))
-        {
-            echo "<a href=".$this->view->url(array('controller'=>'index', 'action'=>'profile', 'memo'=>'list')).">Ver Mis Memorandos</a>";
-            return;
-        }
-
-        if((!count($this->sql->listMemos($this->session->user))) && ($this->session->type != '2'))
-        {
-            echo "<h3>El Usuario No Tiene Memorandos</h3>";
-            return;
-        }
-        if(($this->_hasParam('memo')=='list') && ($this->session->type != '2'))
-        {
-            $this->view->memo = true;
-            $this->view->listmemos = $this->sql->listMemos($this->session->user);
-            return;
-        }
-
-    }
-
-    /**
-       * \brief action para listar memos
-       *
-       * @return N/A
-       *
-       */
-
+     * \brief action para listar memos
+     *
+     * @return N/A
+     *
+     */
     public function listMemoAction()
     {
         if ((!$this->auth->hasIdentity()) || ($this->session->type == '2'))
@@ -596,14 +485,10 @@ class IndexController extends Zend_Controller_Action
             $this->_helper->redirector('index', 'index');
             return;
         }
-        if(!$this->_hasParam('page'))
-        {
-            $this->_helper->redirector->gotoUrl('/index/list-news/page/1');
-        }
-
-        $this->view->page = $this->_getParam('page');
-        $this->view->news = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news",$this->view->page);
-        return;
+        if($this->_hasParam('page'))
+            $this->view->news = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news", $this->_getParam('page'));
+        else
+            $this->view->news = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news", 1);
     }
 
     /**
@@ -738,20 +623,6 @@ class IndexController extends Zend_Controller_Action
 
         $this->sql->deleteNews($iIdNews);
 
-        $this->_helper->redirector('index', 'index');
-        return;
-    }
-
-    /**
-     * \brief action para borrar session
-     *
-     * @return N/A
-     *
-     */
-
-    public function logoutAction()
-    {
-        Zend_Auth::getInstance()->clearIdentity();
         $this->_helper->redirector('index', 'index');
         return;
     }

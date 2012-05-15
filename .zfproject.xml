@@ -21,6 +21,8 @@
         </controllerFile>
         <controllerFile controllerName="User">
           <actionMethod actionName="index"/>
+          <actionMethod actionName="profile"/>
+          <actionMethod actionName="logout"/>
         </controllerFile>
         <controllerFile controllerName="Proyects">
           <actionMethod actionName="index"/>
@@ -74,6 +76,12 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="News">
             <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="User">
+            <viewScriptFile forActionName="profile"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="User">
+            <viewScriptFile forActionName="logout"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

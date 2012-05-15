@@ -43,16 +43,16 @@ echo $this->doctype("HTML5");
 	{
 	    if($line['cc'] == $auth->getIdentity())
 		{
-		    echo "<li>Perfil: <a href='".$this->url(array("controller" => "index", "action" => "profile"))."'>".$line['names']." ".$line['lastnames']."</a></li>";
+		    echo "<li>Perfil: <a href='".$this->url(array("controller" => "user", "action" => "profile"))."'>".$line['names']." ".$line['lastnames']."</a></li>";
 
 		 }
 	}
 
-	echo "<li><a href='".$this->url(array("controller" => "index", "action" => "logout"))."'>Logout</a>";
+	echo "<li><a href='".$this->url(array("controller" => "user", "action" => "logout"))."'>Logout</a>";
     }
     else
     {
-	echo "<li><a href='".$this->url(array("controller" => "index", "action" => "login"))."'>Login</a>";
+	echo "<li><a href='".$this->url(array("controller" => "user", "action" => "login"))."'>Login</a>";
     }
 
   ?>

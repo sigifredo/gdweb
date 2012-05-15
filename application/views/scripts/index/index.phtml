@@ -1,9 +1,3 @@
-<html>
-<head>
-</head>
-<body>
-
-
 <?php
 
 echo "<div id='news'>";
@@ -12,8 +6,10 @@ if(!count($this->news)) echo "<h3>No news</h3>";
 
 foreach($this->news as $line)
 {
-    if($i%2 == 0) echo "<article class='artr'>";
-    else echo "<article class='artl'>";
+    if($i%2 == 0)
+        echo "<article class='artr'>";
+    else
+        echo "<article class='artl'>";
 
     echo "<table>
     <tr>
@@ -50,22 +46,13 @@ for($j=1; $j<=$numPages; $j++)
 
     if($j != $page)
         echo "<td><a href=".$this->url(array('controller'=>'index','action'=>'index','page' => $j)).">".$j."</a></td>";
-
     else
-    {
         echo "<td> ".$j." </td>";
-    }
 }
 
-if($page!=$numPages)
-{
+if($page != $numPages)
     echo "<td><a href=".$this->url(array('controller'=>'index','action'=>'index','page' => $page+1))."> Siguiente </a></td>";
-
-}
 
 echo "</tr></table></div>";
 
 ?>
-
-</body>
-</html>
