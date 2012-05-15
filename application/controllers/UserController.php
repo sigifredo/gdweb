@@ -29,8 +29,6 @@ class UserController extends Zend_Controller_Action
      *
      * @return Formulario a action createUser
      *
-     *
-     *
      */
     public function createUserForm()
     {
@@ -115,23 +113,16 @@ class UserController extends Zend_Controller_Action
      *
      * @return N/A
      *
-     *
-     *
      */
     public function createUserAction()
     {
-        if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
-        {
+        if(!$this->auth->hasIdentity() || $this->session->type != '1')
             $this->_helper->redirector('index', 'index');
-            return;
-        }
-        if(!$this->_hasParam('usr'))
-        {
-            $this->_helper->redirector('index', 'index');
-            return;
-        }
 
-        $iUserType = $this->getRequest()->getParam('usr');
+        if(!$this->_hasParam('type'))
+            $this->_helper->redirector('user', 'profile');
+
+        $iUserType = $this->getRequest()->getParam('type');
 
         $form = $this->createUserForm();
 
@@ -184,15 +175,12 @@ class UserController extends Zend_Controller_Action
         }
 
         $this->_helper->redirector('index', 'index');
-        return;
     }
 
     /**
      * \brief action para modificar usuario
      *
      * @return N/A
-     *
-     *
      *
      */
     public function updateUserAction()
@@ -343,7 +331,6 @@ class UserController extends Zend_Controller_Action
      *
      * @return N/A
      *
-     *
      */
     public function profileAction()
     {
@@ -352,19 +339,20 @@ class UserController extends Zend_Controller_Action
             $this->_helper->redirector('index', 'index');
             return;
         }
-        elseif( $this->session->type == '1')
+
+        if($this->session->type == '1')
         {
             echo "<div id='adminMenu' class='menu'>
 
             <div>
             <span>Cuentas</span>
             <ul>
-            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create-user','usr'=>'1')).">Crear Cuenta Administrador</a><br>
-            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create-user','usr'=>'2')).">Crear Cuenta Cliente</a><br>
-            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create-user','usr'=>'3')).">Crear Cuenta Desarrollador</a><br>
-            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','usr'=>'1')).">Editar Cuenta Administrador</a><br>
-            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','usr'=>'2')).">Editar Cuenta Cliente</a><br>
-            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','usr'=>'3')).">Editar Cuenta Desarrollador</a><br>
+            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create-user','type'=>'1')).">Crear Cuenta Administrador</a><br>
+            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create-user','type'=>'2')).">Crear Cuenta Cliente</a><br>
+            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create-user','type'=>'3')).">Crear Cuenta Desarrollador</a><br>
+            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','type'=>'1')).">Editar Cuenta Administrador</a><br>
+            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','type'=>'2')).">Editar Cuenta Cliente</a><br>
+            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','type'=>'3')).">Editar Cuenta Desarrollador</a><br>
             </ul>
             </div>
 
