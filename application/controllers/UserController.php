@@ -12,10 +12,6 @@ class UserController extends Zend_Controller_Action
     /**
      * \brief Contruye las variables de la clase
      *
-     * @return N/A
-     *
-     *
-     *
      */
     public function init()
     {
@@ -25,51 +21,36 @@ class UserController extends Zend_Controller_Action
     }
 
     /**
-     * \brief Formulario para modificar usuario
-     *
-     * @return Formulario a action updateUser
-     *
-     *
+     * \brief action para listar usuarios
      *
      */
-    public function updateUserForm()
+    public function listUserAction()
     {
-        $form=new Zend_Form;
-        $form->setAttrib('class','updateusr');
-        $form->setAction($this->view->url(array("controller" => "user", "action" => "update-user")))->setMethod('post');
+        if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
+            $this->_helper->redirector('index', 'index');
 
-        $image = new Zend_Form_Element_File('updateuser');
-        $image->setLabel('Load the image')
-        ->setDestination(APPLICATION_PATH."/../public/img/usr/")
-        ->setMaxFileSize(2097152); // limits the filesize on the client side
-        $image->addValidator('Count', false, 1);                // ensure only 1 file
-        $image->addValidator('Size', false, 2097152);            // limit to 2 meg
-        $image->addValidator('Extension', false, 'jpg,jpeg,png,gif');// only JPEG, PNG, and GIFs
+        if(!$this->_hasParam('type'))
+            $this->_helper->redirector('index', 'index');
 
-        $form->addElement($image);
+        $iUserType = $this->getRequest()->getParam('type');
+        $this->view->userType = $iUserType;
 
-        $form->addElement('text','names',array('label'=>'Names','required'=>true,'filter'=>'StringToLower','validator'=>'alfa','validator'=>'StringLength',false,array(4,25)));
-
-        $form->addElement('text','lastnames',array('label'=>'Last Names','required'=>true,'filter'=>'StringToLower','validator'=>'alfa','validator'=>'StringLength',false,array(4,25)));
-
-        $form->addElement('password','newpassword',array('label'=>'New Password','validator'=>'StringLength',false,array(6,40)));
-
-        $form->addElement('password','verifypassword',array('label'=>'Verify Password','validator'=>'StringLength',false,array(6,40)));
-
-        $form->addElement('text','telephone',array('label'=>'Telephone','validator'=>'digits','validator'=>'StringLength',false,array(0,7)));
-
-        $form->addElement('text','movil',array('label'=>'Movil','validator'=>'digits','validator'=>'StringLength',false,array(0,10)));
-
-        $form->addElement('submit','update',array('label'=>'Update'));
-
-        return $form;
-
+        switch ($iUserType)
+        {
+            case 1:
+                $this->view->user = $this->sql->listAdmin();
+                break;
+            case 2:
+                $this->view->user = $this->sql->listClient();
+                break;
+            case 3:
+                $this->view->user = $this->sql->listDeveloper();
+                break;
+        }
     }
 
     /**
      * \brief action para crear usuario
-     *
-     * @return N/A
      *
      */
     public function createUserAction()
@@ -140,127 +121,87 @@ class UserController extends Zend_Controller_Action
     /**
      * \brief action para modificar usuario
      *
-     * @return N/A
-     *
      */
     public function updateUserAction()
     {
         if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
-        {
             $this->_helper->redirector('index', 'index');
-            return;
-        }
-        if(!$this->_hasParam('usr'))
-        {
+        if(!$this->_hasParam('type'))
             $this->_helper->redirector('index', 'index');
-            return;
-        }
         if(!$this->_hasParam('cc'))
-        {
             $this->_helper->redirector('list-user', 'index');
-            return;
-        }
 
-        $iUserType = $this->getRequest()->getParam('usr');
+        $iUserType = $this->getRequest()->getParam('type');
         $iCCUser = $this->getRequest()->getParam('cc');
 
-        $form = $this->updateUserForm();
+        $form = new UpdateUserForm();
+        $form->setAction($this->view->url(array("controller" => "user", "action" => "update-user")))->setMethod('post');
 
         if(!$this->getRequest()->isPost())
         {
             echo "<h4 id='infusr'>Nuevos Datos De Usuario</h4>";
 
-
             switch ($iUserType)
             {
-            case 1:
-
-                $datos = $this->sql->listAdmin();
-
-                break;
-
-            case 2:
-
-                $datos = $this->sql->listClient();
-
-                break;
-
-            case 3:
-
-                $datos = $this->sql->listDeveloper();
-
-                break;
+                case 1:
+                    $datos = $this->sql->listAdmin();
+                    break;
+                case 2:
+                    $datos = $this->sql->listClient();
+                    break;
+                case 3:
+                    $datos = $this->sql->listDeveloper();
+                    break;
             }
 
             foreach($datos as $line)
-            {
                 if($line['cc'] == $iCCUser)
-                {
                     echo $form->populate($line);
-
-                }
-
-            }
-
-            return;
-        }
-
-        if(!$form->isValid($this->_getAllParams()))
-        {
-            echo $form;
-            return;
-        }
-
-        $values = $form->getValues();
-
-        if(isset($values['updateusr']))
-        {
-            $image = APPLICATION_PATH."/../public/img/usr/".$form->user->getFileName(null,false);
         }
         else
         {
-            $image = '';
-        }
-
-        if(isset($values['newpassword']))
-        {
-
-            if($values['newpassword'] != $values['verifypassword'])
-            {
-                echo "La contraseña no coincide";
+            if(!$form->isValid($this->_getAllParams()))
                 echo $form;
-                return;
+            else
+            {    
+                $values = $form->getValues();
+
+                if(isset($values['updateusr']))
+                    $image = APPLICATION_PATH."/../public/img/usr/".$form->user->getFileName(null,false);
+                else
+                    $image = '';
+
+                if(isset($values['newpassword']))
+                {
+                    if($values['newpassword'] != $values['verifypassword'])
+                    {
+                        echo "La contraseña no coincide";
+                        echo $form;
+                        return;
+                    }
+                    else
+                        $this->sql->updatePassword($iCCUser, sha1($values['newpassword']));
+                }
+
+                switch ($iUserType)
+                {
+                    case 1:
+                        $this->sql->updateAdmin($iCCUser,$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
+                        break;
+                    case 2:
+                        $this->sql->updateClient($iCCUser,$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
+                        break;
+                    case 3:
+                        $this->sql->updateDeveloper($iCCUser,$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
+                        break;
+                }
+                $this->_helper->redirector('user', 'profile');
             }
-            $this->sql->updatePassword($iCCUser,sha1($values['newpassword']));
         }
-
-        switch ($iUserType)
-        {
-        case 1:
-
-            $this->sql->updateAdmin($iCCUser,$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
-            break;
-
-        case 2:
-
-            $this->sql->updateClient($iCCUser,$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
-            break;
-
-        case 3:
-
-            $this->sql->updateDeveloper($iCCUser,$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
-            break;
-        }
-        $this->_helper->redirector('index', 'index');
-        return;
     }
 
     /**
      * \brief action para borrar usuario
-     *
-     * @return N/A
-     *
-     *
      *
      */
     public function deleteUserAction()
@@ -289,8 +230,6 @@ class UserController extends Zend_Controller_Action
     /**
      * \brief action para mostrar perfiles
      *
-     * @return N/A
-     *
      */
     public function profileAction()
     {
@@ -310,9 +249,9 @@ class UserController extends Zend_Controller_Action
             <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create-user','type'=>'1')).">Crear Cuenta Administrador</a><br>
             <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create-user','type'=>'2')).">Crear Cuenta Cliente</a><br>
             <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create-user','type'=>'3')).">Crear Cuenta Desarrollador</a><br>
-            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','type'=>'1')).">Editar Cuenta Administrador</a><br>
-            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','type'=>'2')).">Editar Cuenta Cliente</a><br>
-            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-user','type'=>'3')).">Editar Cuenta Desarrollador</a><br>
+            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'list-user','type'=>'1')).">Editar Cuenta Administrador</a><br>
+            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'list-user','type'=>'2')).">Editar Cuenta Cliente</a><br>
+            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'list-user','type'=>'3')).">Editar Cuenta Desarrollador</a><br>
             </ul>
             </div>
 
@@ -391,8 +330,6 @@ class UserController extends Zend_Controller_Action
 
     /**
      * \brief action para borrar session
-     *
-     * @return N/A
      *
      */
     public function logoutAction()

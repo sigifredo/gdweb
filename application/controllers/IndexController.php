@@ -195,8 +195,6 @@ class IndexController extends Zend_Controller_Action
      * @return N/A
      *
      */
-
-
     public function indexAction()
     {
         $this->view->headTitle("Inicio");
@@ -208,56 +206,11 @@ class IndexController extends Zend_Controller_Action
     }
 
     /**
-       * \brief action para listar usuarios
-       *
-       * @return N/A
-       *
-       */
-
-    public function listUserAction()
-    {
-        if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
-        {
-            $this->_helper->redirector('index', 'index');
-            return;
-        }
-
-        if(!$this->_hasParam('usr'))
-        {
-            $this->_helper->redirector('index', 'index');
-            return;
-        }
-
-        $iUserType = $this->getRequest()->getParam('usr');
-        $this->view->userType = $iUserType;
-
-        switch ($iUserType)
-        {
-        case 1:
-
-            $this->view->user = $this->sql->listAdmin();
-            break;
-
-        case 2:
-
-            $this->view->user = $this->sql->listClient();
-            break;
-
-        case 3:
-
-            $this->view->user = $this->sql->listDeveloper();
-            break;
-        }
-        return;
-    }
-
-    /**
      * \brief action para auntenticacion del usuario
      *
      * @return N/A
      *
      */
-
     public function loginAction()
     {
         if(!$this->getRequest()->isPost())
