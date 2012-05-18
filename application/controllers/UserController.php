@@ -25,48 +25,6 @@ class UserController extends Zend_Controller_Action
     }
 
     /**
-     * \brief Formulario para crear usuario
-     *
-     * @return Formulario a action createUser
-     *
-     */
-    public function createUserForm()
-    {
-        $form=new Zend_Form;
-        $form->setAttrib('class','createuser');
-        $form->setAction($this->view->url(array("controller" => "user", "action" => "create-user")))
-        ->setMethod('post');
-
-        $image = new Zend_Form_Element_File('user');
-        $image->setLabel('Load the image')
-        ->setDestination(APPLICATION_PATH."/../public/img/usr/")
-        ->setMaxFileSize(2097152); // limits the filesize on the client side
-        $image->addValidator('Count', false, 1);                // ensure only 1 file
-        $image->addValidator('Size', false, 2097152);            // limit to 2 meg
-        $image->addValidator('Extension', false, 'jpg,jpeg,png,gif');// only JPEG, PNG, and GIFs
-
-        $form->addElement($image);
-
-        $form->addElement('text','cc',array('label'=>'CC','required'=>true,'validator'=>'StringLength',false,array(6,10),'validator'=>'alnum'));
-
-        $form->addElement('password','password',array('label'=>'Password','validator'=>'StringLength',false,array(6,40)));
-
-        $form->addElement('password','verifypassword',array('label'=>'Verify Password','validator'=>'StringLength',false,array(6,40)));
-
-        $form->addElement('text','names',array('label'=>'Names','required'=>true,'filter'=>'StringToLower','validator'=>'alfa','validator'=>'StringLength',false,array(4,25)));
-
-        $form->addElement('text','lastnames',array('label'=>'Last Names','required'=>true,'filter'=>'StringToLower','validator'=>'alfa','validator'=>'StringLength',false,array(4,25)));
-
-        $form->addElement('text','telephone',array('label'=>'Telephone','validator'=>'digits','validator'=>'StringLength',false,array(0,7)));
-
-        $form->addElement('text','movil',array('label'=>'Movil','validator'=>'digits','validator'=>'StringLength',false,array(0,10)));
-
-        $form->addElement('submit','create',array('label'=>'Create'));
-
-        return $form;
-    }
-
-    /**
      * \brief Formulario para modificar usuario
      *
      * @return Formulario a action updateUser
@@ -124,7 +82,9 @@ class UserController extends Zend_Controller_Action
 
         $iUserType = $this->getRequest()->getParam('type');
 
-        $form = $this->createUserForm();
+        $form = new CreateUserForm();
+        $form->setAction($this->view->url(array("controller" => "user", "action" => "create-user")))
+             ->setMethod('post');
 
         if(!$this->getRequest()->isPost())
         {
