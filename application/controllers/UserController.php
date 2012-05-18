@@ -258,7 +258,7 @@ class UserController extends Zend_Controller_Action
             <div>
             <span>Noticias</span>
             <ul>
-            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-news')).">Crear Noticia</a><br>
+            <a href=".$this->view->url(array('controller'=>'news', 'action'=>'create-news')).">Crear Noticia</a><br>
             <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-news')).">Editar Noticia</a><br>
             </ul>
             </div>

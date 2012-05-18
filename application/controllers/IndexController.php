@@ -14,10 +14,7 @@ class IndexController extends Zend_Controller_Action
     /**
       * \brief Contruye las variables de la clase
       *
-      * @return N/A
-      *
       */
-
     public function init()
     {
         $this->sql = new Application_Model_SQL();
@@ -27,47 +24,11 @@ class IndexController extends Zend_Controller_Action
     }
 
     /**
-     * \brief Formulario para crear noticia
-     *
-     * @return Formulario a action createNews
-     *
-     */
-
-    public function createNewsForm()
-    {
-        $form=new Zend_Form;
-        $form->setAttrib('class','createnews');
-        $form->setAction($this->view->url(array("controller" => "index", "action" => "create-news")))
-        ->setMethod('post');
-
-        $image = new Zend_Form_Element_File('image');
-        $image->setLabel('Load the image')
-        ->setDestination(APPLICATION_PATH."/../public/img/news/")
-        ->setMaxFileSize(2097152); // limits the filesize on the client side
-        $image->addValidator('Count', false, 1);                // ensure only 1 file
-        $image->addValidator('Size', false, 2097152);            // limit to 2 meg
-        $image->addValidator('Extension', false, 'jpg,jpeg,png,gif');// only JPEG, PNG, and GIFs
-
-
-
-        $form->addElement($image);
-
-        $form->addElement('text','title',array('label'=>'Title','required'=>true,'validator'=>'StringLength',false,array(1,20),'validator'=>'alnum'));
-
-        $form->addElement('textarea','description',array('label'=>'Description','required'=>true));
-
-        $form->addElement('submit','create',array('label'=>'Create'));
-
-        return $form;
-    }
-
-    /**
      * \brief Formulario para modificar noticias
      *
      * @return Formulario a action updateNews
      *
      */
-
     public function updateNewsForm()
     {
         $form=new Zend_Form;
@@ -445,58 +406,9 @@ class IndexController extends Zend_Controller_Action
     }
 
     /**
-     * \brief action para crear noticia
-     *
-     * @return N/A
-     *
-     */
-
-    public function createNewsAction()
-    {
-        if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
-        {
-            $this->_helper->redirector('index', 'index');
-            return;
-        }
-        $form = $this->createNewsForm();
-
-        if(!$this->getRequest()->isPost())
-        {
-            echo "<h4 id='infnews'>Datos De Noticia</h4>";
-            echo $form;
-            return;
-        }
-        if(!$form->isValid($this->_getAllParams()))
-        {
-            echo $form;
-            return;
-        }
-        $values = $form->getValues();
-
-        if(isset($values['image']))
-        {
-            $image = APPLICATION_PATH."/../public/img/news/".$form->image->getFileName(null,false);
-
-        }
-        else
-        {
-            $image = '';
-        }
-
-        $this->sql->insertNews($values['title'],$values['description'],$this->session->user,$image);
-
-        $this->_helper->redirector('index', 'index');
-        return;
-    }
-
-
-    /**
      * \brief action para modificar noticia
      *
-     * @return N/A
-     *
      */
-
     public function updateNewsAction()
     {
         if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
