@@ -3,10 +3,13 @@
 class NewsController extends Zend_Controller_Action
 {
     private $auth = null;
+    private $session = null;
+    private $sql = null;
 
     public function init()
     {
-        $this->session=new Zend_Session_Namespace('Users');
+        $this->sql = new Application_Model_SQL();
+        $this->session = new Zend_Session_Namespace('Users');
         $this->auth = Zend_Auth::getInstance();
     }
 
@@ -19,7 +22,7 @@ class NewsController extends Zend_Controller_Action
      * \brief action para crear noticia
      *
      */
-    public function createNewsAction()
+    public function createAction()
     {
         if((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
             $this->_helper->redirector('index', 'index');
@@ -51,4 +54,19 @@ class NewsController extends Zend_Controller_Action
             $this->_helper->redirector('index', 'index');
         }
     }
+
+    /**
+     * \brief action para listar noticias
+     *
+     */
+    public function listAction()
+    {
+        if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
+            $this->_helper->redirector('index', 'index');
+        if($this->_hasParam('page'))
+            $this->view->news = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news", $this->_getParam('page'));
+        else
+            $this->view->news = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news", 1);
+    }
+
 }

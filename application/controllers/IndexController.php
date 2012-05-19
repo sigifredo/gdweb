@@ -3,12 +3,9 @@
 class IndexController extends Zend_Controller_Action
 {
     private $session = null;
-
     private $auth = null;
-
     private $form = null;
-
-    private $sql=null;
+    private $sql = null;
 
 
     /**
@@ -18,7 +15,7 @@ class IndexController extends Zend_Controller_Action
     public function init()
     {
         $this->sql = new Application_Model_SQL();
-        $this->session=new Zend_Session_Namespace('Users');
+        $this->session = new Zend_Session_Namespace('Users');
         $this->form = $this->loginForm();
         $this->auth = Zend_Auth::getInstance();
     }
@@ -382,27 +379,6 @@ class IndexController extends Zend_Controller_Action
 
         $this->_helper->redirector('index', 'index');
         return;
-    }
-
-
-    /**
-       * \brief action para listar noticias
-       *
-       * @return N/A
-       *
-       */
-
-    public function listNewsAction()
-    {
-        if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
-        {
-            $this->_helper->redirector('index', 'index');
-            return;
-        }
-        if($this->_hasParam('page'))
-            $this->view->news = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news", $this->_getParam('page'));
-        else
-            $this->view->news = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news", 1);
     }
 
     /**
