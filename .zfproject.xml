@@ -35,6 +35,9 @@
         <controllerFile controllerName="News">
           <actionMethod actionName="index"/>
         </controllerFile>
+        <controllerFile controllerName="Memo">
+          <actionMethod actionName="index"/>
+        </controllerFile>
       </controllersDirectory>
       <formsDirectory enabled="false"/>
       <layoutsDirectory>
@@ -78,6 +81,9 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="User">
             <viewScriptFile forActionName="logout"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Memo">
+            <viewScriptFile forActionName="index"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
