@@ -24,7 +24,7 @@ class UserController extends Zend_Controller_Action
      * \brief action para listar usuarios
      *
      */
-    public function listUserAction()
+    public function listAction()
     {
         if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
             $this->_helper->redirector('index', 'index');
@@ -53,7 +53,7 @@ class UserController extends Zend_Controller_Action
      * \brief action para crear usuario
      *
      */
-    public function createUserAction()
+    public function createAction()
     {
         if(!$this->auth->hasIdentity() || $this->session->type != '1')
             $this->_helper->redirector('index', 'index');
@@ -64,7 +64,7 @@ class UserController extends Zend_Controller_Action
         $iUserType = $this->getRequest()->getParam('type');
 
         $form = new CreateUserForm();
-        $form->setAction($this->view->url(array("controller" => "user", "action" => "create-user")))
+        $form->setAction($this->view->url(array("controller" => "user", "action" => "create")))
              ->setMethod('post');
 
         if(!$this->getRequest()->isPost())
@@ -89,30 +89,21 @@ class UserController extends Zend_Controller_Action
         }
 
         if(isset($values['user']))
-        {
             $image = APPLICATION_PATH."/../public/img/usr/".$form->user->getFileName(null,false);
-        }
         else
-        {
             $image = '';
-        }
 
         switch ($iUserType)
         {
-        case 1:
-
-            $this->sql->insertAdmin($values['cc'],sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
-            break;
-
-        case 2:
-
-            $this->sql->insertClient($values['cc'],sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
-            break;
-
-        case 3:
-
-            $this->sql->insertDeveloper($values['cc'],sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
-            break;
+            case 1:
+                $this->sql->insertAdmin($values['cc'],sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
+                break;
+            case 2:
+                $this->sql->insertClient($values['cc'],sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
+                break;
+            case 3:
+                $this->sql->insertDeveloper($values['cc'],sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
+                break;
         }
 
         $this->_helper->redirector('index', 'index');
@@ -122,20 +113,20 @@ class UserController extends Zend_Controller_Action
      * \brief action para modificar usuario
      *
      */
-    public function updateUserAction()
+    public function updateAction()
     {
         if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
             $this->_helper->redirector('index', 'index');
         if(!$this->_hasParam('type'))
             $this->_helper->redirector('index', 'index');
         if(!$this->_hasParam('cc'))
-            $this->_helper->redirector('list-user', 'index');
+            $this->_helper->redirector('list', 'index');
 
         $iUserType = $this->getRequest()->getParam('type');
         $iCCUser = $this->getRequest()->getParam('cc');
 
         $form = new UpdateUserForm();
-        $form->setAction($this->view->url(array("controller" => "user", "action" => "update-user")))->setMethod('post');
+        $form->setAction($this->view->url(array("controller" => "user", "action" => "update")))->setMethod('post');
 
         if(!$this->getRequest()->isPost())
         {
@@ -204,27 +195,21 @@ class UserController extends Zend_Controller_Action
      * \brief action para borrar usuario
      *
      */
-    public function deleteUserAction()
+    public function deleteAction()
     {
         if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
-        {
             $this->_helper->redirector('index', 'index');
-            return;
-        }
-
-        if(!$this->_hasParam('cc'))
+        else
         {
-            $this->_helper->redirector('list-user', 'index');
-            return;
+            if(!$this->_hasParam('cc'))
+                $this->_helper->redirector('list', 'index');
+            else
+            {
+                $iCCUser = $this->getRequest()->getParam('cc');
+                $this->sql->deleteUser($iCCUser);
+                $this->_helper->redirector('index', 'index');
+            }
         }
-
-        $iCCUser = $this->getRequest()->getParam('cc');
-
-        $this->sql->deleteUser($iCCUser);
-
-        $this->_helper->redirector('index', 'index');
-
-        return;
     }
 
     /**
@@ -246,12 +231,12 @@ class UserController extends Zend_Controller_Action
             <div>
             <span>Cuentas</span>
             <ul>
-            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create-user','type'=>'1')).">Crear Cuenta Administrador</a><br>
-            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create-user','type'=>'2')).">Crear Cuenta Cliente</a><br>
-            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create-user','type'=>'3')).">Crear Cuenta Desarrollador</a><br>
-            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'list-user','type'=>'1')).">Editar Cuenta Administrador</a><br>
-            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'list-user','type'=>'2')).">Editar Cuenta Cliente</a><br>
-            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'list-user','type'=>'3')).">Editar Cuenta Desarrollador</a><br>
+            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create','type'=>'1')).">Crear Cuenta Administrador</a><br>
+            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create','type'=>'2')).">Crear Cuenta Cliente</a><br>
+            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create','type'=>'3')).">Crear Cuenta Desarrollador</a><br>
+            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'list','type'=>'1')).">Editar Cuenta Administrador</a><br>
+            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'list','type'=>'2')).">Editar Cuenta Cliente</a><br>
+            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'list','type'=>'3')).">Editar Cuenta Desarrollador</a><br>
             </ul>
             </div>
 
