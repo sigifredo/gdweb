@@ -15,7 +15,6 @@ class NewsController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        // action body
     }
 
     /**
@@ -29,7 +28,7 @@ class NewsController extends Zend_Controller_Action
         else
         {
             $form = new CreateNewsForm();
-            $form->setAction($this->view->url(array("controller" => "index", "action" => "create-news")))
+            $form->setAction($this->view->url(array("controller" => "news", "action" => "create")))
                  ->setMethod('post');
 
             if(!$this->getRequest()->isPost())
@@ -67,6 +66,55 @@ class NewsController extends Zend_Controller_Action
             $this->view->news = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news", $this->_getParam('page'));
         else
             $this->view->news = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news", 1);
+    }
+
+    /**
+     * \brief action para modificar noticia
+     *
+     */
+    public function updateAction()
+    {
+        if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
+        {
+            $this->_helper->redirector('index', 'index');
+            return;
+        }
+
+        if(!$this->_hasParam('news'))
+        {
+            $this->_helper->redirector('list', 'index');
+            return;
+        }
+
+        $iIdNews = $this->getRequest()->getParam('news');
+        $form = new UpdateNewsForm();
+        $form->setAction($this->view->url(array("controller" => "index", "action" => "update")))
+             ->setMethod('post');
+        $datos = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news",1);
+
+        if(!$this->getRequest()->isPost())
+        {
+            echo "<h4 id='infnews'>Nuevos Datos De Noticia</h4>";
+            foreach($datos as $line)
+                if($line['id'] == $iIdNews)
+                    echo $form->populate($line);
+            return;
+        }
+        if(!$form->isValid($this->_getAllParams()))
+        {
+            echo $form;
+            return;
+        }
+        $values = $form->getValues();
+
+        if(isset($values['image']))
+            $image = APPLICATION_PATH."/../public/img/news/".$form->image->getFileName(null,false);
+        else
+            $image = '';
+
+        $this->sql->updateNews($iIdNews,$values['title'],$values['description'],$image);
+
+        $this->_helper->redirector('index', 'index');
     }
 
 }

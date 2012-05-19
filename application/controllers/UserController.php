@@ -4,9 +4,7 @@ class UserController extends Zend_Controller_Action
 {
 
     private $session = null;
-
     private $auth = null;
-
     private $sql = null;
 
     /**
