@@ -43,7 +43,6 @@ if($page-1 > 0)
 
 for($j=1; $j<=$numPages; $j++)
 {
-
     if($j != $page)
         echo "<td><a href=".$this->url(array('controller'=>'index','action'=>'index','page' => $j)).">".$j."</a></td>";
     else
