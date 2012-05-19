@@ -20,58 +20,11 @@ class IndexController extends Zend_Controller_Action
     }
 
     /**
-     * \brief Formulario para listar memos
-     *
-     * @return Formulario a action listMemo
-     *
-     */
-
-    public function listMemoForm()
-    {
-        $form=new Zend_Form;
-        $form->setAttrib('class','listmemo');
-        $form->setAction($this->view->url(array("controller" => "index", "action" => "list-memo")))
-        ->setMethod('post');
-
-        $form->addElement('text','user',array('label'=>'Usuario','required'=>true,'filter'=>'StringToLower','validator'=>'StringLength',false,array(6,10),'validator'=>'alnum','validator'=>'regex', false, array('/^[a-z]+/')));
-
-        $form->addElement('submit','Enviar',array('label'=>'Enviar'));
-
-        return $form;
-    }
-
-    /**
-     * \brief Formulario para crear memo
-     *
-     * @return Formulario a action createMemo
-     *
-     */
-
-    public function createMemoForm()
-    {
-        $form=new Zend_Form;
-        $form->setAttrib('class','creatememo');
-        $form->setAction($this->view->url(array("controller" => "index", "action" => "create-memo")))
-        ->setMethod('post');
-
-        $form->addElement('text','user',array('label'=>'Usuario','required'=>true,'filter'=>'StringToLower','validator'=>'StringLength',false,array(6,10),'validator'=>'alnum','validator'=>'regex', false, array('/^[a-z]+/')));
-
-        $form->addElement('text','title',array('label'=>'Title','required'=>true,'validator'=>'StringLength',false,array(1,20),'validator'=>'alnum'));
-
-        $form->addElement('textarea','description',array('label'=>'Description','required'=>true));
-
-        $form->addElement('submit','create',array('label'=>'Create'));
-
-        return $form;
-    }
-
-    /**
      * \brief Formulario para modificar memos
      *
      * @return Formulario a action updateMemo
      *
      */
-
     public function updateMemoForm()
     {
         $form=new Zend_Form;
@@ -231,47 +184,9 @@ class IndexController extends Zend_Controller_Action
     }
 
     /**
-     * \brief action para crear memo
-     *
-     * @return N/A
-     *
-     */
-
-    public function createMemoAction()
-    {
-        if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
-        {
-            $this->_helper->redirector('index', 'index');
-            return;
-        }
-        $form = $this->createMemoForm();
-
-        if(!$this->getRequest()->isPost())
-        {
-            echo "<h4 id='infnews'>Datos De Memorando</h4>";
-            echo $form;
-            return;
-        }
-        if(!$form->isValid($this->_getAllParams()))
-        {
-            echo $form;
-            return;
-        }
-        $values = $form->getValues();
-
-        $this->sql->insertMemo($values['user'],$values['title'],$values['description']);
-
-        $this->_helper->redirector('index', 'index');
-        return;
-    }
-
-    /**
      * \brief action para modificar memos
      *
-     * @return N/A
-     *
      */
-
     public function updateMemoAction()
     {
         if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))

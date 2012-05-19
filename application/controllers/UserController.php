@@ -18,6 +18,11 @@ class UserController extends Zend_Controller_Action
         $this->auth = Zend_Auth::getInstance();
     }
 
+    public function indexAction()
+    {
+        $this->_helper->redirector('profile', 'user');
+    }
+
     /**
      * \brief action para listar usuarios
      *
@@ -249,8 +254,8 @@ class UserController extends Zend_Controller_Action
             <div>
             <span>Memorandos</span>
             <ul>
-            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'create-memo')).">Crear Memorando</a><br>
-            <a href=".$this->view->url(array('controller'=>'index', 'action'=>'list-memo', 'typememo'=>'edit')).">Editar Memorando</a><br>
+            <a href=".$this->view->url(array('controller'=>'memo', 'action'=>'create')).">Crear Memorando</a><br>
+            <a href=".$this->view->url(array('controller'=>'memo', 'action'=>'list', 'typememo'=>'edit')).">Editar Memorando</a><br>
             </ul>
             </div>
 
