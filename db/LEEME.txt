@@ -11,16 +11,15 @@ $ createdb gfifdev --owner=gdadmin
 $ psql -U gdadmin gfifdev < [archivo .sql que contiene la base de datos]
 
 
+# Si ocurre algún error:
 # editamos el archivo pg_hba.conf para dar permisos a nuestro usuario
 $ vim /etc/postgresql/9.1/main/pg_hba.conf
 # añadimos la siguiente linea
-	# TYPE  DATABASE        USER            ADDRESS                 METHOD
-	local   all             all                                     trust
 
 # cambiamos la siguiente linea
-	host    all             all             127.0.0.1/32            md5 
+local   all             postgres                                peer
 # por
-	host    all             all             127.0.0.1/32            trust
+local   all             postgres                                md5
 
 # reiniciamos postgres como root
 $ sudo /etc/init.d/postgresql restart
