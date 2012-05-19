@@ -7,7 +7,6 @@ class IndexController extends Zend_Controller_Action
     private $form = null;
     private $sql = null;
 
-
     /**
       * \brief Contruye las variables de la clase
       *
@@ -342,31 +341,6 @@ class IndexController extends Zend_Controller_Action
         $iIdMemo = $this->getRequest()->getParam('memo');
 
         $this->sql->deleteMemo($iIdMemo);
-
-        $this->_helper->redirector('index', 'index');
-        return;
-    }
-
-    /**
-     * \brief action para borrar noticia
-     *
-     */
-    public function deleteNewsAction()
-    {
-        if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
-        {
-            $this->_helper->redirector('index', 'index');
-            return;
-        }
-        if(!$this->_hasParam('news'))
-        {
-            $this->_helper->redirector('list-news', 'index');
-            return;
-        }
-
-        $iIdNews = $this->getRequest()->getParam('news');
-
-        $this->sql->deleteNews($iIdNews);
 
         $this->_helper->redirector('index', 'index');
         return;

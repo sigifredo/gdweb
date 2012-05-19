@@ -55,6 +55,30 @@ class NewsController extends Zend_Controller_Action
     }
 
     /**
+     * \brief action para borrar noticia
+     *
+     */
+    public function deleteAction()
+    {
+        if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
+        {
+            $this->_helper->redirector('index', 'index');
+            return;
+        }
+        if(!$this->_hasParam('news'))
+        {
+            $this->_helper->redirector('list', 'index');
+            return;
+        }
+
+        $iIdNews = $this->getRequest()->getParam('news');
+
+        $this->sql->deleteNews($iIdNews);
+
+        $this->_helper->redirector('index', 'index');
+    }
+
+    /**
      * \brief action para listar noticias
      *
      */
