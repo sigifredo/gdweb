@@ -15,7 +15,6 @@ class IndexController extends Zend_Controller_Action
     {
         $this->sql = new Application_Model_SQL();
         $this->session = new Zend_Session_Namespace('Users');
-        $this->form = $this->loginForm();
         $this->auth = Zend_Auth::getInstance();
     }
 
@@ -42,30 +41,6 @@ class IndexController extends Zend_Controller_Action
     }
 
     /**
-     * \brief Formulario para autenticar el usuario.
-     *
-     * @return Formulario a action login
-     *
-     */
-
-    public function loginForm()
-    {
-        $form=new Zend_Form;
-        $form->setAttrib('class','login');
-        $form->setAction($this->view->url(array("controller" => "index", "action" => "login")))
-        ->setMethod('post');
-
-        $form->addElement('text','user',array('label'=>'User','required'=>true,'filter'=>'StringToLower','validator'=>'StringLength',false,array(6,10),'validator'=>'alnum','validator'=>'regex', false, array('/^[a-z]+/')));
-
-        $form->addElement('password','password',array('label'=>'Password','required'=>true,'validator'=>'StringLength',false,array(6,40)));
-
-        $form->addElement('submit','login',array('label'=>'Login'));
-
-        return $form;
-    }
-
-
-    /**
      * \brief action para noticias e ingreso de usuario
      *
      * @return N/A
@@ -75,58 +50,7 @@ class IndexController extends Zend_Controller_Action
     {
         $this->view->headTitle("Inicio");
 
-        if(!$this->auth->hasIdentity())
-            echo $this->form;
-
         $this->view->news = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news", $this->view->page = ($this->_hasParam('page')?$this->_getParam('page'):1));
-    }
-
-    /**
-     * \brief action para auntenticacion del usuario
-     *
-     * @return N/A
-     *
-     */
-    public function loginAction()
-    {
-        if(!$this->getRequest()->isPost())
-        {
-            echo $this->form;
-            return;
-        }
-        if(!$this->form->isValid($this->_getAllParams()))
-        {
-            echo $this->form;
-            return;
-        }
-
-        $values = $this->form->getValues();
-
-        $sCCUser=$values['user'];
-        $sPassword=sha1($values['password']);
-
-        $authAdapter = $this->sql->getAuthDbTable('tb_user','cc','password');
-
-        $authAdapter->setIdentity($sCCUser);
-        $authAdapter->setCredential($sPassword);
-
-        $result = $this->auth->authenticate($authAdapter);
-
-        $this->session->type=$this->sql->userType($sCCUser, $sPassword);
-        $this->session->user=$sCCUser;
-
-        if(!$result->isValid())
-        {
-
-            if($this->session->type==null)
-            {
-                echo "<h4 id='error' class='login'>El usuario o la contraseña no coincide</h4>";
-                echo $this->form;
-            }
-        }
-        else
-            $this->_helper->redirector('index', 'index');
-        return;
     }
 
     /**

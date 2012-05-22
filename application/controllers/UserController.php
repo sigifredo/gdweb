@@ -10,6 +10,7 @@ class UserController extends Zend_Controller_Action
     /**
      * \brief Contruye las variables de la clase
      *
+     *
      */
     public function init()
     {
@@ -25,6 +26,7 @@ class UserController extends Zend_Controller_Action
 
     /**
      * \brief action para listar usuarios
+     *
      *
      */
     public function listAction()
@@ -115,6 +117,7 @@ class UserController extends Zend_Controller_Action
     /**
      * \brief action para modificar usuario
      *
+     *
      */
     public function updateAction()
     {
@@ -197,6 +200,7 @@ class UserController extends Zend_Controller_Action
     /**
      * \brief action para borrar usuario
      *
+     *
      */
     public function deleteAction()
     {
@@ -217,6 +221,7 @@ class UserController extends Zend_Controller_Action
 
     /**
      * \brief action para mostrar perfiles
+     *
      *
      */
     public function profileAction()
@@ -317,7 +322,7 @@ class UserController extends Zend_Controller_Action
     }
 
     /**
-     * \brief action para borrar session
+     * \brief action para cerrar session.
      *
      */
     public function logoutAction()
@@ -325,4 +330,56 @@ class UserController extends Zend_Controller_Action
         Zend_Auth::getInstance()->clearIdentity();
         $this->_helper->redirector('index', 'index');
     }
+
+    /**
+     * \brief action para auntenticacion del usuario
+     *
+     */
+    public function loginAction()
+    {
+        $form = new LoginForm();
+        $form->setAction($this->view->url(array("controller" => "user", "action" => "login")))
+             ->setMethod('post');
+
+        if(!$this->getRequest()->isPost())
+        {
+            echo $form;
+
+            return;
+        }
+        if(!$form->isValid($this->_getAllParams()))
+        {
+            echo $form;
+            return;
+        }
+
+        $values = $form->getValues();
+
+        $sCCUser = $values['user'];
+        $sPassword = sha1($values['password']);
+
+        $authAdapter = $this->sql->getAuthDbTable('tb_user','cc','password');
+
+        $authAdapter->setIdentity($sCCUser);
+        $authAdapter->setCredential($sPassword);
+
+        $result = $this->auth->authenticate($authAdapter);
+
+        $this->session->type=$this->sql->userType($sCCUser, $sPassword);
+        $this->session->user=$sCCUser;
+
+        if(!$result->isValid())
+        {
+
+            if($this->session->type==null)
+            {
+                echo "<h4 id='error' class='login'>El usuario o la contraseña no coincide</h4>";
+                echo $form;
+            }
+        }
+        else
+            $this->_helper->redirector('index', 'index');
+        return;
+    }
+
 }
