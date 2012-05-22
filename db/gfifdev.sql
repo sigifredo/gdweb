@@ -25,6 +25,26 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 SET search_path = public, pg_catalog;
 
 --
+-- Name: f_delete_user_image(); Type: FUNCTION; Schema: public; Owner: gdadmin
+--
+
+CREATE FUNCTION f_delete_user_image() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+BEGIN
+IF OLD.file <> 20382 THEN
+    PERFORM lo_unlink(OLD.file);
+END IF;
+
+RETURN NULL;
+END;
+$$;
+
+
+ALTER FUNCTION public.f_delete_user_image() OWNER TO gdadmin;
+
+--
 -- Name: f_insertadmin(character varying, character varying, character varying, character varying, character varying, character varying, character varying); Type: FUNCTION; Schema: public; Owner: gdadmin
 --
 
@@ -389,28 +409,28 @@ ALTER TABLE public.version OWNER TO gdadmin;
 -- Name: id; Type: DEFAULT; Schema: public; Owner: gdadmin
 --
 
-ALTER TABLE tb_info ALTER COLUMN id SET DEFAULT nextval('tb_info_id_seq'::regclass);
+ALTER TABLE ONLY tb_info ALTER COLUMN id SET DEFAULT nextval('tb_info_id_seq'::regclass);
 
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: gdadmin
 --
 
-ALTER TABLE tb_memo ALTER COLUMN id SET DEFAULT nextval('tb_memo_id_seq'::regclass);
+ALTER TABLE ONLY tb_memo ALTER COLUMN id SET DEFAULT nextval('tb_memo_id_seq'::regclass);
 
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: gdadmin
 --
 
-ALTER TABLE tb_news ALTER COLUMN id SET DEFAULT nextval('tb_news_id_seq'::regclass);
+ALTER TABLE ONLY tb_news ALTER COLUMN id SET DEFAULT nextval('tb_news_id_seq'::regclass);
 
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: gdadmin
 --
 
-ALTER TABLE tb_usertype ALTER COLUMN id SET DEFAULT nextval('tb_usertype_id_seq'::regclass);
+ALTER TABLE ONLY tb_usertype ALTER COLUMN id SET DEFAULT nextval('tb_usertype_id_seq'::regclass);
 
 
 --
@@ -553,6 +573,13 @@ ALTER TABLE ONLY tb_user
 
 ALTER TABLE ONLY tb_usertype
     ADD CONSTRAINT tb_usertype_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: t_delete_user_image; Type: TRIGGER; Schema: public; Owner: gdadmin
+--
+
+CREATE TRIGGER t_delete_user_image AFTER DELETE ON tb_user FOR EACH ROW EXECUTE PROCEDURE f_delete_user_image();
 
 
 --
