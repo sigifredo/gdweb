@@ -9,7 +9,7 @@ class CreateUserForm extends Zend_Form
 
         $image = new Zend_Form_Element_File('user');
         $image->setLabel('Load the image')
-              ->setDestination(APPLICATION_PATH."/../public/img/usr/")
+              ->setDestination(GD3W_PATH."/img/usr/")
               ->setMaxFileSize(2097152); // limits the filesize on the client side
         $image->addValidator('Count', false, 1);                // ensure only 1 file
         $image->addValidator('Size', false, 2097152);            // limit to 2 meg
