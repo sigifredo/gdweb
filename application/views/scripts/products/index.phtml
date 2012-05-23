@@ -1,37 +1,37 @@
-<html>
-<head>
-</head>
-<body>
-
+<div id='proyect'>
 <?php
-echo "<div id='proyect'>";
+
 $i=1;
-if(!count($this->proyect)) echo "<h3>No Proyects</h3>";
-
-foreach($this->proyect as $line)
+if(!count($this->proyect))
+    echo "<h3>No Proyects</h3>";
+else
 {
-    if($i%2 == 0) echo "<article class='artr'>";
-    else echo "<article class='artl'>";
-
-    echo "<table>
-    <tr>
-    <td>
-    <header class='name'>".$line['name']."</header>
-    </td>
-    </tr>
-    <tr>
-    <td>
-    <img class='image' src='".$this->baseUrl()."/pg/img/proy/".$line['image']."'/>
-    </td>
-    <td>
-    <p class='description'>".$line['description']."</p>
-    </td>
-    </tr>
-    </table>
-    </article>";
-    $i++;
-}
-echo "</div>";
+    foreach($this->proyect as $line)
+    {
+        if($i%2 == 0)
+            echo "<article class='artr'>";
+        else
+            echo "<article class='artl'>";
 ?>
-</body>
-</html>
+  <table>
+    <tr>
+      <td>
+        <header class='name'><?php echo $line['name']; ?></header>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <img class='image' src='<?php echo $this->baseUrl()."/pg/img/proy/".$line['image']; ?>'/>
+      </td>
+      <td>
+        <p class='description'><?php echo $line['description']; ?></p>
+      </td>
+    </tr>
+  </table>
+</article>
+<?php
+        $i++;
+    }
+}
+?>
+</div>
