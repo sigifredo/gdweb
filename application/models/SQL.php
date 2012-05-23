@@ -457,6 +457,19 @@ class Application_Model_SQL
     }
 
     /**
+     * \brief Obtenemos los datos de un usuario.
+     *
+     * @param $sCC Cédula del usuario.
+     *
+     * @return Datos del usuario ordenados así: [cc, names, lastnames, telephone, movil, id_usertype]
+     *
+     */
+    public function user($sCC)
+    {
+        return $this->dbAdapter->fetchRow("SELECT cc, names, lastnames, telephone, movil, id_usertype FROM tb_user WHERE activated=TRUE AND cc='$sCC'");
+    }
+
+    /**
      * \brief Obtenemos el tipo de usuario (nombre) con base en el identificador.
      * Cada tipo de usuario tiene un nombre y un identificador único.
      * Ejemplo: Nombre 'Desarrollador', identificador 3

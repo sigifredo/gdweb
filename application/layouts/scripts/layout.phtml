@@ -4,6 +4,7 @@ echo $this->doctype("HTML5");
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!--     <script type="application/x-javascript" src="main.php"></script> -->
   <?php
     echo $this->headMeta();
     echo $this->headScript();
@@ -12,64 +13,40 @@ echo $this->doctype("HTML5");
     $this->headTitle()->prepend('GfifDev - ');
     echo $this->headTitle();
 
-    $auth = Zend_Auth::getInstance();
-    $session = new Zend_Session_Namespace('Users');
-    $sql = new Application_Model_SQL();
-
-    if ( $auth->hasIdentity())
-	{
-	    switch ($session->type)
-		{
-		    case 1:
-
-			$datos = $sql->listAdmin();
-
-			break;
-
-		    case 2:
-
-			$datos = $sql->listClient();
-
-			break;
-
-		    case 3:
-
-			$datos = $sql->listDeveloper();
-
-			break;
-		}
-
-    foreach($datos as $line)
-	{
-	    if($line['cc'] == $auth->getIdentity())
-		{
-		    echo "<li>Perfil: <a href='".$this->url(array("controller" => "user", "action" => "profile"))."'>".$line['names']." ".$line['lastnames']."</a></li>";
-
-		 }
-	}
-
-	echo "<li><a href='".$this->url(array("controller" => "user", "action" => "logout"))."'>Logout</a>";
-    }
-    else
-    {
-	echo "<li><a href='".$this->url(array("controller" => "user", "action" => "login"))."'>Login</a>";
-    }
-
-  ?>
-<!--     <script type="application/x-javascript" src="main.php"></script> -->
+?>
   </head>
   <body>
+
+<?php
+
+    $auth = Zend_Auth::getInstance();
+    $session = new Zend_Session_Namespace('Users');
+
+    if($auth->hasIdentity())
+    {
+        $sql = new Application_Model_SQL();
+        $datos = $sql->user($auth->getIdentity());
+
+        echo "<div id=\"\">Perfil: <a href='".$this->url(array("controller" => "user", "action" => "profile"))."'>".$datos['names']." ".$datos['lastnames']."</a></div>";
+        echo "<div id=\"\"><a href='".$this->url(array("controller" => "user", "action" => "logout"))."'>Logout</a></div>";
+    }
+    else
+        echo "<div id=\"\"><a href='".$this->url(array("controller" => "user", "action" => "login"))."'>Login</a></div>";
+
+?>
+
     <header id="hdppal"></header>
-  <ul id="menu">
-    <li><a href="<?php echo $this->url(array("controller" => "index", "action" => "index")); ?>">Inicio</a></li>
-    <li><a href="<?php echo $this->url(array("controller" => "who", "action" => "index")); ?>">¿Quiénes somos?</a></li>
-    <li><a href="<?php echo $this->url(array("controller" => "products", "action" => "index")); ?>">Productos</a></li>
-    <li><a href="<?php echo $this->url(array("controller" => "services", "action" => "index")); ?>">Servicios</a></li>
-    <li>Entrenamiento</li>
-    <li><a href="<?php echo $this->url(array("controller" => "opensource", "action" => "index")); ?>">Open Source</a></li>
-    <li>Contáctenos</li>
-  </ul>
-    <div id="content"><?php echo $this->layout()->content; ?><div class="clear"></div></div>
+    <ul id="menu">
+      <li><a href="<?php echo $this->url(array("controller" => "index", "action" => "index")); ?>">Inicio</a></li>
+      <li><a href="<?php echo $this->url(array("controller" => "who", "action" => "index")); ?>">¿Quiénes somos?</a></li>
+      <li><a href="<?php echo $this->url(array("controller" => "products", "action" => "index")); ?>">Productos</a></li>
+      <li><a href="<?php echo $this->url(array("controller" => "services", "action" => "index")); ?>">Servicios</a></li>
+      <li>Entrenamiento</li>
+      <li><a href="<?php echo $this->url(array("controller" => "opensource", "action" => "index")); ?>">Open Source</a></li>
+      <li>Contáctenos</li>
+    </ul>
+    <div id="content"><?php echo $this->layout()->content; ?></div>
+    <div class="clear"></div>
     <footer id="ftppal">Copyright © 2011 GfifDev S.A.S. Todos los derechos reservados.</footer>
   </body>
 </html>
