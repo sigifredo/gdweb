@@ -7,6 +7,9 @@ defined('APPLICATION_PATH')
 defined('GD3W_PATH')
 || define('GD3W_PATH', "/tmp/gdweb/www");
 
+defined('GDPG_PATH')
+|| define('GDPG_PATH', "/tmp/gdweb/pg");
+
 // Define application environment
 defined('APPLICATION_ENV')
 || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'development'));
