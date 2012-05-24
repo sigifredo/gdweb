@@ -200,7 +200,6 @@ class UserController extends Zend_Controller_Action
     /**
      * \brief action para borrar usuario
      *
-     *
      */
     public function deleteAction()
     {
@@ -221,7 +220,6 @@ class UserController extends Zend_Controller_Action
 
     /**
      * \brief action para mostrar perfiles
-     *
      *
      */
     public function profileAction()
@@ -267,7 +265,7 @@ class UserController extends Zend_Controller_Action
             <div>
             <span>Proyectos</span>
             <ul>
-            <a href=".$this->view->url(array('controller'=>'products', 'action'=>'create-proyect')).">Crear Proyecto</a><br>
+            <a href=".$this->view->url(array('controller'=>'products', 'action'=>'create')).">Crear Proyecto</a><br>
             <a href=".$this->view->url(array('controller'=>'products', 'action'=>'list-proyect')).">Editar proyecto</a><br>
             </ul>
             </div>

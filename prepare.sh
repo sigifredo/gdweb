@@ -15,6 +15,8 @@ echo "Creando carpeta usr..."
 mkdir -p /tmp/gdweb/www/img/usr
 echo "Creando carpeta news..."
 mkdir -p /tmp/gdweb/www/img/news
+echo "Creando carpeta proy..."
+mkdir -p /tmp/gdweb/www/img/proy
 echo "Creando carpeta asignando permisos..."
 chown -R www-data.www-data /tmp/gdweb/www
 
