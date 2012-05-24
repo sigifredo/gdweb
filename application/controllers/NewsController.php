@@ -15,6 +15,7 @@ class NewsController extends Zend_Controller_Action
 
     public function indexAction()
     {
+        $this->_helper->redirector('index', 'index');
     }
 
     /**
@@ -87,9 +88,9 @@ class NewsController extends Zend_Controller_Action
         if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
             $this->_helper->redirector('index', 'index');
         if($this->_hasParam('page'))
-            $this->view->news = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news", $this->_getParam('page'));
+            $this->view->news = $this->sql->listNews("/mg/news", $this->_getParam('page'));
         else
-            $this->view->news = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news", 1);
+            $this->view->news = $this->sql->listNews("/mg/news", 1);
     }
 
     /**

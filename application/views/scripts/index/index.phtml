@@ -3,7 +3,7 @@
 
 $i=1;
 if(!count($this->news))
-    echo "<h3>No news</h3>";
+    echo "<h3>No hay noticias.</h3>";
 else
 {
 
@@ -14,21 +14,21 @@ else
         else
             echo "<article class='artl'>";
 ?>
-<table>
-  <tr>
-    <td>
-      <header class='title'><?php echo $line['title']; ?></header>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <img class='image' src='<?php echo $this->baseUrl()."/pg/img/news/".$line['image']; ?>'./>
-    </td>
-    <td>
-      <p class='description'><?php echo $line['description']; ?></p>
-    </td>
-  </tr>
-</table>
+  <table>
+    <tr>
+      <td>
+        <header class='title'><?php echo $line['title']; ?></header>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <img class='image' src='<?php echo $this->baseUrl()."/pg/img/news/".$line['image']; ?>'./>
+      </td>
+      <td>
+        <p class='description'><?php echo $line['description']; ?></p>
+      </td>
+    </tr>
+  </table>
 </article>
 <?php
         $i++;

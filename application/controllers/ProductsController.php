@@ -5,7 +5,7 @@ class ProductsController extends Zend_Controller_Action
 
     private $session = null;
     private $auth = null;
-    private $sql=null;
+    private $sql = null;
 
     /**
      * \brief Contruye las variables de la clase

@@ -274,9 +274,8 @@ class Application_Model_SQL
     }
 
     /**
-     * \brief Obtenemos una lista de noticias.
+     * \brief Obtenemos una lista de noticias. Las imagenes de estas se guardan automaticamente en GDPG_PATH/img/news
      *
-     * @param $sImageDir Directorio donde se guardarán las imágenes.
      * @param $iPage Número de página de la que se desean conocer las noticias.
      *
      * @return Lista de noticias. Cada registro está ordenado así: [id, title, description, image]
@@ -285,7 +284,7 @@ class Application_Model_SQL
     public function listNews($sImageDir, $iPage)
     {
         $iCount = $this->dbAdapter->fetchRow("SELECT COUNT(*) AS c FROM tb_news");
-        $iCount = $iCount['c'];;
+        $iCount = $iCount['c'];
 
         $nPages = (int)($iCount/10);
 
@@ -299,10 +298,8 @@ class Application_Model_SQL
 
         $r = $this->dbAdapter->fetchAll("SELECT * FROM (SELECT id, title, description, image FROM tb_news LIMIT $iEnd) AS news ORDER BY id DESC LIMIT $iLimit");
         foreach($r as $row)
-        {
-            $this->dbAdapter->fetchRow("SELECT lo_export(".$row['image'].", '".$sImageDir."/".$row['image']."')");
-            $row['image'] = getcwd()."/img/news/".$row['id'];
-        }
+            $this->dbAdapter->fetchRow("SELECT lo_export(".$row['image'].", '".GDPG_PATH."/img/news/".$row['image']."')");
+
         return $r;
     }
 
