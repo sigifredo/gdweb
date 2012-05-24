@@ -7,7 +7,6 @@ class ProductsController extends Zend_Controller_Action
     private $auth = null;
     private $sql=null;
 
-
     /**
      * \brief Contruye las variables de la clase
      *
@@ -15,14 +14,13 @@ class ProductsController extends Zend_Controller_Action
     public function init()
     {
         $this->sql = new Application_Model_SQL();
-        $this->session=new Zend_Session_Namespace('Users');
+        $this->session = new Zend_Session_Namespace('Users');
         $this->auth = Zend_Auth::getInstance();
     }
 
     public function indexAction()
     {
-        $this->view->proyect = $this->sql->listProyects();
-        return;
+        $this->view->proyect = $this->sql->listNonFreeProyects();
     }
 
     /**
@@ -42,7 +40,7 @@ class ProductsController extends Zend_Controller_Action
 
         if(!$this->getRequest()->isPost())
         {
-            echo "<h4 id='infpro'>Datos De Proyecto</h4>";
+            echo "<h4 id='infpro'>Datos del proyecto</h4>";
             echo $form;
             return;
         }
@@ -54,19 +52,13 @@ class ProductsController extends Zend_Controller_Action
         $values = $form->getValues();
 
         if(isset($values['image']))
-        {
-            $image = APPLICATION_PATH."/../public/img/proy/".$form->image->getFileName(null,false);
-
-        }
+            $image = GD3W_PATH."/img/proy/".$form->image->getFileName(null, false);
         else
-        {
             $image = '';
-        }
 
-        //  $this->sql->insertProyect($values['name],$values['description'],$image,$values['client'],$values['type']);
+        $this->sql->insertProyect($values['name'], $values['description'], $values['client'], $values['type'], $image);
 
-        $this->_helper->redirector('index', 'index');
-        return;
+        $this->_helper->redirector('profile', 'user');
     }
 
 }

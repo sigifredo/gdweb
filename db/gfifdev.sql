@@ -296,6 +296,90 @@ SELECT pg_catalog.setval('tb_news_id_seq', 1, true);
 
 
 --
+-- Name: tb_proyect; Type: TABLE; Schema: public; Owner: gdadmin; Tablespace: 
+--
+
+CREATE TABLE tb_proyect (
+    id integer NOT NULL,
+    name character varying(40) NOT NULL,
+    description text,
+    id_proyecttype integer NOT NULL,
+    image oid DEFAULT 20382 NOT NULL,
+    cc_client character varying(10)
+);
+
+
+ALTER TABLE public.tb_proyect OWNER TO gdadmin;
+
+--
+-- Name: tb_proyect_id_seq; Type: SEQUENCE; Schema: public; Owner: gdadmin
+--
+
+CREATE SEQUENCE tb_proyect_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tb_proyect_id_seq OWNER TO gdadmin;
+
+--
+-- Name: tb_proyect_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: gdadmin
+--
+
+ALTER SEQUENCE tb_proyect_id_seq OWNED BY tb_proyect.id;
+
+
+--
+-- Name: tb_proyect_id_seq; Type: SEQUENCE SET; Schema: public; Owner: gdadmin
+--
+
+SELECT pg_catalog.setval('tb_proyect_id_seq', 1, false);
+
+
+--
+-- Name: tb_proyecttype; Type: TABLE; Schema: public; Owner: gdadmin; Tablespace: 
+--
+
+CREATE TABLE tb_proyecttype (
+    id integer NOT NULL,
+    name character varying(12)
+);
+
+
+ALTER TABLE public.tb_proyecttype OWNER TO gdadmin;
+
+--
+-- Name: tb_proyecttype_id_seq; Type: SEQUENCE; Schema: public; Owner: gdadmin
+--
+
+CREATE SEQUENCE tb_proyecttype_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tb_proyecttype_id_seq OWNER TO gdadmin;
+
+--
+-- Name: tb_proyecttype_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: gdadmin
+--
+
+ALTER SEQUENCE tb_proyecttype_id_seq OWNED BY tb_proyecttype.id;
+
+
+--
+-- Name: tb_proyecttype_id_seq; Type: SEQUENCE SET; Schema: public; Owner: gdadmin
+--
+
+SELECT pg_catalog.setval('tb_proyecttype_id_seq', 2, true);
+
+
+--
 -- Name: tb_user; Type: TABLE; Schema: public; Owner: gdadmin; Tablespace: 
 --
 
@@ -430,6 +514,20 @@ ALTER TABLE ONLY tb_news ALTER COLUMN id SET DEFAULT nextval('tb_news_id_seq'::r
 -- Name: id; Type: DEFAULT; Schema: public; Owner: gdadmin
 --
 
+ALTER TABLE ONLY tb_proyect ALTER COLUMN id SET DEFAULT nextval('tb_proyect_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: gdadmin
+--
+
+ALTER TABLE ONLY tb_proyecttype ALTER COLUMN id SET DEFAULT nextval('tb_proyecttype_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: gdadmin
+--
+
 ALTER TABLE ONLY tb_usertype ALTER COLUMN id SET DEFAULT nextval('tb_usertype_id_seq'::regclass);
 
 
@@ -473,6 +571,24 @@ COPY tb_memo (id, cc_owner, title, description, activated) FROM stdin;
 
 COPY tb_news (id, title, description, cc_owner, image, date) FROM stdin;
 1	Nuenas Cuentas	Administrador: 1<br>Cliente: 2<br>Desarrollador: 3	1	20382	2012-01-30 14:07:11.285038
+\.
+
+
+--
+-- Data for Name: tb_proyect; Type: TABLE DATA; Schema: public; Owner: gdadmin
+--
+
+COPY tb_proyect (id, name, description, id_proyecttype, image, cc_client) FROM stdin;
+\.
+
+
+--
+-- Data for Name: tb_proyecttype; Type: TABLE DATA; Schema: public; Owner: gdadmin
+--
+
+COPY tb_proyecttype (id, name) FROM stdin;
+1	Open Source
+2	Non-free
 \.
 
 
@@ -560,6 +676,22 @@ ALTER TABLE ONLY tb_news
 
 
 --
+-- Name: tb_proyect_pkey; Type: CONSTRAINT; Schema: public; Owner: gdadmin; Tablespace: 
+--
+
+ALTER TABLE ONLY tb_proyect
+    ADD CONSTRAINT tb_proyect_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: tb_proyecttype_pkey; Type: CONSTRAINT; Schema: public; Owner: gdadmin; Tablespace: 
+--
+
+ALTER TABLE ONLY tb_proyecttype
+    ADD CONSTRAINT tb_proyecttype_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: tb_user_pkey; Type: CONSTRAINT; Schema: public; Owner: gdadmin; Tablespace: 
 --
 
@@ -596,6 +728,14 @@ ALTER TABLE ONLY tb_memo
 
 ALTER TABLE ONLY tb_news
     ADD CONSTRAINT tb_news_cc_owner_fkey FOREIGN KEY (cc_owner) REFERENCES tb_user(cc);
+
+
+--
+-- Name: tb_proyect_cc_client_fkey; Type: FK CONSTRAINT; Schema: public; Owner: gdadmin
+--
+
+ALTER TABLE ONLY tb_proyect
+    ADD CONSTRAINT tb_proyect_cc_client_fkey FOREIGN KEY (cc_client) REFERENCES tb_user(cc);
 
 
 --

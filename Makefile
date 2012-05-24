@@ -19,6 +19,7 @@ apache:
 
 postgres:
 	mkdir -p /tmp/gdweb/pg/img/news
+	mkdir -p /tmp/gdweb/pg/img/proy
 	chown -R postgres.postgres /tmp/gdweb/pg
 	ln -s /tmp/gdweb/pg public/pg
 

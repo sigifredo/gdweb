@@ -205,10 +205,21 @@ class Application_Model_SQL
     }
 
     /**
-     * el tipo es 1 opensource, 2 privado
+     * \brief Insertamos un proyecto en la base de datos.
+     *
+     * @param $sName Nombre del proyecto.
+     * @param $sDescription Descripción del proyecto.
+     * @param $sCCClient Cliente a quien está dirigido el proyecto.
+     * @param $iType Tipo de proyecto (0 opensource, 1 privado).
+     * @param $sImage Dirección donde está la imagen a guardar. Este parámetro es opcional.
+     *
      */
-    public function insertProyect($sName, $sDescription, $sImage, $sCCCliente, $iType)
+    public function insertProyect($sName, $sDescription, $sCCClient, $iType, $sImage = '')
     {
+        if($sImage == '')
+            $this->dbAdapter->fetchRow("INSERT INTO tb_proyect (name, description, cc_client, id_proyecttype) values ('$sName', '$sDecription', '$sCCClient', $iType)");
+        else
+            $this->dbAdapter->fetchRow("INSERT INTO tb_proyect (name, description, cc_client, id_proyecttype, image) values ('$sName', '$sDecription', '$sCCClient', $iType, lo_import('$sImage'))");
     }
 
     /**
@@ -336,12 +347,19 @@ class Application_Model_SQL
     }
 
     /**
+     * \brief Obtenemos los proyectos non-free registrados en el sistema.
      *
-     * @return [id, name, description, type, image]
+     * @return [id, name, description, image]
      *
      */
-    public function listProyects($sCCCliente = '')
+    public function listNonFreeProyects($sCCClient = '')
     {
+        $aProy = $this->dbAdapter->fetchAll("SELECT id, name, description, image FROM tb_proyect");
+
+        foreach($aProy as $r)
+            $this->dbAdapter->fetchRow("SELECT lo_export(".$r['image'].", '".GDPG_PATH."/img/proy/".$r['image']."')");
+
+        return $aProy;
     }
 
     /**
