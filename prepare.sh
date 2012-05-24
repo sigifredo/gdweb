@@ -1,7 +1,12 @@
 #!/bin/bash
 
 if [ "`whoami`" != "root" ]; then
-    echo -e "No es usuario root."
+    echo "No es usuario root." >&2
+    exit
+fi
+
+if [ -d "/usr/bin/sudo" ]; then
+    echo "Es necesario tener \"sudo\" instalado en el computador" >&2
     exit
 fi
 
@@ -14,6 +19,12 @@ echo "Creando carpeta asignando permisos..."
 chown -R www-data.www-data /tmp/gdweb/www
 
 echo -e "\nConfiguración de postgres:"
+echo "Creando usuario para la base de datos..."
+sudo -u postgres createuser -s -P gdadmin
+echo "Creando base de datos..."
+sudo -u postgres createdb gfifdev --owner=gdadmin
+echo "Importando base de datos..."
+psql -U gdadmin gfifdev < db/gfifdev.sql 1> /dev/null
 echo "Creando carpeta news..."
 mkdir -p /tmp/gdweb/pg/img/news
 echo "Creando carpeta asignando permisos..."
