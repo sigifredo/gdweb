@@ -34,7 +34,7 @@ class NewsController extends Zend_Controller_Action
 
             if(!$this->getRequest()->isPost())
             {
-                echo "<h4 id='infnews'>Datos de noticia</h4>";
+                echo "<span class='subtitle'>Datos de noticia.</span>";
                 echo $form;
                 return;
             }
@@ -46,11 +46,11 @@ class NewsController extends Zend_Controller_Action
             $values = $form->getValues();
 
             if(isset($values['image']))
-                $image = APPLICATION_PATH."/../public/img/news/".$form->image->getFileName(null, false);
+                $image = GD3W_PATH."/img/news/".$form->image->getFileName(null, false);
             else
                 $image = '';
 
-            $this->sql->insertNews($values['title'],$values['description'],$this->session->user, $image);
+            $this->sql->insertNews($values['title'], $values['description'], $this->session->user, $image);
             $this->_helper->redirector('index', 'index');
         }
     }

@@ -196,7 +196,10 @@ class Application_Model_SQL
     {
         try
         {
-            $this->dbAdapter->fetchRow("SELECT * FROM f_insertnews('$sTitle', '$sDescription', '$sCCOwner', '$sImage')");
+            if($sImage == '')
+                $this->dbAdapter->fetchRow("INSERT INTO tb_news (title, description, cc_owner) VALUES ('$sTitle', '$sDescription', '$sCCOwner')");
+            else
+                $this->dbAdapter->fetchRow("INSERT INTO tb_news (title, description, cc_owner, image) VALUES ('$sTitle', '$sDescription', '$sCCOwner', lo_import('$sImage'))");
         }
         catch(Exception $e)
         {
