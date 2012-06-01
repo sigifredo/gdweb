@@ -266,10 +266,7 @@ class Application_Model_SQL
     {
         $r = $this->dbAdapter->fetchAll("SELECT id, title, description, image FROM tb_info");
         foreach($r as $row)
-        {
-            $this->dbAdapter->fetchRow("SELECT lo_export(".$row['image'].", '".getcwd()."/img/inf/".$row['image']."')");
-            $row['image'] = getcwd()."/img/inf/".$row['id'];
-        }
+            $this->dbAdapter->fetchRow("SELECT lo_export(".$row['image'].", '".GDPG_PATH."/img/inf/".$row['image']."')");
         return $r;
     }
 
@@ -297,6 +294,7 @@ class Application_Model_SQL
 
 
         $r = $this->dbAdapter->fetchAll("SELECT * FROM (SELECT id, title, description, image FROM tb_news LIMIT $iEnd) AS news ORDER BY id DESC LIMIT $iLimit");
+
         foreach($r as $row)
             $this->dbAdapter->fetchRow("SELECT lo_export(".$row['image'].", '".GDPG_PATH."/img/news/".$row['image']."')");
 

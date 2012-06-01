@@ -74,7 +74,7 @@ class UserController extends Zend_Controller_Action
 
         if(!$this->getRequest()->isPost())
         {
-            echo "<h4 id='infuser'>Datos del Usuario</h4>";
+            echo "<span class='subtitle'>Datos del usuario.</span>";
             echo $form;
             return;
         }
@@ -94,7 +94,7 @@ class UserController extends Zend_Controller_Action
         }
 
         if(isset($values['user']))
-            $image = APPLICATION_PATH."/../public/img/usr/".$form->user->getFileName(null,false);
+            $image = GD3W_PATH."/img/usr/".$form->user->getFileName(null,false);
         else
             $image = '';
 
@@ -136,7 +136,7 @@ class UserController extends Zend_Controller_Action
 
         if(!$this->getRequest()->isPost())
         {
-            echo "<h4 id='infusr'>Nuevos Datos De Usuario</h4>";
+            echo "<span class='subtitle'>Nuevos datos de usuario.</span>";
 
             switch ($iUserType)
             {
@@ -230,75 +230,9 @@ class UserController extends Zend_Controller_Action
             return;
         }
 
-        if($this->session->type == '1')
-        {
-            echo "<div id='adminMenu' class='menu'>
+        $this->view->session_type = $this->session->type;
 
-            <div>
-            <span>Cuentas</span>
-            <ul>
-            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create','type'=>'1')).">Crear Cuenta Administrador</a><br>
-            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create','type'=>'2')).">Crear Cuenta Cliente</a><br>
-            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'create','type'=>'3')).">Crear Cuenta Desarrollador</a><br>
-            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'list','type'=>'1')).">Editar Cuenta Administrador</a><br>
-            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'list','type'=>'2')).">Editar Cuenta Cliente</a><br>
-            <a href=".$this->view->url(array('controller'=>'user', 'action'=>'list','type'=>'3')).">Editar Cuenta Desarrollador</a><br>
-            </ul>
-            </div>
-
-            <div>
-            <span>Noticias</span>
-            <ul>
-            <a href=".$this->view->url(array('controller'=>'news', 'action'=>'create')).">Crear Noticia</a><br>
-            <a href=".$this->view->url(array('controller'=>'news', 'action'=>'list')).">Editar Noticia</a><br>
-            </ul>
-            </div>
-
-            <div>
-            <span>Memorandos</span>
-            <ul>
-            <a href=".$this->view->url(array('controller'=>'memo', 'action'=>'create')).">Crear Memorando</a><br>
-            <a href=".$this->view->url(array('controller'=>'memo', 'action'=>'list', 'typememo'=>'edit')).">Editar Memorando</a><br>
-            </ul>
-            </div>
-
-            <div>
-            <span>Proyectos</span>
-            <ul>
-            <a href=".$this->view->url(array('controller'=>'products', 'action'=>'create')).">Crear Proyecto</a><br>
-            <a href=".$this->view->url(array('controller'=>'products', 'action'=>'list-proyect')).">Editar proyecto</a><br>
-            </ul>
-            </div>
-            </div>";
-            $this->view->datos = $this->sql->listAdmin();
-        }
-
-        switch ($this->session->type)
-        {
-        case 2:
-
-            $this->view->datos = $this->sql->listClient();
-            break;
-
-        case 3:
-
-            $this->view->datos = $this->sql->listDeveloper();
-            echo "<h4>Proyectos:</h4>";
-            foreach($this->sql->listProyects($this->session->user) as $line)
-            {
-                echo "
-                <table>
-                <tr>
-                <td>".$line['name']."</td>
-                </tr>
-                <tr>
-                <td>".$line['description']."</td>
-                </tr>
-                </table>
-                </div>";
-            };
-            break;
-        }
+        // NPI
         if((!$this->_hasParam('memo')) && ($this->session->type != '2'))
         {
             echo "<a href=".$this->view->url(array('controller'=>'index', 'action'=>'profile', 'memo'=>'list')).">Ver Mis Memorandos</a>";

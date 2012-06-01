@@ -1,0 +1,80 @@
+<?php
+
+if($this->session_type == '1')
+{
+?>
+<div id='adminMenu' class='menu'>
+
+<div>
+  <span>Cuentas</span>
+  <ul>
+    <a href="<?php echo $this->url(array('controller'=>'user', 'action'=>'create','type'=>'1')); ?>">Crear cuenta administrador.</a><br>
+    <a href="<?php echo $this->url(array('controller'=>'user', 'action'=>'create','type'=>'2')); ?>">Crear cuenta cliente.</a><br>
+    <a href="<?php echo $this->url(array('controller'=>'user', 'action'=>'create','type'=>'3')); ?>">Crear cuenta desarrollador.</a><br>
+    <a href="<?php echo $this->url(array('controller'=>'user', 'action'=>'list','type'=>'1')); ?>">Editar cuenta administrador.</a><br>
+    <a href="<?php echo $this->url(array('controller'=>'user', 'action'=>'list','type'=>'2')); ?>">Editar cuenta cliente.</a><br>
+    <a href="<?php echo $this->url(array('controller'=>'user', 'action'=>'list','type'=>'3')); ?>">Editar cuenta desarrollador.</a><br>
+  </ul>
+</div>
+
+<div>
+  <span>Noticias</span>
+  <ul>
+    <a href="<?php echo $this->url(array('controller'=>'news', 'action'=>'create')); ?>">Crear noticia.</a><br>
+    <a href="<?php echo $this->url(array('controller'=>'news', 'action'=>'list')); ?>">Editar noticia.</a><br>
+  </ul>
+</div>
+
+<div>
+  <span>Información</span>
+  <ul>
+    <a href="<?php echo $this->url(array('controller'=>'who', 'action'=>'create-info')); ?>">Agregar información.</a><br>
+    <a href="<?php echo $this->url(array('controller'=>'who', 'action'=>'update-info')); ?>">Editar información.</a><br>
+  </ul>
+</div>
+
+<div>
+  <span>Memorandos</span>
+  <ul>
+    <a href="<?php echo $this->url(array('controller'=>'memo', 'action'=>'create')); ?>">Crear memorando</a><br>
+    <a href="<?php echo $this->url(array('controller'=>'memo', 'action'=>'list', 'typememo'=>'edit')); ?>">Editar memorando</a><br>
+  </ul>
+</div>
+
+<div>
+  <span>Proyectos</span>
+  <ul>
+    <a href="<?php echo $this->url(array('controller'=>'products', 'action'=>'create')); ?>">Crear proyecto.</a><br>
+    <a href="<?php echo $this->url(array('controller'=>'products', 'action'=>'list-proyect')); ?>">Editar proyecto.</a><br>
+  </ul>
+</div>
+</div>
+
+<?php
+// $this->view->datos = $this->sql->listAdmin();
+}
+
+
+switch ($this->session_type)
+{
+    case 2:
+        $this->view->datos = $this->sql->listClient();
+        break;
+    case 3:
+        $this->view->datos = $this->sql->listDeveloper();
+        echo "<h4>Proyectos:</h4>";
+        foreach($this->sql->listProyects($this->session->user) as $line)
+        {
+            echo "
+            <table>
+            <tr>
+            <td>".$line['name']."</td>
+            </tr>
+            <tr>
+            <td>".$line['description']."</td>
+            </tr>
+            </table>
+            </div>";
+        };
+        break;
+}

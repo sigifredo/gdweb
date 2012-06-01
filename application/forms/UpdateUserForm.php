@@ -8,7 +8,7 @@ class UpdateUserForm extends Zend_Form
         $this->setAttrib('class','updateusr');
 
         $image = new Zend_Form_Element_File('updateuser');
-        $image->setLabel('Load the image')
+        $image->setLabel('Leer imagen...')
               ->setDestination(GD3W_PATH."/img/usr/")
               ->setMaxFileSize(2097152); // limits the filesize on the client side
         $image->addValidator('Count', false, 1);                // ensure only 1 file
@@ -16,13 +16,13 @@ class UpdateUserForm extends Zend_Form
         $image->addValidator('Extension', false, 'jpg,jpeg,png,gif');// only JPEG, PNG, and GIFs
 
         $this->addElement($image);
-        $this->addElement('text','names',array('label'=>'Names','required'=>true,'filter'=>'StringToLower','validator'=>'alfa','validator'=>'StringLength',false,array(4,25)));
-        $this->addElement('text','lastnames',array('label'=>'Last Names','required'=>true,'filter'=>'StringToLower','validator'=>'alfa','validator'=>'StringLength',false,array(4,25)));
-        $this->addElement('password','newpassword',array('label'=>'New Password','validator'=>'StringLength',false,array(6,40)));
-        $this->addElement('password','verifypassword',array('label'=>'Verify Password','validator'=>'StringLength',false,array(6,40)));
-        $this->addElement('text','telephone',array('label'=>'Telephone','validator'=>'digits','validator'=>'StringLength',false,array(0,7)));
-        $this->addElement('text','movil',array('label'=>'Movil','validator'=>'digits','validator'=>'StringLength',false,array(0,10)));
-        $this->addElement('submit','update',array('label'=>'Update'));
+        $this->addElement('text','names',array('label'=>'Nombres','required'=>true,'filter'=>'StringToLower','validator'=>'alfa','validator'=>'StringLength',false,array(4,25)));
+        $this->addElement('text','lastnames',array('label'=>'Apellidos','required'=>true,'filter'=>'StringToLower','validator'=>'alfa','validator'=>'StringLength',false,array(4,25)));
+        $this->addElement('password','newpassword',array('label'=>'Nueva contraseña','validator'=>'StringLength',false,array(6,40)));
+        $this->addElement('password','verifypassword',array('label'=>'Verificar contraseña','validator'=>'StringLength',false,array(6,40)));
+        $this->addElement('text','telephone',array('label'=>'Teléfono','validator'=>'digits','validator'=>'StringLength',false,array(0,7)));
+        $this->addElement('text','movil',array('label'=>'Celular','validator'=>'digits','validator'=>'StringLength',false,array(0,10)));
+        $this->addElement('submit','update',array('label'=>'Actualizar'));
     }
 
 }

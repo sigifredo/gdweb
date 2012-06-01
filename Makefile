@@ -15,11 +15,13 @@ apache:
 	mkdir -p /tmp/gdweb/www/img/usr
 	mkdir -p /tmp/gdweb/www/img/news
 	mkdir -p /tmp/gdweb/www/img/proy
+	mkdir -p /tmp/gdweb/www/img/inf
 	chown -R www-data.www-data /tmp/gdweb/www
 
 postgres:
 	mkdir -p /tmp/gdweb/pg/img/news
 	mkdir -p /tmp/gdweb/pg/img/proy
+	mkdir -p /tmp/gdweb/pg/img/inf
 	chown -R postgres.postgres /tmp/gdweb/pg
 	ln -s /tmp/gdweb/pg public/pg
 
