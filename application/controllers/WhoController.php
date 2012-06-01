@@ -55,7 +55,6 @@ class WhoController extends Zend_Controller_Action
      * @return Formulario a action updateInfo
      *
      */
-
     public function updateInfoForm()
     {
         $form=new Zend_Form;
@@ -89,7 +88,8 @@ class WhoController extends Zend_Controller_Action
         $info = $this->sql->listInformation(APPLICATION_PATH."/../public/pg/img/inf");
         echo "<div id='information'>";
 
-        if(!count($info)) echo "no hay info";
+        if(!count($info))
+            echo "No hay información.";
         foreach($info as $line)
         {
             echo "<article>";

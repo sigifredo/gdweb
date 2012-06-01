@@ -30,8 +30,6 @@ echo $this->doctype("HTML5");
         echo "<div id=\"\">Perfil: <a href='".$this->url(array("controller" => "user", "action" => "profile"))."'>".$datos['names']." ".$datos['lastnames']."</a></div>";
         echo "<div id=\"\"><a href='".$this->url(array("controller" => "user", "action" => "logout"))."'>Logout</a></div>";
     }
-    else
-        echo "<div id=\"\"><a href='".$this->url(array("controller" => "user", "action" => "login"))."'>Login</a></div>";
 
 ?>
 
@@ -46,6 +44,6 @@ echo $this->doctype("HTML5");
       <li>Contáctenos</li>
     </ul>
     <div id="content"><?php echo $this->layout()->content; ?></div>
-    <footer id="ftppal">Copyright © 2011 GfifDev S.A.S. Todos los derechos reservados.</footer>
+    <footer id="ftppal">Copyright © 2012 GfifDev S.A.S. Todos los derechos reservados.</footer>
   </body>
 </html>
