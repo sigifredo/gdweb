@@ -50,7 +50,7 @@ class NewsController extends Zend_Controller_Action
             else
                 $image = '';
 
-            $this->sql->insertNews($values['title'], $values['description'], $this->session->user, $image);
+            $this->sql->insertNews($this->session->user, $values['title'], $values['header'], $values['description'], $image);
             $this->_helper->redirector('index', 'index');
         }
     }

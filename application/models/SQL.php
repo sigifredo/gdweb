@@ -186,20 +186,33 @@ class Application_Model_SQL
     /**
      * \brief Insertamos una noticia.
      *
-     * @param $sTitle Título de la noticia.
-     * @param $sDescription Descripción o cuerpo de la noticia.
      * @param $sCCOwner Cédula del usuario que crea la noticia.
+     * @param $sTitle Título de la noticia.
+     * @param $sHeader Breve descripción de la noticia. Este descripción se mostrará en la lista de noticias.
+     * @param $sDescription Descripción o cuerpo de la noticia. Este parámetro es opcional.
      * @param $sImage Ruta a la imágen que se adjuntará en la noticia. Este parámetro es opcional.
      *
      */
-    public function insertNews($sTitle, $sDescription, $sCCOwner, $sImage = '')
+    public function insertNews($sCCOwner, $sTitle, $sHeader, $sDescription = '', $sImage = '')
     {
         try
         {
-            if($sImage == '')
-                $this->dbAdapter->fetchRow("INSERT INTO tb_news (title, description, cc_owner) VALUES ('$sTitle', '$sDescription', '$sCCOwner')");
-            else
-                $this->dbAdapter->fetchRow("INSERT INTO tb_news (title, description, cc_owner, image) VALUES ('$sTitle', '$sDescription', '$sCCOwner', lo_import('$sImage'))");
+            $cols = "title, header, cc_owner";
+            $vals = "'$sTitle', '$sHeader', '$sCCOwner'";
+
+            if($sDescription != "")
+            {
+                $cols += ", description";
+                $vals += ", '$sDescription'";
+            }
+
+            if($sImage != '')
+            {
+                $cols += ", image";
+                $vals += ", lo_import('$sImage')";
+            }
+
+            $this->dbAdapter->fetchRow("INSERT INTO tb_news ($cols) VALUES ($vals)");
         }
         catch(Exception $e)
         {
@@ -278,7 +291,7 @@ class Application_Model_SQL
      *
      * @param $iPage Número de página de la que se desean conocer las noticias.
      *
-     * @return Lista de noticias. Cada registro está ordenado así: [id, title, description, image]
+     * @return Lista de noticias. Cada registro está ordenado así: [id, title, header, description, image]
      *
      */
     public function listNews($sImageDir, $iPage)
@@ -295,8 +308,7 @@ class Application_Model_SQL
 
         $iEnd = 10*$iPage;
 
-
-        $r = $this->dbAdapter->fetchAll("SELECT * FROM (SELECT id, title, description, image FROM tb_news LIMIT $iEnd) AS news ORDER BY id DESC LIMIT $iLimit");
+        $r = $this->dbAdapter->fetchAll("SELECT * FROM (SELECT id, title, header, description, image FROM tb_news LIMIT $iEnd) AS news ORDER BY id DESC LIMIT $iLimit");
 
         foreach($r as $row)
             $this->dbAdapter->fetchRow("SELECT lo_export(".$row['image'].", '".GDPG_PATH."/img/news/".$row['image']."')");

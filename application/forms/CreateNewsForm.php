@@ -16,8 +16,9 @@ class CreateNewsForm extends Zend_Form
         $image->addValidator('Extension', false, 'jpg,jpeg,png,gif');// only JPEG, PNG, and GIFs
 
         $this->addElement($image);
-        $this->addElement('text','title',array('label'=>'Título','required'=>true,'validator'=>'StringLength',false,array(1,20),'validator'=>'alnum'));
-        $this->addElement('textarea','description',array('label'=>'Descripción','required'=>true));
+        $this->addElement('textarea','title',array('label'=>'Título','required'=>true, 'rows'=>1));
+        $this->addElement('textarea','header',array('label'=>'Cabecera','required'=>true, 'rows' => 2));
+        $this->addElement('textarea','description',array('label'=>'Descripción','required'=>false));
         $this->addElement('submit','create',array('label'=>'Crear'));
     }
 

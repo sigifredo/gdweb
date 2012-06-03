@@ -128,23 +128,6 @@ END;$_$;
 ALTER FUNCTION public.f_insertmemo(cc1 character varying, title2 character varying, description3 text) OWNER TO gdadmin;
 
 --
--- Name: f_insertnews(character varying, text, character varying, character varying); Type: FUNCTION; Schema: public; Owner: gdadmin
---
-
-CREATE FUNCTION f_insertnews(title1 character varying, description2 text, cc_owner3 character varying, image4 character varying) RETURNS void
-    LANGUAGE plpgsql
-    AS $_$BEGIN
-  IF $4 = '' THEN
-    INSERT INTO tb_news (title, description, cc_owner) VALUES ($1, $2, $3);
-  ELSE
-    INSERT INTO tb_news (title, description, cc_owner, image) VALUES ($1, $2, $3, lo_import($4));
-  END IF;
-END;$_$;
-
-
-ALTER FUNCTION public.f_insertnews(title1 character varying, description2 text, cc_owner3 character varying, image4 character varying) OWNER TO gdadmin;
-
---
 -- Name: f_updateuser(character varying, character varying, character varying, character varying, character varying, character varying); Type: FUNCTION; Schema: public; Owner: gdadmin
 --
 
@@ -258,7 +241,8 @@ SELECT pg_catalog.setval('tb_memo_id_seq', 1, false);
 CREATE TABLE tb_news (
     id integer NOT NULL,
     title character varying(20) NOT NULL,
-    description text NOT NULL,
+    header character varying(50) NOT NULL,
+    description text,
     cc_owner character varying(10) NOT NULL,
     image oid DEFAULT 20382 NOT NULL,
     date timestamp without time zone DEFAULT now() NOT NULL
@@ -569,7 +553,7 @@ COPY tb_memo (id, cc_owner, title, description, activated) FROM stdin;
 -- Data for Name: tb_news; Type: TABLE DATA; Schema: public; Owner: gdadmin
 --
 
-COPY tb_news (id, title, description, cc_owner, image, date) FROM stdin;
+COPY tb_news (id, title, header, cc_owner, image, date) FROM stdin;
 1	Nuenas Cuentas	Administrador: 1<br>Cliente: 2<br>Desarrollador: 3	1	20382	2012-01-30 14:07:11.285038
 \.
 

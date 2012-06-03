@@ -8,9 +8,9 @@ class IndexController extends Zend_Controller_Action
     private $sql = null;
 
     /**
-      * \brief Contruye las variables de la clase
-      *
-      */
+     * \brief Contruye las variables de la clase
+     *
+     */
     public function init()
     {
         $this->sql = new Application_Model_SQL();
@@ -43,8 +43,6 @@ class IndexController extends Zend_Controller_Action
     /**
      * \brief action para noticias e ingreso de usuario
      *
-     * @return N/A
-     *
      */
     public function indexAction()
     {
@@ -55,8 +53,6 @@ class IndexController extends Zend_Controller_Action
 
     /**
      * \brief action para listar memos
-     *
-     * @return N/A
      *
      */
     public function listMemoAction()
