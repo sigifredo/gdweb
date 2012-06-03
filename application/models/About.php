@@ -1,26 +1,26 @@
 <?php
 
-class Version
+class About
 {
-    function authors()
+    public function authors()
     {
         $aAuthors = array(
-                         array("Name" => "Sigifredo Escobar Gómez", "" => "Designer, Developer"),
-                         array("Name" => "Marisol Correa Henao", "" => "Developer")
+                         array("Name" => "Sigifredo Escobar Gómez", "Task" => "Designer, Developer"),
+                         array("Name" => "Marisol Correa Henao", "Task" => "Developer")
                          );
         return $aAuthors;
     }
 
-    function version()
+    public function version()
     {
         return "1.alfa";
     }
 
-    function releaseDate()
+    public function releaseDate()
     {
     }
 
-    function dbVersion()
+    public function dbVersion()
     {
     }
 }

@@ -1,0 +1,15 @@
+
+Versión de la plataforma: <?php echo $this->about->version(); ?><br>
+
+Autores:<br>
+<?php
+
+$authors = $this->about->authors();
+
+foreach($authors as $author)
+{
+    echo $author['Name']."<br>";
+    echo $author['Task']."<br>";
+}
+
+?>
