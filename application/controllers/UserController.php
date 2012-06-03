@@ -111,7 +111,7 @@ class UserController extends Zend_Controller_Action
                 break;
         }
 
-        $this->_helper->redirector('index', 'index');
+        $this->_forward('list', 'user');
     }
 
     /**
