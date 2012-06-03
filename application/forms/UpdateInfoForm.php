@@ -16,7 +16,7 @@ class UpdateInfoForm extends Zend_Form
         $image->addValidator('Extension', false, 'jpg,jpeg,png,gif');// only JPEG, PNG, and GIFs
 
         $this->addElement($image);
-        $this->addElement('text','title',array('label'=>'Titulo','validator'=>'StringLength',false,array(1, 20),'validator'=>'alnum'));
+        $this->addElement('text','title',array('label'=>'Título','validator'=>'StringLength',false,array(1, 20),'validator'=>'alnum'));
         $this->addElement('textarea','description',array('label'=>'Descripción'));
         $this->addElement('submit','update',array('label'=>'Actualizar'));
     }

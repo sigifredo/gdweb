@@ -19,27 +19,14 @@ class WhoController extends Zend_Controller_Action
     {
         $this->view->headTitle("¿Quiénes somos?");
 
-        $info = $this->sql->listInformation(APPLICATION_PATH."/../public/pg/img/inf");
-        echo "<div id='information'>";
-
-        if(!count($info))
-            echo "No hay información.";
-        foreach($info as $line)
-        {
-            echo "<article>";
-            echo "<header class='title'>".$line['title']."</header>";
-            //echo "<img src='".$this->view->baseUrl()."/pg/img/inf/".$line['image']."'/>";
-            echo "<p>".$line['description']."</p>";
-            echo "<div class='clear'></div></article>";
-        }
-        echo "</div>";
+        $this->view->info = $this->sql->listInformation(APPLICATION_PATH."/../public/pg/img/inf");
     }
 
     /**
      * \brief action para listar información de la empresa
      *
      */
-    public function listInfoAction()
+    public function listAction()
     {
         if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
             $this->_helper->redirector('index', 'who');
@@ -51,7 +38,7 @@ class WhoController extends Zend_Controller_Action
      * \brief action para crear información de la empresa
      *
      */
-    public function createInfoAction()
+    public function createAction()
     {
         if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
         {
@@ -59,7 +46,7 @@ class WhoController extends Zend_Controller_Action
             return;
         }
         $form = new CreateInfoForm();
-        $form->setAction($this->view->url(array("controller" => "who", "action" => "create-info")))
+        $form->setAction($this->view->url(array("controller" => "who", "action" => "create")))
              ->setMethod('post');
 
         if(!$this->getRequest()->isPost())
@@ -91,7 +78,7 @@ class WhoController extends Zend_Controller_Action
      * \brief action para modificar información de la empresa
      *
      */
-    public function updateInfoAction()
+    public function updateAction()
     {
         if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
         {
@@ -101,13 +88,13 @@ class WhoController extends Zend_Controller_Action
 
         if(!$this->_hasParam('info'))
         {
-            $this->_helper->redirector('list-info', 'who');
+            $this->_helper->redirector('list', 'who');
             return;
         }
 
         $iIdInfo = $this->getRequest()->getParam('info');
         $form = new UpdateInfoForm();
-        $form->setAction($this->view->url(array("controller" => "who", "action" => "update-info")))
+        $form->setAction($this->view->url(array("controller" => "who", "action" => "update")))
              ->setMethod('post');
 
         $datos = $this->sql->listInformation();
@@ -145,7 +132,7 @@ class WhoController extends Zend_Controller_Action
      * \brief action para borrar información de la empresa
      *
      */
-    public function deleteInfoAction()
+    public function deleteAction()
     {
         if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
         {
@@ -154,7 +141,7 @@ class WhoController extends Zend_Controller_Action
         }
         if(!$this->_hasParam('info'))
         {
-            $this->_helper->redirector('list-info', 'who');
+            $this->_helper->redirector('list', 'who');
             return;
         }
 
@@ -164,6 +151,5 @@ class WhoController extends Zend_Controller_Action
 
         $this->_helper->redirector('index', 'who');
     }
-
 
 }

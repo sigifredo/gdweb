@@ -18,8 +18,8 @@ else
     {
         echo "<tr>
         <td>".$line['title']."</td>
-        <td><a href=".$this->url(array('controller'=>'who', 'action'=>'update-info','info'=>$line['id'])).">Editar</a></td>
-        <td><a href=".$this->url(array('controller'=>'who', 'action'=>'delete-info','info'=>$line['id'])).">Borrar</a></td>
+        <td><a href=".$this->url(array('controller'=>'who', 'action'=>'update','info'=>$line['id'])).">Editar</a></td>
+        <td><a href=".$this->url(array('controller'=>'who', 'action'=>'delete','info'=>$line['id'])).">Borrar</a></td>
         </tr>";
     }
     ?>

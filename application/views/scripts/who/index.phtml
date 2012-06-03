@@ -1,0 +1,19 @@
+<div id='information'>
+
+<?php
+
+if(!count($this->info))
+    echo "No hay información.";
+foreach($this->info as $line)
+{
+    echo "<br><article>";
+    echo "<header class='title'>".$line['title']."</header>";
+    echo "<img src='".$this->baseUrl()."/pg/img/inf/".$line['image']."'/>";
+    echo "<p>".$line['description']."</p>";
+    echo "<div class='clear'></div></article>";
+}
+
+?>
+
+<br>
+</div>
