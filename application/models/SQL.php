@@ -102,7 +102,7 @@ class Application_Model_SQL
      */
     public function insertClient($sCC, $sPassword, $sNames, $sLastNames = '', $sTelephone = '', $sMovil = '', $sImage = '')
     {
-        $this->insertUser($sCC, $sPassword, 1, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage);
+        $this->insertUser($sCC, $sPassword, 2, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage);
     }
 
     /**
@@ -119,7 +119,7 @@ class Application_Model_SQL
      */
     public function insertDeveloper($sCC, $sPassword, $sNames, $sLastNames = '', $sTelephone = '', $sMovil = '', $sImage = '')
     {
-        $this->insertUser($sCC, $sPassword, 1, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage);
+        $this->insertUser($sCC, $sPassword, 3, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage);
     }
 
     /**
