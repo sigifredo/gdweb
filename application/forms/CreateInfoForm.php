@@ -16,7 +16,7 @@ class CreateInfoForm extends Zend_Form
         $image->addValidator('Extension', false, 'jpg,jpeg,png,gif');// only JPEG, PNG, and GIFs
 
         $this->addElement($image);
-        $this->addElement('textarea', 'title', array('label'=>'Título (*)', 'required'=>true, 'rows'=>1));
+        $this->addElement('textarea', 'title', array('label'=>'Título (*)', 'required'=>true, 'rows'=>1, 'validators' => array(array('validator' => 'StringLength', 'options' => array(0, 20)))));
         $this->addElement('textarea', 'description', array('label'=>'Descripción (*)', 'required'=>true));
         $this->addElement('submit', 'create', array('label'=>'Crear'));
     }
