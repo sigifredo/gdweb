@@ -45,6 +45,26 @@ $$;
 ALTER FUNCTION public.f_delete_image() OWNER TO gdadmin;
 
 --
+-- Name: f_delete_info_image(); Type: FUNCTION; Schema: public; Owner: gdadmin
+--
+
+CREATE FUNCTION f_delete_info_image() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+BEGIN
+IF OLD.image <> 16595 THEN
+    PERFORM lo_unlink(OLD.image);
+END IF;
+
+RETURN NULL;
+END;
+$$;
+
+
+ALTER FUNCTION public.f_delete_info_image() OWNER TO gdadmin;
+
+--
 -- Name: f_insertadmin(character varying, character varying, character varying, character varying, character varying, character varying, character varying); Type: FUNCTION; Schema: public; Owner: gdadmin
 --
 
@@ -709,6 +729,13 @@ ALTER TABLE ONLY tb_user
 
 ALTER TABLE ONLY tb_usertype
     ADD CONSTRAINT tb_usertype_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: t_delete_info_image; Type: TRIGGER; Schema: public; Owner: gdadmin
+--
+
+CREATE TRIGGER t_delete_info_image AFTER DELETE ON tb_info FOR EACH ROW EXECUTE PROCEDURE f_delete_info_image();
 
 
 --
