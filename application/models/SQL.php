@@ -77,22 +77,15 @@ class Application_Model_SQL
      * @param $sCC Cédula del administrador.
      * @param $sPassword Contraseña del usuario. La contraseña deberá ser pasada en encriptada, con el algoritmo de encriptación SHA1.
      * @param $sNames Nombres del administrador.
-     * @param $sLastNames Apellidos del administrador.
-     * @param $sTelephone Teléfono del administrador.
-     * @param $sMovil Celular del administrador.
+     * @param $sLastNames Apellidos del administrador. Este parámetro es opcional.
+     * @param $sTelephone Teléfono del administrador. Este parámetro es opcional.
+     * @param $sMovil Celular del administrador. Este parámetro es opcional.
      * @param $sImage Ruta a la imagen donde está el administrador. Este parámetro es opcional.
      *
      */
-    public function insertAdmin($sCC, $sPassword, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
+    public function insertAdmin($sCC, $sPassword, $sNames, $sLastNames = '', $sTelephone = '', $sMovil = '', $sImage = '')
     {
-        try
-        {
-            $this->dbAdapter->fetchRow("SELECT * FROM f_insertadmin('$sCC', '$sPassword', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', '$sImage')");
-        }
-        catch(Exception $e)
-        {
-            echo "<span class='dberror'>No se ha podido crear el administrador. Por favor verifique que los datos son correctos.</span>";
-        }
+        $this->insertUser($sCC, $sPassword, 1, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage);
     }
 
     /**
@@ -101,22 +94,15 @@ class Application_Model_SQL
      * @param $sCC Cédula del cliente.
      * @param $sPassword Contraseña del usuario. La contraseña deberá ser pasada en encriptada, con el algoritmo de encriptación SHA1.
      * @param $sNames Nombres del cliente.
-     * @param $sLastNames Apellidos del cliente.
-     * @param $sTelephone Teléfono del cliente.
-     * @param $sMovil Celular del cliente.
+     * @param $sLastNames Apellidos del cliente. Este parámetro es opcional.
+     * @param $sTelephone Teléfono del cliente. Este parámetro es opcional.
+     * @param $sMovil Celular del cliente. Este parámetro es opcional.
      * @param $sImage Ruta a la imagen donde está el cliente. Este parámetro es opcional.
      *
      */
-    public function insertClient($sCC, $sPassword, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
+    public function insertClient($sCC, $sPassword, $sNames, $sLastNames = '', $sTelephone = '', $sMovil = '', $sImage = '')
     {
-        try
-        {
-            $this->dbAdapter->fetchRow("SELECT * FROM f_insertclient('$sCC', '$sPassword', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', '$sImage')");
-        }
-        catch(Exception $e)
-        {
-            echo "<span class='dberror'>No se ha podido crear el cliente. Por favor verifique que los datos son correctos.</span>";
-        }
+        $this->insertUser($sCC, $sPassword, 1, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage);
     }
 
     /**
@@ -125,21 +111,63 @@ class Application_Model_SQL
      * @param $sCC Cédula del programador.
      * @param $sPassword Contraseña del usuario. La contraseña deberá ser pasada en encriptada, con el algoritmo de encriptación SHA1.
      * @param $sNames Nombres del programador.
-     * @param $sLastNames Apellidos del programador.
-     * @param $sTelephone Teléfono del programador.
-     * @param $sMovil Celular del programador.
+     * @param $sLastNames Apellidos del programador. Este parámetro es opcional.
+     * @param $sTelephone Teléfono del programador. Este parámetro es opcional.
+     * @param $sMovil Celular del programador. Este parámetro es opcional.
      * @param $sImage Ruta a la imagen donde está el programador. Este parámetro es opcional.
      *
      */
-    public function insertDeveloper($sCC, $sPassword, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
+    public function insertDeveloper($sCC, $sPassword, $sNames, $sLastNames = '', $sTelephone = '', $sMovil = '', $sImage = '')
+    {
+        $this->insertUser($sCC, $sPassword, 1, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage);
+    }
+
+    /**
+     * \brief Inserta un usuario en la base de datos.
+     *
+     * @param $sCC Cédula del usuario.
+     * @param $sPassword Contraseña del usuario. La contraseña deberá ser pasada en encriptada, con el algoritmo de encriptación SHA1.
+     * @param $iUserType Tipo de usuario a insertar [1 => Administrador, 2 => Cliente, 3 => Desarrollador].
+     * @param $sNames Nombres del usuario.
+     * @param $sLastNames Apellidos del usuario.
+     * @param $sTelephone Teléfono del usuario.
+     * @param $sMovil Celular del usuario.
+     * @param $sImage Ruta a la imagen donde está el usuario. Este parámetro es opcional.
+     *
+     */
+    protected function insertUser($sCC, $sPassword, $iUserType, $sNames, $sLastNames = '', $sTelephone = '', $sMovil = '', $sImage = '')
     {
         try
         {
-            $this->dbAdapter->fetchRow("SELECT * FROM f_insertdeveloper('$sCC', '$sPassword', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', '$sImage')");
+            $cols = "cc, password, names, id_usertype";
+            $vals = "'$sCC', '$sPassword', '$sNames', $iUserType";
+
+            if($sLastNames != '')
+            {
+                $cols .= ", lastnames";
+                $vals .= ", '$sLastNames'";
+            }
+            if($sTelephone != '')
+            {
+                $cols .= ", telephone";
+                $vals .= ", '$sTelephone'";
+            }
+            if($sMovil != '')
+            {
+                $cols .= ", movil";
+                $vals .= ", '$sMovil'";
+            }
+            if($sImage != '')
+            {
+                $cols .= ", image";
+                $vals .= ", lo_import('$sImage')";
+            }
+
+            $this->dbAdapter->fetchRow("INSERT INTO tb_user ($cols) VALUES ($vals)");
         }
         catch(Exception $e)
         {
-            echo "<span class='dberror'>No se ha podido crear el desarrollador. Por favor verifique que los datos son correctos.</span>";
+            throw new GDException("No se ha podido crear el usuario. Por favor verifique que los datos son correctos.", 0, $e);
         }
     }
 

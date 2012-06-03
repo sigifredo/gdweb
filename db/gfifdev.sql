@@ -65,59 +65,6 @@ $$;
 ALTER FUNCTION public.f_delete_info_image() OWNER TO gdadmin;
 
 --
--- Name: f_insertadmin(character varying, character varying, character varying, character varying, character varying, character varying, character varying); Type: FUNCTION; Schema: public; Owner: gdadmin
---
-
-CREATE FUNCTION f_insertadmin(cc1 character varying, password2 character varying, names3 character varying, lastnames4 character varying, telephone5 character varying, movil6 character varying, image7 character varying) RETURNS void
-    LANGUAGE plpgsql
-    AS $_$BEGIN
-  IF $7 = '' THEN
-    INSERT INTO tb_user (cc, password, names, lastnames, telephone, movil, id_usertype) VALUES ($1, $2, $3, $4, $5, $6, 1);
-  ELSE
-    INSERT INTO tb_user (cc, password, names, lastnames, telephone, movil, id_usertype, image) VALUES ($1, $2, $3, $4, $5, $6, 1, lo_import($7));
-  END IF;
-END;
-$_$;
-
-
-ALTER FUNCTION public.f_insertadmin(cc1 character varying, password2 character varying, names3 character varying, lastnames4 character varying, telephone5 character varying, movil6 character varying, image7 character varying) OWNER TO gdadmin;
-
---
--- Name: f_insertclient(character varying, character varying, character varying, character varying, character varying, character varying, character varying); Type: FUNCTION; Schema: public; Owner: gdadmin
---
-
-CREATE FUNCTION f_insertclient(cc1 character varying, password2 character varying, names3 character varying, lastnames4 character varying, telephone5 character varying, movil6 character varying, image7 character varying) RETURNS void
-    LANGUAGE plpgsql
-    AS $_$BEGIN
-  IF $7 = '' THEN
-    INSERT INTO tb_user (cc, password, names, lastnames, telephone, movil, id_usertype) VALUES ($1, $2, $3, $4, $5, $6, 2);
-  ELSE
-    INSERT INTO tb_user (cc, password, names, lastnames, telephone, movil, id_usertype, image) VALUES ($1, $2, $3, $4, $5, $6, 2, lo_import($7));
-  END IF;
-END;$_$;
-
-
-ALTER FUNCTION public.f_insertclient(cc1 character varying, password2 character varying, names3 character varying, lastnames4 character varying, telephone5 character varying, movil6 character varying, image7 character varying) OWNER TO gdadmin;
-
---
--- Name: f_insertdeveloper(character varying, character varying, character varying, character varying, character varying, character varying, character varying); Type: FUNCTION; Schema: public; Owner: gdadmin
---
-
-CREATE FUNCTION f_insertdeveloper(cc1 character varying, password2 character varying, names3 character varying, lastnames4 character varying, telephone5 character varying, movil6 character varying, image7 character varying) RETURNS void
-    LANGUAGE plpgsql
-    AS $_$BEGIN
-  IF $7 = '' THEN
-    INSERT INTO tb_user (cc, password, names, lastnames, telephone, movil, id_usertype) VALUES ($1, $2, $3, $4, $5, $6, 3);
-  ELSE
-    INSERT INTO tb_user (cc, password, names, lastnames, telephone, movil, id_usertype, image) VALUES ($1, $2, $3, $4, $5, $6, 3, lo_import($7));
-  END IF;
-END;
-$_$;
-
-
-ALTER FUNCTION public.f_insertdeveloper(cc1 character varying, password2 character varying, names3 character varying, lastnames4 character varying, telephone5 character varying, movil6 character varying, image7 character varying) OWNER TO gdadmin;
-
---
 -- Name: f_insertinfo(character varying, character varying, character varying); Type: FUNCTION; Schema: public; Owner: gdadmin
 --
 
@@ -411,7 +358,7 @@ CREATE TABLE tb_user (
     cc character varying(10) NOT NULL,
     password character varying(40) NOT NULL,
     names character varying(25) NOT NULL,
-    lastnames character varying(25) NOT NULL,
+    lastnames character varying(25),
     telephone character varying(7),
     movil character varying(10),
     id_usertype integer NOT NULL,
