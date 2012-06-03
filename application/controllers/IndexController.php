@@ -48,7 +48,7 @@ class IndexController extends Zend_Controller_Action
     {
         $this->view->headTitle("Inicio");
 
-        $this->view->news = $this->sql->listNews(GDPG_PATH."/img/news", $this->view->page = ($this->_hasParam('page')?$this->_getParam('page'):1));
+        $this->view->news = $this->sql->listNews($this->view->page = ($this->_hasParam('page')?$this->_getParam('page'):1));
     }
 
     /**

@@ -294,7 +294,7 @@ class Application_Model_SQL
      * @return Lista de noticias. Cada registro está ordenado así: [id, title, header, image]
      *
      */
-    public function listNews($sImageDir, $iPage)
+    public function listNews($iPage)
     {
         $iCount = $this->dbAdapter->fetchRow("SELECT COUNT(*) AS c FROM tb_news");
         $iCount = $iCount['c'];

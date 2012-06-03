@@ -88,9 +88,9 @@ class NewsController extends Zend_Controller_Action
         if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
             $this->_helper->redirector('index', 'index');
         if($this->_hasParam('page'))
-            $this->view->news = $this->sql->listNews("/mg/news", $this->_getParam('page'));
+            $this->view->news = $this->sql->listNews($this->_getParam('page'));
         else
-            $this->view->news = $this->sql->listNews("/mg/news", 1);
+            $this->view->news = $this->sql->listNews(1);
     }
 
     /**
@@ -115,7 +115,7 @@ class NewsController extends Zend_Controller_Action
         $form = new UpdateNewsForm();
         $form->setAction($this->view->url(array("controller" => "news", "action" => "update")))
              ->setMethod('post');
-        $datos = $this->sql->listNews(GDPG_PATH."/img/news", 1);
+        $datos = $this->sql->listNews(1);
 
         if(!$this->getRequest()->isPost())
         {
