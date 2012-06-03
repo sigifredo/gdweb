@@ -195,28 +195,28 @@ class Application_Model_SQL
      */
     public function insertNews($sCCOwner, $sTitle, $sHeader, $sDescription = '', $sImage = '')
     {
-        try
-        {
             $cols = "title, header, cc_owner";
             $vals = "'$sTitle', '$sHeader', '$sCCOwner'";
+        try
+        {
 
             if($sDescription != "")
             {
-                $cols += ", description";
-                $vals += ", '$sDescription'";
+                $cols .= ", description";
+                $vals .= ", '$sDescription'";
             }
 
             if($sImage != '')
             {
-                $cols += ", image";
-                $vals += ", lo_import('$sImage')";
+                $cols .= ", image";
+                $vals .= ", lo_import('$sImage')";
             }
 
             $this->dbAdapter->fetchRow("INSERT INTO tb_news ($cols) VALUES ($vals)");
         }
         catch(Exception $e)
         {
-            echo "<span class='dberror'>No se ha podido insertar la noticia. Por favor verifique que los datos son correctos.</span>";
+            throw new GDException("No se ha podido insertar la noticia. Por favor verifique que los datos son correctos.", 0, $e);
         }
     }
 
