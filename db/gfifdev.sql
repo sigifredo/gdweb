@@ -128,6 +128,26 @@ END;$_$;
 ALTER FUNCTION public.f_insertmemo(cc1 character varying, title2 character varying, description3 text) OWNER TO gdadmin;
 
 --
+-- Name: f_update_image(); Type: FUNCTION; Schema: public; Owner: gdadmin
+--
+
+CREATE FUNCTION f_update_image() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+BEGIN
+IF OLD.image <> NEW.image AND OLD.image <> 20382 THEN
+    PERFORM lo_unlink(OLD.image);
+END IF;
+
+RETURN NEW;
+END;
+$$;
+
+
+ALTER FUNCTION public.f_update_image() OWNER TO gdadmin;
+
+--
 -- Name: f_updateuser(character varying, character varying, character varying, character varying, character varying, character varying); Type: FUNCTION; Schema: public; Owner: gdadmin
 --
 
@@ -553,8 +573,8 @@ COPY tb_memo (id, cc_owner, title, description, activated) FROM stdin;
 -- Data for Name: tb_news; Type: TABLE DATA; Schema: public; Owner: gdadmin
 --
 
-COPY tb_news (id, title, header, cc_owner, image, date) FROM stdin;
-1	Nuenas Cuentas	Administrador: 1<br>Cliente: 2<br>Desarrollador: 3	1	20382	2012-01-30 14:07:11.285038
+COPY tb_news (id, title, header, description, cc_owner, image, date) FROM stdin;
+1	Nuenas Cuentas	Administrador: 1<br>Cliente: 2<br>Desarrollador: 3	\N	1	20382	2012-01-30 14:07:11.285038
 \.
 
 
@@ -703,6 +723,13 @@ CREATE TRIGGER t_delete_news_image AFTER DELETE ON tb_news FOR EACH ROW EXECUTE 
 --
 
 CREATE TRIGGER t_delete_user_image AFTER DELETE ON tb_user FOR EACH ROW EXECUTE PROCEDURE f_delete_image();
+
+
+--
+-- Name: t_update_news_image; Type: TRIGGER; Schema: public; Owner: gdadmin
+--
+
+CREATE TRIGGER t_update_news_image BEFORE UPDATE ON tb_news FOR EACH ROW EXECUTE PROCEDURE f_update_image();
 
 
 --

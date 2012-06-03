@@ -113,13 +113,13 @@ class NewsController extends Zend_Controller_Action
 
         $iIdNews = $this->getRequest()->getParam('news');
         $form = new UpdateNewsForm();
-        $form->setAction($this->view->url(array("controller" => "index", "action" => "update")))
+        $form->setAction($this->view->url(array("controller" => "news", "action" => "update")))
              ->setMethod('post');
-        $datos = $this->sql->listNews(APPLICATION_PATH."/../public/pg/img/news",1);
+        $datos = $this->sql->listNews(GDPG_PATH."/img/news", 1);
 
         if(!$this->getRequest()->isPost())
         {
-            echo "<h4 id='infnews'>Nuevos Datos De Noticia</h4>";
+            echo "<span class='subtitle'>Nuevos datos de noticia.</span>";
             foreach($datos as $line)
                 if($line['id'] == $iIdNews)
                     echo $form->populate($line);
@@ -133,11 +133,11 @@ class NewsController extends Zend_Controller_Action
         $values = $form->getValues();
 
         if(isset($values['image']))
-            $image = APPLICATION_PATH."/../public/img/news/".$form->image->getFileName(null,false);
+            $image = GD3W_PATH."/img/news/".$form->image->getFileName(null,false);
         else
             $image = '';
 
-        $this->sql->updateNews($iIdNews,$values['title'],$values['description'],$image);
+        $this->sql->updateNews($iIdNews, $values['title'], $values['header'], $values['description'], $image);
 
         $this->_helper->redirector('index', 'index');
     }

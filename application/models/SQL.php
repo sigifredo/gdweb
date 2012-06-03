@@ -195,10 +195,10 @@ class Application_Model_SQL
      */
     public function insertNews($sCCOwner, $sTitle, $sHeader, $sDescription = '', $sImage = '')
     {
-            $cols = "title, header, cc_owner";
-            $vals = "'$sTitle', '$sHeader', '$sCCOwner'";
         try
         {
+            $cols = "title, header, cc_owner";
+            $vals = "'$sTitle', '$sHeader', '$sCCOwner'";
 
             if($sDescription != "")
             {
@@ -460,16 +460,21 @@ class Application_Model_SQL
      *
      * @param $iId Número de identificación de la noticia.
      * @param $sTitle Titulo de la noticia.
-     * @param $sDescription Cuerpo de la noticia.
+     * @param $sHeader Breve descripción de la noticia. Este descripción se mostrará en la lista de noticias.
+     * @param $sDescription Cuerpo de la noticia. Este parámetro es opcional.
      * @param $sImage Ruta a la imagen. Este parámetro es opcional.
      *
      */
-    public function updateNews($iId, $sTitle, $sDescription, $sImage = '')
+    public function updateNews($iId, $sTitle, $sHeader, $sDescription = '', $sImage = '')
     {
-        if($sImage == '')
-            $this->dbAdapter->fetchRow("UPDATE tb_news SET title='$sTitle', description='$sDescription' WHERE id=$iId");
-        else
-            $this->dbAdapter->fetchRow("UPDATE tb_news SET title='$sTitle', description='$sDescription', image=lo_import('$sImage') WHERE id=$iId");
+        try
+        {
+            $this->dbAdapter->fetchRow("UPDATE tb_news SET title='$sTitle', header='$sHeader'".(($sDescription=="")?"":", description='$sDescription'").(($sImage=="")?"":", image=lo_import('$sImage')")." WHERE id=$iId");
+        }
+        catch(Exception $e)
+        {
+            throw new GDException("No se ha podido actualizar la noticia. Por favor verifique que los datos son correctos.", 0, $e);
+        }
     }
 
     /**
