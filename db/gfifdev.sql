@@ -25,16 +25,16 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 SET search_path = public, pg_catalog;
 
 --
--- Name: f_delete_user_image(); Type: FUNCTION; Schema: public; Owner: gdadmin
+-- Name: f_delete_image(); Type: FUNCTION; Schema: public; Owner: gdadmin
 --
 
-CREATE FUNCTION f_delete_user_image() RETURNS trigger
+CREATE FUNCTION f_delete_image() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 DECLARE
 BEGIN
-IF OLD.file <> 20382 THEN
-    PERFORM lo_unlink(OLD.file);
+IF OLD.image <> 20382 THEN
+    PERFORM lo_unlink(OLD.image);
 END IF;
 
 RETURN NULL;
@@ -42,7 +42,7 @@ END;
 $$;
 
 
-ALTER FUNCTION public.f_delete_user_image() OWNER TO gdadmin;
+ALTER FUNCTION public.f_delete_image() OWNER TO gdadmin;
 
 --
 -- Name: f_insertadmin(character varying, character varying, character varying, character varying, character varying, character varying, character varying); Type: FUNCTION; Schema: public; Owner: gdadmin
@@ -708,10 +708,17 @@ ALTER TABLE ONLY tb_usertype
 
 
 --
+-- Name: t_delete_news_image; Type: TRIGGER; Schema: public; Owner: gdadmin
+--
+
+CREATE TRIGGER t_delete_news_image AFTER DELETE ON tb_news FOR EACH ROW EXECUTE PROCEDURE f_delete_image();
+
+
+--
 -- Name: t_delete_user_image; Type: TRIGGER; Schema: public; Owner: gdadmin
 --
 
-CREATE TRIGGER t_delete_user_image AFTER DELETE ON tb_user FOR EACH ROW EXECUTE PROCEDURE f_delete_user_image();
+CREATE TRIGGER t_delete_user_image AFTER DELETE ON tb_user FOR EACH ROW EXECUTE PROCEDURE f_delete_image();
 
 
 --
