@@ -13,7 +13,7 @@ class About
 
     public function version()
     {
-        return "1.alfa";
+        return "1.1alfa";
     }
 
     public function releaseDate()
