@@ -358,7 +358,7 @@ CREATE TABLE tb_service (
     id integer NOT NULL,
     name character varying(20) NOT NULL,
     description text NOT NULL,
-    "time" timestamp without time zone DEFAULT now() NOT NULL,
+    date timestamp without time zone DEFAULT now() NOT NULL,
     cc_owner character varying(10) NOT NULL
 );
 
@@ -617,7 +617,7 @@ COPY tb_proyecttype (id, name) FROM stdin;
 -- Data for Name: tb_service; Type: TABLE DATA; Schema: public; Owner: gdadmin
 --
 
-COPY tb_service (id, name, description, "time", cc_owner) FROM stdin;
+COPY tb_service (id, name, description, date, cc_owner) FROM stdin;
 \.
 
 

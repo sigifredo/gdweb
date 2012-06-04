@@ -12,16 +12,18 @@ por_defecto:apache postgres
 all:apache postgres base_de_datos
 
 apache:
-	mkdir -p /tmp/gdweb/www/img/usr
+	mkdir -p /tmp/gdweb/www/img/inf
 	mkdir -p /tmp/gdweb/www/img/news
 	mkdir -p /tmp/gdweb/www/img/proy
-	mkdir -p /tmp/gdweb/www/img/inf
+	mkdir -p /tmp/gdweb/www/img/serv
+	mkdir -p /tmp/gdweb/www/img/usr
 	chown -R www-data.www-data /tmp/gdweb/www
 
 postgres:
+	mkdir -p /tmp/gdweb/pg/img/inf
 	mkdir -p /tmp/gdweb/pg/img/news
 	mkdir -p /tmp/gdweb/pg/img/proy
-	mkdir -p /tmp/gdweb/pg/img/inf
+	mkdir -p /tmp/gdweb/pg/img/serv
 	chown -R postgres.postgres /tmp/gdweb/pg
 	ln -s /tmp/gdweb/pg public/pg
 

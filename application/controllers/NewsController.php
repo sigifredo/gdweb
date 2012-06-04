@@ -87,7 +87,6 @@ class NewsController extends Zend_Controller_Action
     /**
      * \brief action para listar noticias
      *
-     *
      */
     public function listAction()
     {

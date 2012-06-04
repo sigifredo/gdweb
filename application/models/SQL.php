@@ -123,6 +123,20 @@ class Application_Model_SQL
     }
 
     /**
+     * \brief Insertamos un servicio en la base de datos.
+     *
+     * @param $sName Nombre del servicio.
+     * @param $sDescription Descripción del servicio.
+     * @param $sCCOwner Cédula del usuario que publica el servicio.
+     *
+     *
+     */
+    public function insertService($sName, $sDescription, $sCCOwner)
+    {
+        $this->dbAdapter->fetchRow("INSERT INTO tb_service (name, description, cc_owner) VALUES ('$sName', '$sDescription', '$sCCOwner')");
+    }
+
+    /**
      * \brief Inserta un usuario en la base de datos.
      *
      * @param $sCC Cédula del usuario.
@@ -358,6 +372,17 @@ class Application_Model_SQL
     }
 
     /**
+     * \brief Lista los servicions registrados en el sistema.
+     *
+     * @return Lista de los servicios registrados en el sistema. Cada registro está ordenado así: [id, name, description]
+     *
+     */
+    public function listServices()
+    {
+        return $this->dbAdapter->fetchAll("SELECT id, name, description FROM tb_service");
+    }
+
+    /**
      * \brief Número de noticias.
      *
      * @return Número de noticias en la base de datos.
@@ -456,7 +481,6 @@ class Application_Model_SQL
     public function updateAdmin($sCC, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
     {
         $this->dbAdapter->fetchRow("SELECT * FROM f_updateuser('$sCC', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', '$sImage')");
-
     }
 
     /**
@@ -472,9 +496,7 @@ class Application_Model_SQL
      */
     public function updateClient($sCC, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
     {
-
         $this->dbAdapter->fetchRow("SELECT * FROM f_updateuser('$sCC', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', '$sImage')");
-
     }
 
     /**
@@ -490,9 +512,7 @@ class Application_Model_SQL
      */
     public function updateDeveloper($sCC, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
     {
-
         $this->dbAdapter->fetchRow("SELECT * FROM f_updateuser('$sCC', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', '$sImage')");
-
     }
 
     /**

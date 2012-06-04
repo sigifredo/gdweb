@@ -40,7 +40,7 @@ class ProductsController extends Zend_Controller_Action
 
         if(!$this->getRequest()->isPost())
         {
-            echo "<span class='subtitle'>Datos del proyecto</span>";
+            echo "<span class='subtitle'>Datos del proyecto.</span>";
             echo $form;
             return;
         }

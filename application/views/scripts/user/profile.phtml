@@ -48,6 +48,15 @@ if($this->session_type == '1')
     <a href="<?php echo $this->url(array('controller'=>'products', 'action'=>'list')); ?>">Editar proyecto.</a><br>
   </ul>
 </div>
+
+<div>
+  <span>Servicios</span>
+  <ul>
+    <a href="<?php echo $this->url(array('controller'=>'services', 'action'=>'create')); ?>">Crear servicio.</a><br>
+    <a href="<?php echo $this->url(array('controller'=>'services', 'action'=>'list')); ?>">Editar servicio.</a><br>
+  </ul>
+</div>
+
 </div>
 
 <?php
