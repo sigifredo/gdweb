@@ -2,8 +2,11 @@
 
 class NewsController extends Zend_Controller_Action
 {
+
     private $auth = null;
+
     private $session = null;
+
     private $sql = null;
 
     public function init()
@@ -20,6 +23,7 @@ class NewsController extends Zend_Controller_Action
 
     /**
      * \brief action para crear noticia
+     *
      *
      */
     public function createAction()
@@ -58,6 +62,7 @@ class NewsController extends Zend_Controller_Action
     /**
      * \brief action para borrar noticia
      *
+     *
      */
     public function deleteAction()
     {
@@ -81,6 +86,7 @@ class NewsController extends Zend_Controller_Action
 
     /**
      * \brief action para listar noticias
+     *
      *
      */
     public function listAction()
@@ -142,4 +148,16 @@ class NewsController extends Zend_Controller_Action
         $this->_helper->redirector('index', 'index');
     }
 
+    public function viewAction()
+    {
+        if(!$this->_hasParam('n'))
+        {
+            $this->_helper->redirector('index', 'index');
+            return;
+        }
+
+        $this->view->news = $this->sql->news($this->getRequest()->getParam('n'));
+    }
+
 }
+

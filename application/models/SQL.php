@@ -376,6 +376,19 @@ class Application_Model_SQL
     }
 
     /**
+     * \brief Obtenemos una noticia.
+     *
+     * @param $iId Número de identificación de la noticia.
+     *
+     * @return Información de la noticia organizada así: [title, header, description, image, date]
+     *
+     */
+    public function news($iId)
+    {
+        return $this->dbAdapter->fetchRow("SELECT title, header, description, image, date FROM tb_news");
+    }
+
+    /**
      *
      * @return [id, name, description, image]
      *

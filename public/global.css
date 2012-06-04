@@ -64,7 +64,7 @@ article p, article header
     border-width: 2px;
     margin: 0px 15px 15px 15px;
 }
-article header
+article header, article header a
 {
     color: #086900;
     font-size: 17px;
@@ -107,8 +107,18 @@ ul#menu li a
     text-decoration: none;
     color: #383838;
 }
-img
+img.newsimage
 {
-width: 50px;
-height: 50px;
+    width: 100px;
+    height: 100px;
+    float: left;
+    padding: 10px 20px 10px 20px;
+}
+p.newsdescription
+{
+    padding: 10px 0px 10px 0px;
+}
+h2
+{
+    color: #086900;
 }
