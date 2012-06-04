@@ -225,31 +225,28 @@ class UserController extends Zend_Controller_Action
     public function profileAction()
     {
         if(!$this->auth->hasIdentity())
-        {
             $this->_helper->redirector('index', 'index');
-            return;
-        }
 
         $this->view->session_type = $this->session->type;
 
         // NPI
-        if((!$this->_hasParam('memo')) && ($this->session->type != '2'))
-        {
-            echo "<a href=".$this->view->url(array('controller'=>'index', 'action'=>'profile', 'memo'=>'list')).">Ver Mis Memorandos</a>";
-            return;
-        }
+        // if((!$this->_hasParam('memo')) && ($this->session->type != '2'))
+        // {
+        //     echo "<a href=".$this->view->url(array('controller'=>'index', 'action'=>'profile', 'memo'=>'list')).">Ver Mis Memorandos</a>";
+        //     return;
+        // }
 
-        if((!count($this->sql->listMemos($this->session->user))) && ($this->session->type != '2'))
-        {
-            echo "<h3>El Usuario No Tiene Memorandos</h3>";
-            return;
-        }
-        if(($this->_hasParam('memo')=='list') && ($this->session->type != '2'))
-        {
-            $this->view->memo = true;
-            $this->view->listmemos = $this->sql->listMemos($this->session->user);
-            return;
-        }
+        // if((!count($this->sql->listMemos($this->session->user))) && ($this->session->type != '2'))
+        // {
+        //     echo "<h3>El Usuario No Tiene Memorandos</h3>";
+        //     return;
+        // }
+        // if(($this->_hasParam('memo')=='list') && ($this->session->type != '2'))
+        // {
+        //     $this->view->memo = true;
+        //     $this->view->listmemos = $this->sql->listMemos($this->session->user);
+        //     return;
+        // }
 
     }
 
