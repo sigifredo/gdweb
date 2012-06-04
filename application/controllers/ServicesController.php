@@ -53,4 +53,40 @@ class ServicesController extends Zend_Controller_Action
             $this->_helper->redirector('index', 'index');
         $this->view->services = $this->sql->listServices();
     }
+
+    public function updateAction()
+    {
+        if((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
+            $this->_helper->redirector('index', 'index');
+
+        if(!$this->_hasParam('s'))
+            $this->_helper->redirector('list', 'services');
+
+        $iIdService = $this->getRequest()->getParam('s');
+        $form = new UpdateServiceForm();
+        $form->setAction($this->view->url(array("controller" => "services", "action" => "update")))
+             ->setMethod('post');
+
+        if(!$this->getRequest()->isPost())
+        {
+            echo "<span class='subtitle'>Nuevos datos del proyecto.</span>";
+            $datos = $this->sql->service($iIdService);
+
+            echo $form->populate($datos);
+        }
+        else
+        {
+            if(!$form->isValid($this->_getAllParams()))
+            {
+                echo $form;
+                return;
+            }
+
+            $values = $form->getValues();
+
+            $this->sql->updateService($iIdService, $values['name'], $values['description']);
+
+            $this->_forward('list', 'services');
+        }
+    }
 }

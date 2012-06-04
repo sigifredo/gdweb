@@ -468,6 +468,19 @@ class Application_Model_SQL
     }
 
     /**
+     * \brief Obtenemos la información de un servicio.
+     *
+     * @param $iIdService Número de identificación del servicio.
+     *
+     * @return Información del proyecto ordenada así: [id, name, description]
+     *
+     */
+    public function service($iIdService)
+    {
+        return $this->dbAdapter->fetchRow("SELECT id, name, description FROM tb_service WHERE id=$iIdService");
+    }
+
+    /**
      * \brief Actualiza una cuenta de administrador en la base de datos.
      *
      * @param $sCC Cédula del administrador.
@@ -597,6 +610,19 @@ class Application_Model_SQL
             $this->dbAdapter->fetchRow("UPDATE tb_proyect SET name='$sName', description='$sDescription', cc_client='$sCCClient', id_proyecttype=$iType WHERE id=$iIdProyect");
         else
             $this->dbAdapter->fetchRow("UPDATE tb_proyect SET name='$sName', description='$sDescription', cc_client='$sCCClient', id_proyecttype=$iType, image=lo_import('$sImage') WHERE id=$iIdProyect");
+    }
+
+    /**
+     * \brief Actualizamos un servicio en la base de datos.
+     *
+     * @param $iIdService Número de identificación del servicio a actualizar.
+     * @param $sName Nombre del servicio.
+     * @param $sDescription Descripción del servicio.
+     *
+     */
+    public function updateService($iIdService, $sName, $sDescription)
+    {
+        $this->dbAdapter->fetchRow("UPDATE tb_service SET name='$sName', description='$sDescription' WHERE id=$iIdService");
     }
 
     /**
