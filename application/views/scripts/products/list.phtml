@@ -1,0 +1,15 @@
+<table class='tbupdate'>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Descripción</th>
+      <th colspan='2'>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+  <?php
+    foreach($this->products as $product)
+        echo "<tr><td>".$product['name']."</td><td>".$product['description']."</td></td><td><a href='".$this->url(array('controller'=>'products', 'action'=>'update','p'=>$product['id']))."'>Editar</a></td><td><a href='".$this->url(array('controller'=>'products', 'action'=>'delete','p'=>$product['id']))."'>Borrar</a></td></tr>";
+  ?>
+</tbody>
+</table>

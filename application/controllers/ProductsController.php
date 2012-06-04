@@ -77,38 +77,37 @@ class ProductsController extends Zend_Controller_Action
         if(!$this->_hasParam('p'))
             $this->_helper->redirector('list', 'products');
 
-$iIdProyect = $this->getRequest()->getParam('p');
-$form = new UpdateProyectForm();
-$form->setAction($this->view->url(array("controller" => "products", "action" => "update")))
-     ->setMethod('post');
+        $iIdProyect = $this->getRequest()->getParam('p');
+        $form = new UpdateProyectForm();
+        $form->setAction($this->view->url(array("controller" => "products", "action" => "update")))
+             ->setMethod('post');
 
+        if(!$this->getRequest()->isPost())
+        {
+            echo "<span class='subtitle'>Nuevos datos del proyecto.</span>";
+            $datos = $this->sql->proyect($iIdProyect);
 
-if(!$this->getRequest()->isPost())
-{
-    echo "<span class='subtitle'>Nuevos datos del proyecto.</span>";
-    $datos = $this->sql->proyect($iIdProyect);
+            echo $form->populate($datos);
+        }
+        else
+        {
+            if(!$form->isValid($this->_getAllParams()))
+            {
+                echo $form;
+                return;
+            }
 
-    echo $form->populate($datos);
-}
-else
-{
-    if(!$form->isValid($this->_getAllParams()))
-    {
-        echo $form;
-        return;
-    }
+            $values = $form->getValues();
 
-    $values = $form->getValues();
+            if(isset($values['image']))
+                $sImage = GD3W_PATH."/img/proy/".$form->image->getFileName(null,false);
+            else
+                $sImage = '';
 
-    if(isset($values['image']))
-        $image = GD3W_PATH."/img/proy/".$form->image->getFileName(null,false);
-    else
-        $image = '';
+            $this->sql->updateProyect($iIdProyect, $values['name'], $values['description'], $values['cc_client'], $values['type'], $sImage);
 
-    // $this->sql->updateNews($iIdNews, $values['title'], $values['header'], $values['description'], $image);
-
-    $this->_forward('list', 'products');
-}
+            $this->_forward('list', 'products');
+        }
     }
 
 }
