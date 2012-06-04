@@ -707,6 +707,13 @@ CREATE TRIGGER t_update_news_image BEFORE UPDATE ON tb_news FOR EACH ROW EXECUTE
 
 
 --
+-- Name: t_update_proyect_image; Type: TRIGGER; Schema: public; Owner: gdadmin
+--
+
+CREATE TRIGGER t_update_proyect_image BEFORE UPDATE ON tb_proyect FOR EACH ROW EXECUTE PROCEDURE f_update_image();
+
+
+--
 -- Name: tb_memo_cc_owner_fkey; Type: FK CONSTRAINT; Schema: public; Owner: gdadmin
 --
 
