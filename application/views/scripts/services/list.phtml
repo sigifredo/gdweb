@@ -1,0 +1,23 @@
+<?php
+if(!count($this->services))
+    echo "No hay proyectos registrados.";
+else
+{
+?>
+<table class='tbupdate'>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Descripción</th>
+      <th colspan='2'>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+  <?php
+    foreach($this->services as $service)
+        echo "<tr><td>".$service['name']."</td><td>".$service['description']."</td></td><td><a href='".$this->url(array('controller'=>'services', 'action'=>'update','s'=>$service['id']))."'>Editar</a></td><td><a href='".$this->url(array('controller'=>'services', 'action'=>'delete','s'=>$service['id']))."'>Borrar</a></td></tr>";
+  ?>
+  </tbody>
+</table>
+<?php
+}
