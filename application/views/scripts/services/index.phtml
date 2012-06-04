@@ -1,0 +1,17 @@
+<?php
+if(!count($this->services))
+    echo "No hay servicios registrados.";
+else
+{
+    foreach($this->services as $service)
+    {
+        ?>
+        <article>
+          <header>
+            <?php echo $service['name']; ?>
+          </header>
+            <p><?php echo $service['description']; ?></p>
+        </article>
+        <?php
+    }
+}

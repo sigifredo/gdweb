@@ -16,6 +16,8 @@ class ServicesController extends Zend_Controller_Action
     public function indexAction()
     {
         $this->view->headTitle("Nuestros servicios");
+
+        $this->listAction();
     }
 
     public function createAction()
