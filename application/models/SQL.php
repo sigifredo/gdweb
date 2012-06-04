@@ -430,6 +430,19 @@ class Application_Model_SQL
     }
 
     /**
+     * \brief Obtenemos la información de un proyecto.
+     *
+     * @param $iIdProyect Número de identificación del proyecto.
+     *
+     * @return Información del proyecto ordenada así: [id, name, description, cc_client]
+     *
+     */
+    public function proyect($iIdProyect)
+    {
+        return $this->dbAdapter->fetchRow("SELECT id, name, description, cc_client FROM tb_proyect WHERE id=$iIdProyect");
+    }
+
+    /**
      * \brief Actualiza una cuenta de administrador en la base de datos.
      *
      * @param $sCC Cédula del administrador.
@@ -544,6 +557,25 @@ class Application_Model_SQL
     public function updatePassword($sCC, $sNewPassword)
     {
         $this->dbAdapter->fetchRow("UPDATE tb_user SET password='$sNewPassword' WHERE cc='$sCC'");
+    }
+
+    /**
+     * \brief Actualizamos un proyecto en la base de datos.
+     *
+     * @param $sName Nombre del proyecto.
+     * @param $sDescription Descripción del proyecto.
+     * @param $sCCClient Cliente a quien está dirigido el proyecto.
+     * @param $iType Tipo de proyecto (0 opensource, 1 privado).
+     * @param $sImage Dirección donde está la imagen a guardar. Este parámetro es opcional.
+     *
+     */
+    public function updateProyect($iIdProyect, $sName, $sDescription, $sCCClient, $iType, $sImage = '')
+    {
+// "UPDATE tb_proyect SET name='$sName', description='$sDescription', cc_client=, id_proyecttype, image WHERE id=$iIdProyect"
+//         if($sImage == '')
+//             $this->dbAdapter->fetchRow("INSERT INTO tb_proyect (name, description, cc_client, id_proyecttype) values ('$sName', '$sDescription', '$sCCClient', $iType)");
+//         else
+//             $this->dbAdapter->fetchRow("INSERT INTO tb_proyect (name, description, cc_client, id_proyecttype, image) values ('$sName', '$sDescription', '$sCCClient', $iType, lo_import('$sImage'))");
     }
 
     /**

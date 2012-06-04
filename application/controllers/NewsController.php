@@ -106,46 +106,42 @@ class NewsController extends Zend_Controller_Action
     public function updateAction()
     {
         if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
-        {
             $this->_helper->redirector('index', 'index');
-            return;
-        }
 
         if(!$this->_hasParam('news'))
-        {
             $this->_helper->redirector('list', 'index');
-            return;
-        }
 
         $iIdNews = $this->getRequest()->getParam('news');
         $form = new UpdateNewsForm();
         $form->setAction($this->view->url(array("controller" => "news", "action" => "update")))
              ->setMethod('post');
-        $datos = $this->sql->listNews(1);
 
         if(!$this->getRequest()->isPost())
         {
             echo "<span class='subtitle'>Nuevos datos de noticia.</span>";
-            foreach($datos as $line)
-                if($line['id'] == $iIdNews)
-                    echo $form->populate($line);
-            return;
-        }
-        if(!$form->isValid($this->_getAllParams()))
-        {
-            echo $form;
-            return;
-        }
-        $values = $form->getValues();
+            $datos = $this->sql->news($iIdNews);
 
-        if(isset($values['image']))
-            $image = GD3W_PATH."/img/news/".$form->image->getFileName(null,false);
+            echo $form->populate($datos);
+        }
         else
-            $image = '';
+        {
+            if(!$form->isValid($this->_getAllParams()))
+            {
+                echo $form;
+                return;
+            }
 
-        $this->sql->updateNews($iIdNews, $values['title'], $values['header'], $values['description'], $image);
+            $values = $form->getValues();
 
-        $this->_helper->redirector('index', 'index');
+            if(isset($values['image']))
+                $image = GD3W_PATH."/img/news/".$form->image->getFileName(null,false);
+            else
+                $image = '';
+
+            $this->sql->updateNews($iIdNews, $values['title'], $values['header'], $values['description'], $image);
+
+            $this->_helper->redirector('index', 'index');
+        }
     }
 
     public function viewAction()

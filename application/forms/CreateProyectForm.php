@@ -18,7 +18,7 @@ class CreateProyectForm extends Zend_Form
         $this->addElement('select','type',array('label' => 'Tipo', 'multiOptions' => array('1' => 'Open Source','2' => 'Non-Free'),'required' => true));
         $this->addElement('text','name',array('label'=>'Nombre','required'=>true, 'validators' => array(array('validator' => 'StringLength', 'options' => array(0, 40)))));
         $this->addElement('textarea','description',array('label'=>'Descripción', 'required'=>true));
-        $this->addElement('text','client',array('label'=>'Cliente','required'=>true, 'validators' => array(array('validator' => 'StringLength', 'options' => array(0, 10)))));
+        $this->addElement('text','cc_client',array('label'=>'Cliente','required'=>true, 'validators' => array(array('validator' => 'StringLength', 'options' => array(0, 10)))));
         $this->addElement('submit','create',array('label'=>'Create'));
     }
 }
