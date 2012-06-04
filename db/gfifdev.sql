@@ -351,6 +351,49 @@ SELECT pg_catalog.setval('tb_proyecttype_id_seq', 2, true);
 
 
 --
+-- Name: tb_service; Type: TABLE; Schema: public; Owner: gdadmin; Tablespace: 
+--
+
+CREATE TABLE tb_service (
+    id integer NOT NULL,
+    name character varying(20) NOT NULL,
+    description text NOT NULL,
+    "time" timestamp without time zone DEFAULT now() NOT NULL,
+    cc_owner character varying(10) NOT NULL
+);
+
+
+ALTER TABLE public.tb_service OWNER TO gdadmin;
+
+--
+-- Name: tb_service_id_seq; Type: SEQUENCE; Schema: public; Owner: gdadmin
+--
+
+CREATE SEQUENCE tb_service_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tb_service_id_seq OWNER TO gdadmin;
+
+--
+-- Name: tb_service_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: gdadmin
+--
+
+ALTER SEQUENCE tb_service_id_seq OWNED BY tb_service.id;
+
+
+--
+-- Name: tb_service_id_seq; Type: SEQUENCE SET; Schema: public; Owner: gdadmin
+--
+
+SELECT pg_catalog.setval('tb_service_id_seq', 1, false);
+
+
+--
 -- Name: tb_user; Type: TABLE; Schema: public; Owner: gdadmin; Tablespace: 
 --
 
@@ -499,6 +542,13 @@ ALTER TABLE ONLY tb_proyecttype ALTER COLUMN id SET DEFAULT nextval('tb_proyectt
 -- Name: id; Type: DEFAULT; Schema: public; Owner: gdadmin
 --
 
+ALTER TABLE ONLY tb_service ALTER COLUMN id SET DEFAULT nextval('tb_service_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: gdadmin
+--
+
 ALTER TABLE ONLY tb_usertype ALTER COLUMN id SET DEFAULT nextval('tb_usertype_id_seq'::regclass);
 
 
@@ -560,6 +610,14 @@ COPY tb_proyect (id, name, description, id_proyecttype, image, cc_client) FROM s
 COPY tb_proyecttype (id, name) FROM stdin;
 1	Open Source
 2	Non-free
+\.
+
+
+--
+-- Data for Name: tb_service; Type: TABLE DATA; Schema: public; Owner: gdadmin
+--
+
+COPY tb_service (id, name, description, "time", cc_owner) FROM stdin;
 \.
 
 
@@ -663,6 +721,14 @@ ALTER TABLE ONLY tb_proyecttype
 
 
 --
+-- Name: tb_service_pkey; Type: CONSTRAINT; Schema: public; Owner: gdadmin; Tablespace: 
+--
+
+ALTER TABLE ONLY tb_service
+    ADD CONSTRAINT tb_service_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: tb_user_pkey; Type: CONSTRAINT; Schema: public; Owner: gdadmin; Tablespace: 
 --
 
@@ -735,6 +801,14 @@ ALTER TABLE ONLY tb_news
 
 ALTER TABLE ONLY tb_proyect
     ADD CONSTRAINT tb_proyect_cc_client_fkey FOREIGN KEY (cc_client) REFERENCES tb_user(cc);
+
+
+--
+-- Name: tb_service_cc_owner_fkey; Type: FK CONSTRAINT; Schema: public; Owner: gdadmin
+--
+
+ALTER TABLE ONLY tb_service
+    ADD CONSTRAINT tb_service_cc_owner_fkey FOREIGN KEY (cc_owner) REFERENCES tb_user(cc);
 
 
 --

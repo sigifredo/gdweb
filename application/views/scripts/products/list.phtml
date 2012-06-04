@@ -1,3 +1,9 @@
+<?php
+if(!count($this->products))
+    echo "No hay proyectos registrados.";
+else
+{
+?>
 <table class='tbupdate'>
   <thead>
     <tr>
@@ -13,3 +19,5 @@
   ?>
 </tbody>
 </table>
+<?php
+}
