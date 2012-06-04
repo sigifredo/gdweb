@@ -759,6 +759,13 @@ CREATE TRIGGER t_delete_news_image AFTER DELETE ON tb_news FOR EACH ROW EXECUTE 
 
 
 --
+-- Name: t_delete_proyect_image; Type: TRIGGER; Schema: public; Owner: gdadmin
+--
+
+CREATE TRIGGER t_delete_proyect_image AFTER DELETE ON tb_proyect FOR EACH ROW EXECUTE PROCEDURE f_delete_image();
+
+
+--
 -- Name: t_delete_user_image; Type: TRIGGER; Schema: public; Owner: gdadmin
 --
 

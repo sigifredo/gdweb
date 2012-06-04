@@ -61,6 +61,28 @@ class ProductsController extends Zend_Controller_Action
         $this->_forward('list', 'products');
     }
 
+    /**
+     * \brief action para borrar proyecto.
+     *
+     */
+    public function deleteAction()
+    {
+        if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
+        {
+            $this->_helper->redirector('index', 'index');
+            return;
+        }
+        if(!$this->_hasParam('p'))
+        {
+            $this->_helper->redirector('list', 'products');
+            return;
+        }
+
+        $this->sql->deleteProyect($this->getRequest()->getParam('p'));
+
+        $this->_forward('list', 'products');
+    }
+
     public function listAction()
     {
         if((!$this->auth->hasIdentity()) || ($this->session->type != '1'))

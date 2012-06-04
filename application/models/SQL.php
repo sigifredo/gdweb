@@ -50,6 +50,17 @@ class Application_Model_SQL
     }
 
     /**
+     * \brief Elimina un proyecto de la base de datos.
+     *
+     * @param $iIdProycto Número de indentificación del proyecto que vamos a eliminar.
+     *
+     */
+    public function deleteProyect($iIdProyect)
+    {
+        $this->dbAdapter->fetchRow("DELETE FROM tb_proyect WHERE id=$iIdProyect");
+    }
+
+    /**
      * \brief Elimina una noticia de la base de datos.
      *
      * @param $iId Número de identificación de la noticia.
@@ -69,6 +80,17 @@ class Application_Model_SQL
     public function deleteUser($sCC)
     {
         $this->dbAdapter->fetchRow("UPDATE tb_user SET activated=FALSE WHERE cc='$sCC'");
+    }
+
+    /**
+     * \brief Elimina un servicio de la base de datos.
+     *
+     * @param $iIdService Número de indentificación del servicio que vamos a eliminar.
+     *
+     */
+    public function deleteService($iIdService)
+    {
+        $this->dbAdapter->fetchRow("DELETE FROM tb_service WHERE id=$iIdService");
     }
 
     /**

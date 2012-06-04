@@ -44,7 +44,29 @@ class ServicesController extends Zend_Controller_Action
 
         $this->sql->insertService($values['name'], $values['description'], $this->session->user);
 
-        $this->_forward('list', 'products');
+        $this->_forward('list', 'services');
+    }
+
+    /**
+     * \brief action para borrar servicio.
+     *
+     */
+    public function deleteAction()
+    {
+        if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
+        {
+            $this->_helper->redirector('index', 'index');
+            return;
+        }
+        if(!$this->_hasParam('s'))
+        {
+            $this->_helper->redirector('list', 'service');
+            return;
+        }
+
+        $this->sql->deleteService($this->getRequest()->getParam('s'));
+
+        $this->_forward('list', 'services');
     }
 
     public function listAction()
@@ -69,7 +91,7 @@ class ServicesController extends Zend_Controller_Action
 
         if(!$this->getRequest()->isPost())
         {
-            echo "<span class='subtitle'>Nuevos datos del proyecto.</span>";
+            echo "<span class='subtitle'>Nuevos datos del servicio.</span>";
             $datos = $this->sql->service($iIdService);
 
             echo $form->populate($datos);
