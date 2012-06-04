@@ -16,9 +16,9 @@ class CreateProyectForm extends Zend_Form
     
         $this->addElement($image);
         $this->addElement('select','type',array('label' => 'Tipo', 'multiOptions' => array('1' => 'Open Source','2' => 'Non-Free'),'required' => true));
-        $this->addElement('text','name',array('label'=>'Nombre','required'=>true,'validator'=>'StringLength',false,array(1,20),'validator'=>'alnum'));
-        $this->addElement('textarea','description',array('label'=>'Descripción','required'=>true));
-        $this->addElement('text','client',array('label'=>'Cliente','required'=>true,'filter'=>'StringToLower','validator'=>'StringLength',false,array(6,10),'validator'=>'alnum','validator'=>'regex', false, array('/^[a-z]+/')));
+        $this->addElement('text','name',array('label'=>'Nombre','required'=>true, 'validators' => array(array('validator' => 'StringLength', 'options' => array(0, 40)))));
+        $this->addElement('textarea','description',array('label'=>'Descripción', 'required'=>true));
+        $this->addElement('text','client',array('label'=>'Cliente','required'=>true, 'validators' => array(array('validator' => 'StringLength', 'options' => array(0, 10)))));
         $this->addElement('submit','create',array('label'=>'Create'));
     }
 }

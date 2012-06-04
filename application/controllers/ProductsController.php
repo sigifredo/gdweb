@@ -40,7 +40,7 @@ class ProductsController extends Zend_Controller_Action
 
         if(!$this->getRequest()->isPost())
         {
-            echo "<h4 id='infpro'>Datos del proyecto</h4>";
+            echo "<span class='subtitle'>Datos del proyecto</span>";
             echo $form;
             return;
         }
@@ -58,7 +58,15 @@ class ProductsController extends Zend_Controller_Action
 
         $this->sql->insertProyect($values['name'], $values['description'], $values['client'], $values['type'], $image);
 
-        $this->_helper->redirector('profile', 'user');
+        $this->_forward('list', 'products');
+    }
+
+    public function listAction()
+    {
+        if((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
+            $this->_helper->redirector('index', 'index');
+
+        $this->view->products = $this->sql->listProyects();
     }
 
 }

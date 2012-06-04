@@ -261,9 +261,9 @@ class Application_Model_SQL
     public function insertProyect($sName, $sDescription, $sCCClient, $iType, $sImage = '')
     {
         if($sImage == '')
-            $this->dbAdapter->fetchRow("INSERT INTO tb_proyect (name, description, cc_client, id_proyecttype) values ('$sName', '$sDecription', '$sCCClient', $iType)");
+            $this->dbAdapter->fetchRow("INSERT INTO tb_proyect (name, description, cc_client, id_proyecttype) values ('$sName', '$sDescription', '$sCCClient', $iType)");
         else
-            $this->dbAdapter->fetchRow("INSERT INTO tb_proyect (name, description, cc_client, id_proyecttype, image) values ('$sName', '$sDecription', '$sCCClient', $iType, lo_import('$sImage'))");
+            $this->dbAdapter->fetchRow("INSERT INTO tb_proyect (name, description, cc_client, id_proyecttype, image) values ('$sName', '$sDescription', '$sCCClient', $iType, lo_import('$sImage'))");
     }
 
     /**
@@ -389,6 +389,22 @@ class Application_Model_SQL
     }
 
     /**
+     * \brief Obtenemos los proyectos non-free registrados en el sistema.
+     *
+     * @return [id, name, description, image]
+     *
+     */
+    public function listProyects($sCCClient = '')
+    {
+        $aProy = $this->dbAdapter->fetchAll("SELECT id, name, description, image FROM tb_proyect");
+
+        foreach($aProy as $r)
+            $this->dbAdapter->fetchRow("SELECT lo_export(".$r['image'].", '".GDPG_PATH."/img/proy/".$r['image']."')");
+
+        return $aProy;
+    }
+
+    /**
      *
      * @return [id, name, description, image]
      *
@@ -405,7 +421,7 @@ class Application_Model_SQL
      */
     public function listNonFreeProyects($sCCClient = '')
     {
-        $aProy = $this->dbAdapter->fetchAll("SELECT id, name, description, image FROM tb_proyect");
+        $aProy = $this->dbAdapter->fetchAll("SELECT id, name, description, image FROM tb_proyect WHERE id_proyecttype=2");
 
         foreach($aProy as $r)
             $this->dbAdapter->fetchRow("SELECT lo_export(".$r['image'].", '".GDPG_PATH."/img/proy/".$r['image']."')");

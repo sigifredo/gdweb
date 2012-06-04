@@ -273,7 +273,7 @@ SELECT pg_catalog.setval('tb_news_id_seq', 1, true);
 CREATE TABLE tb_proyect (
     id integer NOT NULL,
     name character varying(40) NOT NULL,
-    description text,
+    description text NOT NULL,
     id_proyecttype integer NOT NULL,
     image oid DEFAULT 20382 NOT NULL,
     cc_client character varying(10)
