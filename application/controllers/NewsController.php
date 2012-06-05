@@ -152,6 +152,10 @@ class NewsController extends Zend_Controller_Action
         }
 
         $this->view->news = $this->sql->news($this->getRequest()->getParam('n'));
+
+        if(count($this->view->news))
+            $this->view->headTitle($this->view->news['title']);
+
     }
 
 }

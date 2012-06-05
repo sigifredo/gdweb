@@ -20,6 +20,8 @@ class ProductsController extends Zend_Controller_Action
 
     public function indexAction()
     {
+        $this->view->headTitle("Nuestros productos");
+
         $this->view->proyect = $this->sql->listNonFreeProyects();
     }
 

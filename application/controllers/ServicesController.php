@@ -17,7 +17,7 @@ class ServicesController extends Zend_Controller_Action
     {
         $this->view->headTitle("Nuestros servicios");
 
-        $this->listAction();
+        $this->view->services = $this->sql->listServices();
     }
 
     public function createAction()

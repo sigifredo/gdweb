@@ -126,3 +126,9 @@ table.tbupdate td
 {
     border: 1px solid #b7b7b7;
 }
+/* Sub item admin menu. */
+div.subitemam
+{
+    float: left;
+width: 50%;
+}

@@ -2,14 +2,12 @@
 
 class UserController extends Zend_Controller_Action
 {
-
     private $session = null;
     private $auth = null;
     private $sql = null;
 
     /**
      * \brief Contruye las variables de la clase
-     *
      *
      */
     public function init()
@@ -26,7 +24,6 @@ class UserController extends Zend_Controller_Action
 
     /**
      * \brief action para listar usuarios
-     *
      *
      */
     public function listAction()
@@ -116,7 +113,6 @@ class UserController extends Zend_Controller_Action
 
     /**
      * \brief action para modificar usuario
-     *
      *
      */
     public function updateAction()
@@ -227,6 +223,8 @@ class UserController extends Zend_Controller_Action
         if(!$this->auth->hasIdentity())
             $this->_helper->redirector('index', 'index');
 
+        $this->view->headTitle("Perfil");
+
         $this->view->session_type = $this->session->type;
 
         // NPI
@@ -251,7 +249,7 @@ class UserController extends Zend_Controller_Action
     }
 
     /**
-     * \brief action para cerrar session.
+     * \brief acción para cerrar session.
      *
      */
     public function logoutAction()
@@ -261,11 +259,13 @@ class UserController extends Zend_Controller_Action
     }
 
     /**
-     * \brief action para auntenticacion del usuario
+     * \brief acción para auntenticacion del usuario.
      *
      */
     public function loginAction()
     {
+        $this->view->headTitle("Iniciar sesión");
+
         $form = new LoginForm();
         $form->setAction($this->view->url(array("controller" => "user", "action" => "login")))
              ->setMethod('post');
@@ -273,7 +273,6 @@ class UserController extends Zend_Controller_Action
         if(!$this->getRequest()->isPost())
         {
             echo $form;
-
             return;
         }
         if(!$form->isValid($this->_getAllParams()))
@@ -294,21 +293,19 @@ class UserController extends Zend_Controller_Action
 
         $result = $this->auth->authenticate($authAdapter);
 
-        $this->session->type=$this->sql->userType($sCCUser, $sPassword);
-        $this->session->user=$sCCUser;
+        $this->session->type = $this->sql->userType($sCCUser, $sPassword);
+        $this->session->user = $sCCUser;
 
         if(!$result->isValid())
         {
-
             if($this->session->type==null)
             {
-                echo "<h4 id='error' class='login'>El usuario o la contraseña no coincide</h4>";
+                echo "<span class='subtitle'>El usuario o la contraseña no coinciden.</span>";
                 echo $form;
             }
         }
         else
             $this->_helper->redirector('index', 'index');
-        return;
     }
 
 }
