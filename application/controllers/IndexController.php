@@ -49,6 +49,12 @@ class IndexController extends Zend_Controller_Action
         $this->view->headTitle("Inicio");
 
         $this->view->news = $this->sql->listNews($this->view->page = ($this->_hasParam('page')?$this->_getParam('page'):1));
+
+        $data = file_get_contents("/home/raziel/descargas/rata.jpg");
+        $image = pg_escape_bytea($data);
+
+        $tbUser = new TbUser();
+        $tbUser->update(array("image"=>"'{$image}'"), "cc='1'");
     }
 
     /**

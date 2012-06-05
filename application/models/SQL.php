@@ -519,9 +519,9 @@ class Application_Model_SQL
             $this->dbAdapter->fetchRow("UPDATE tb_user SET names='$sNames', lastnames='$sLastNames', telephone='$sTelephone', movil='$sMovil' WHERE cc='$sCC'");
         else
         {
-            $image = new Image($sImage);
-            $b = $image->bytes();
-            // $this->dbAdapter->fetchRow("UPDATE tb_user SET names='$sNames', lastnames='$sLastNames', telephone='$sTelephone', movil='$sMovil', image='{$b}' WHERE cc='$sCC'");
+            $image = file_get_contents($sImage);
+            $image = bin2hex($image);
+            $this->dbAdapter->fetchRow("UPDATE tb_user SET image=decode('{$image}', 'hex') WHERE cc='$sCC'");
         }
     }
 
