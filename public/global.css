@@ -130,5 +130,12 @@ table.tbupdate td
 div.subitemam
 {
     float: left;
-width: 50%;
+    width: 50%;
+}
+div.profile, div#adminmenu
+{
+    border: 1px dotted #b7b7b7;
+    width: 948px;
+    padding: 10px;
+    margin: 5px;
 }
