@@ -24,7 +24,6 @@ class NewsController extends Zend_Controller_Action
     /**
      * \brief action para crear noticia
      *
-     *
      */
     public function createAction()
     {

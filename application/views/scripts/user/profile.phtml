@@ -1,3 +1,14 @@
+<div class='profile'>
+<?php
+echo "<br>Identificación: ".$this->user['cc'];
+echo "<br>Nombre completo: ".$this->user['names']." ".$this->user['lastnames'];
+echo "<br>Teléfono: ".$this->user['telephone'];
+echo "<br>Celular: ".$this->user['movil']."<br>";
+echo "<a href='".$this->url(array('controller'=>'user', 'action'=>'update', 'cc'=>$this->user['cc']))."'>Editar</a>";
+// cc, names, lastnames, telephone, movil
+?>
+</div>
+
 <?php
 
 if($this->session_type == '1')

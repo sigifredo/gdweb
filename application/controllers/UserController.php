@@ -119,13 +119,10 @@ class UserController extends Zend_Controller_Action
     {
         if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
             $this->_helper->redirector('index', 'index');
-        if(!$this->_hasParam('type'))
-            $this->_helper->redirector('index', 'index');
         if(!$this->_hasParam('cc'))
             $this->_helper->redirector('list', 'index');
 
-        $iUserType = $this->getRequest()->getParam('type');
-        $iCCUser = $this->getRequest()->getParam('cc');
+        $sCCUser = $this->getRequest()->getParam('cc');
 
         $form = new UpdateUserForm();
         $form->setAction($this->view->url(array("controller" => "user", "action" => "update")))->setMethod('post');
@@ -134,22 +131,8 @@ class UserController extends Zend_Controller_Action
         {
             echo "<span class='subtitle'>Nuevos datos de usuario.</span>";
 
-            switch ($iUserType)
-            {
-                case 1:
-                    $datos = $this->sql->listAdmin();
-                    break;
-                case 2:
-                    $datos = $this->sql->listClient();
-                    break;
-                case 3:
-                    $datos = $this->sql->listDeveloper();
-                    break;
-            }
-
-            foreach($datos as $line)
-                if($line['cc'] == $iCCUser)
-                    echo $form->populate($line);
+            $datos = $this->sql->user($sCCUser);
+            echo $form->populate($datos);
         }
         else
         {
@@ -160,7 +143,7 @@ class UserController extends Zend_Controller_Action
                 $values = $form->getValues();
 
                 if(isset($values['updateusr']))
-                    $image = APPLICATION_PATH."/../public/img/usr/".$form->user->getFileName(null,false);
+                    $image = GD3W."/img/usr/".$form->user->getFileName(null,false);
                 else
                     $image = '';
 
@@ -173,22 +156,23 @@ class UserController extends Zend_Controller_Action
                         return;
                     }
                     else
-                        $this->sql->updatePassword($iCCUser, sha1($values['newpassword']));
+                        $this->sql->updatePassword($sCCUser, sha1($values['newpassword']));
                 }
 
-                switch ($iUserType)
+                switch ($values['id_usertype'])
                 {
                     case 1:
-                        $this->sql->updateAdmin($iCCUser,$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
+                        $this->sql->updateAdmin($sCCUser,$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
                         break;
                     case 2:
-                        $this->sql->updateClient($iCCUser,$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
+                        $this->sql->updateClient($sCCUser,$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
                         break;
                     case 3:
-                        $this->sql->updateDeveloper($iCCUser,$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
+                        $this->sql->updateDeveloper($sCCUser,$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
                         break;
                 }
-                $this->_helper->redirector('user', 'profile');
+
+                $this->_forward('list', 'user', null, array('type'=>$values['id_usertype']));
             }
         }
     }
@@ -225,6 +209,7 @@ class UserController extends Zend_Controller_Action
 
         $this->view->headTitle("Perfil");
 
+        $this->view->user = $this->sql->user($this->session->user);
         $this->view->session_type = $this->session->type;
 
         // NPI

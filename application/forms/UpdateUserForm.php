@@ -18,6 +18,7 @@ class UpdateUserForm extends Zend_Form
         $this->addElement($image);
         $this->addElement('text','names',array('label'=>'Nombres (*)','required'=>true, 'validators' => array(array('validator' => 'StringLength', 'options' => array(0, 25)))));
         $this->addElement('text','lastnames',array('label'=>'Apellidos', 'validators' => array(array('validator' => 'StringLength', 'options' => array(0, 25)))));
+        $this->addElement('hidden','id_usertype');
         $this->addElement('password','newpassword',array('label'=>'Nueva contraseña'));
         $this->addElement('password','verifypassword',array('label'=>'Verificar contraseña'));
         $this->addElement('text','telephone',array('label'=>'Teléfono', 'validators' => array(array('validator' => 'StringLength', 'options' => array(0, 7)))));
