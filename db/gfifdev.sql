@@ -136,6 +136,48 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: tb_image; Type: TABLE; Schema: public; Owner: gdadmin; Tablespace: 
+--
+
+CREATE TABLE tb_image (
+    id integer NOT NULL,
+    name character varying(50) NOT NULL,
+    content bytea NOT NULL,
+    type character varying(4)
+);
+
+
+ALTER TABLE public.tb_image OWNER TO gdadmin;
+
+--
+-- Name: tb_image_id_seq; Type: SEQUENCE; Schema: public; Owner: gdadmin
+--
+
+CREATE SEQUENCE tb_image_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tb_image_id_seq OWNER TO gdadmin;
+
+--
+-- Name: tb_image_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: gdadmin
+--
+
+ALTER SEQUENCE tb_image_id_seq OWNED BY tb_image.id;
+
+
+--
+-- Name: tb_image_id_seq; Type: SEQUENCE SET; Schema: public; Owner: gdadmin
+--
+
+SELECT pg_catalog.setval('tb_image_id_seq', 1, false);
+
+
+--
 -- Name: tb_info; Type: TABLE; Schema: public; Owner: gdadmin; Tablespace: 
 --
 
@@ -507,6 +549,13 @@ ALTER TABLE public.version OWNER TO gdadmin;
 -- Name: id; Type: DEFAULT; Schema: public; Owner: gdadmin
 --
 
+ALTER TABLE ONLY tb_image ALTER COLUMN id SET DEFAULT nextval('tb_image_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: gdadmin
+--
+
 ALTER TABLE ONLY tb_info ALTER COLUMN id SET DEFAULT nextval('tb_info_id_seq'::regclass);
 
 
@@ -571,6 +620,14 @@ SELECT pg_catalog.lo_create('20382');
 ALTER LARGE OBJECT 20382 OWNER TO gdadmin;
 
 --
+-- Data for Name: tb_image; Type: TABLE DATA; Schema: public; Owner: gdadmin
+--
+
+COPY tb_image (id, name, content, type) FROM stdin;
+\.
+
+
+--
 -- Data for Name: tb_info; Type: TABLE DATA; Schema: public; Owner: gdadmin
 --
 
@@ -625,10 +682,10 @@ COPY tb_service (id, name, description, date, cc_owner) FROM stdin;
 -- Data for Name: tb_user; Type: TABLE DATA; Schema: public; Owner: gdadmin
 --
 
-COPY tb_user (cc, password, names, lastnames, telephone, movil, id_usertype, activated) FROM stdin;
-2	e285e2e264f407492baeeb10e313981369a35259	Cliente	GfifDev	496	314	2	t
-3	e285e2e264f407492baeeb10e313981369a35259	Desarrollador	GfifDev	496	314	3	t
-1	e285e2e264f407492baeeb10e313981369a35259	Administrador	GfifDev	496	2314asd	1	t
+COPY tb_user (cc, password, names, lastnames, telephone, movil, id_usertype, image, activated) FROM stdin;
+2	e285e2e264f407492baeeb10e313981369a35259	Cliente	GfifDev	496	314	2	\N	t
+3	e285e2e264f407492baeeb10e313981369a35259	Desarrollador	GfifDev	496	314	3	\N	t
+1	e285e2e264f407492baeeb10e313981369a35259	Administrador	GfifDev	496	2314asd	1	\N	t
 \.
 
 
@@ -679,6 +736,14 @@ SELECT pg_catalog.lo_close(0);
 COMMIT;
 
 SET search_path = public, pg_catalog;
+
+--
+-- Name: tb_image_pkey; Type: CONSTRAINT; Schema: public; Owner: gdadmin; Tablespace: 
+--
+
+ALTER TABLE ONLY tb_image
+    ADD CONSTRAINT tb_image_pkey PRIMARY KEY (id);
+
 
 --
 -- Name: tb_info_pkey; Type: CONSTRAINT; Schema: public; Owner: gdadmin; Tablespace: 
