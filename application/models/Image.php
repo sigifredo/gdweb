@@ -2,18 +2,30 @@
 
 class Image
 {
-    protected $_data = null;
+    protected $_content = null;
+    protected $_type = null;
+    protected $_sName = null;
 
-    function __construct($sPath, $bByte = false)
+    function __construct($sName, $content, $type)
     {
-        if($bByte)
-            $this->_data = pg_unescape_bytea($sPath);
-        else
-            $this->_data = file_get_contents($sPath);
+        $this->_sName = $sName;
+        $this->_content = $content;
+        $this->_type = $type;
     }
 
-    public function bytes()
+    public function name()
     {
-        return pg_escape_bytea($this->_data);
+        return $this->_sName;
     }
+
+    public function content()
+    {
+        return $this->_content;
+    }
+
+    public function type()
+    {
+        return $this->_type;
+    }
+
 }
