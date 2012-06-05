@@ -147,7 +147,7 @@ class UserController extends Zend_Controller_Action
                 else
                     $image = '';
 
-                if(isset($values['newpassword']))
+                if(isset($values['newpassword']) && $values['newpassword'] != '')
                 {
                     if($values['newpassword'] != $values['verifypassword'])
                     {
