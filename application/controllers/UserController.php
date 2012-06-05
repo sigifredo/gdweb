@@ -296,4 +296,15 @@ $tbUser->insert($values);
             $this->_helper->redirector('index', 'index');
     }
 
+public function viewAction()
+{
+$this->view->layout()->disableLayout();
+$this->_helper->viewRenderer->setNoRender(true);
+
+$tbUser = new TbUser();
+
+header("Content-Type: image/jpeg");
+fpassthru($tbUser->getImage("1"));
+}
+
 }
