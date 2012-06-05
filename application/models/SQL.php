@@ -659,12 +659,12 @@ class Application_Model_SQL
      *
      * @param $sCC Cédula del usuario.
      *
-     * @return Datos del usuario ordenados así: [cc, names, lastnames, telephone, movil, id_usertype]
+     * @return Datos del usuario ordenados así: [cc, names, lastnames, telephone, movil, id_usertype, id_image]
      *
      */
     public function user($sCC)
     {
-        return $this->dbAdapter->fetchRow("SELECT cc, names, lastnames, telephone, movil, id_usertype FROM tb_user WHERE activated=TRUE AND cc='$sCC'");
+        return $this->dbAdapter->fetchRow("SELECT cc, names, lastnames, telephone, movil, id_usertype, id_image FROM tb_user WHERE activated=TRUE AND cc='$sCC'");
     }
 
     /**

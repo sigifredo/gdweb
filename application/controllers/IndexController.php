@@ -181,5 +181,23 @@ class IndexController extends Zend_Controller_Action
         return;
     }
 
+    public function viewAction()
+    {
+        if(!$this->_hasParam('i'))
+            $this->_helper->redirector('index', 'index');
+        else
+        {
+            $this->view->layout()->disableLayout();
+            $this->_helper->viewRenderer->setNoRender(true);
+
+            $tbImage = new TbImage();
+
+            $image = $tbImage->getImage($this->getRequest()->getParam('i'));
+
+            header("Content-Type: image/".$image->type());
+            fpassthru($image->content());
+        }
+    }
+
 }
 

@@ -114,22 +114,6 @@ $$;
 
 ALTER FUNCTION public.f_update_image() OWNER TO gdadmin;
 
---
--- Name: f_updateuser(character varying, character varying, character varying, character varying, character varying, character varying); Type: FUNCTION; Schema: public; Owner: gdadmin
---
-
-CREATE FUNCTION f_updateuser(cc1 character varying, names2 character varying, lastnames3 character varying, telephone4 character varying, movil5 character varying, image6 character varying) RETURNS void
-    LANGUAGE plpgsql
-    AS $_$BEGIN
-  IF $6 = '' THEN
-    UPDATE tb_user SET names=$2, lastnames=$3, telephone=$4, movil=$5 WHERE cc=$1;
-  ELSE
-    UPDATE tb_user SET names=$2, lastnames=$3, telephone=$4, movil=$5, image=lo_import($6) WHERE cc=$1;
-  END IF;
-END;$_$;
-
-
-ALTER FUNCTION public.f_updateuser(cc1 character varying, names2 character varying, lastnames3 character varying, telephone4 character varying, movil5 character varying, image6 character varying) OWNER TO gdadmin;
 
 SET default_tablespace = '';
 
@@ -447,7 +431,7 @@ CREATE TABLE tb_user (
     telephone character varying(7),
     movil character varying(10),
     id_usertype integer NOT NULL,
-    image bytea,
+    id_image integer,
     activated boolean DEFAULT true NOT NULL
 );
 
@@ -682,10 +666,10 @@ COPY tb_service (id, name, description, date, cc_owner) FROM stdin;
 -- Data for Name: tb_user; Type: TABLE DATA; Schema: public; Owner: gdadmin
 --
 
-COPY tb_user (cc, password, names, lastnames, telephone, movil, id_usertype, image, activated) FROM stdin;
-2	e285e2e264f407492baeeb10e313981369a35259	Cliente	GfifDev	496	314	2	\N	t
-3	e285e2e264f407492baeeb10e313981369a35259	Desarrollador	GfifDev	496	314	3	\N	t
-1	e285e2e264f407492baeeb10e313981369a35259	Administrador	GfifDev	496	2314asd	1	\N	t
+COPY tb_user (cc, password, names, lastnames, telephone, movil, id_usertype, activated) FROM stdin;
+2	e285e2e264f407492baeeb10e313981369a35259	Cliente	GfifDev	496	314	2	t
+3	e285e2e264f407492baeeb10e313981369a35259	Desarrollador	GfifDev	496	314	3	t
+1	e285e2e264f407492baeeb10e313981369a35259	Administrador	GfifDev	496	2314asd	1	t
 \.
 
 
@@ -890,6 +874,8 @@ ALTER TABLE ONLY tb_service
 ALTER TABLE ONLY tb_user
     ADD CONSTRAINT tb_user_id_usertype_fkey FOREIGN KEY (id_usertype) REFERENCES tb_usertype(id);
 
+ALTER TABLE ONLY tb_user
+    ADD CONSTRAINT tb_user_id_image_fkey FOREIGN KEY (id_image) REFERENCES tb_image(id);
 
 --
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
