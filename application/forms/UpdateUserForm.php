@@ -7,7 +7,7 @@ class UpdateUserForm extends Zend_Form
     {
         $this->setAttrib('class','updateusr');
 
-        $image = new Zend_Form_Element_File('updateuser');
+        $image = new Zend_Form_Element_File('image');
         $image->setLabel('Leer imagen...')
               ->setDestination(GD3W_PATH."/img/usr/")
               ->setMaxFileSize(2097152); // limits the filesize on the client side

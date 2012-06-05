@@ -142,10 +142,10 @@ class UserController extends Zend_Controller_Action
             {    
                 $values = $form->getValues();
 
-                if(isset($values['updateusr']))
-                    $image = GD3W."/img/usr/".$form->user->getFileName(null,false);
-                else
+                if($values['image'] == '') // imagen
                     $image = '';
+                else
+                    $image = GD3W_PATH."/img/usr/".$form->image->getFileName(null,false);
 
                 if(isset($values['newpassword']) && $values['newpassword'] != '')
                 {
@@ -172,7 +172,7 @@ class UserController extends Zend_Controller_Action
                         break;
                 }
 
-                $this->_forward('list', 'user', null, array('type'=>$values['id_usertype']));
+                // $this->_forward('list', 'user', null, array('type'=>$values['id_usertype']));
             }
         }
     }

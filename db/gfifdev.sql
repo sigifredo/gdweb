@@ -405,7 +405,7 @@ CREATE TABLE tb_user (
     telephone character varying(7),
     movil character varying(10),
     id_usertype integer NOT NULL,
-    image oid DEFAULT 20382 NOT NULL,
+    image bytea,
     activated boolean DEFAULT true NOT NULL
 );
 
@@ -625,10 +625,10 @@ COPY tb_service (id, name, description, date, cc_owner) FROM stdin;
 -- Data for Name: tb_user; Type: TABLE DATA; Schema: public; Owner: gdadmin
 --
 
-COPY tb_user (cc, password, names, lastnames, telephone, movil, id_usertype, image, activated) FROM stdin;
-2	e285e2e264f407492baeeb10e313981369a35259	Cliente	GfifDev	496	314	2	20382	t
-3	e285e2e264f407492baeeb10e313981369a35259	Desarrollador	GfifDev	496	314	3	20382	t
-1	e285e2e264f407492baeeb10e313981369a35259	Administrador	GfifDev	496	2314asd	1	20382	t
+COPY tb_user (cc, password, names, lastnames, telephone, movil, id_usertype, activated) FROM stdin;
+2	e285e2e264f407492baeeb10e313981369a35259	Cliente	GfifDev	496	314	2	t
+3	e285e2e264f407492baeeb10e313981369a35259	Desarrollador	GfifDev	496	314	3	t
+1	e285e2e264f407492baeeb10e313981369a35259	Administrador	GfifDev	496	2314asd	1	t
 \.
 
 

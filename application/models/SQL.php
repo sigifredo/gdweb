@@ -515,7 +515,14 @@ class Application_Model_SQL
      */
     public function updateAdmin($sCC, $sNames, $sLastNames, $sTelephone, $sMovil, $sImage = '')
     {
-        $this->dbAdapter->fetchRow("SELECT * FROM f_updateuser('$sCC', '$sNames', '$sLastNames', '$sTelephone', '$sMovil', '$sImage')");
+        if($sImage == '')
+            $this->dbAdapter->fetchRow("UPDATE tb_user SET names='$sNames', lastnames='$sLastNames', telephone='$sTelephone', movil='$sMovil' WHERE cc='$sCC'");
+        else
+        {
+            $image = new Image($sImage);
+            $b = $image->bytes();
+            // $this->dbAdapter->fetchRow("UPDATE tb_user SET names='$sNames', lastnames='$sLastNames', telephone='$sTelephone', movil='$sMovil', image='{$b}' WHERE cc='$sCC'");
+        }
     }
 
     /**
