@@ -623,7 +623,7 @@ COPY tb_memo (id, cc_owner, title, description, activated) FROM stdin;
 --
 
 COPY tb_news (id, title, header, description, cc_owner, id_image, date) FROM stdin;
-1	Nuenas Cuentas	Administrador: 1<br>Cliente: 2<br>Desarrollador: 3	\N	1	\N	2012-01-30 14:07:11.285038
+1	Nuenas Cuentas	Administrador: 1<br>Cliente: 2<br>Desarrollador: 3	\N	1	1	2012-01-30 14:07:11.285038
 \.
 
 
