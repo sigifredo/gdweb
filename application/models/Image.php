@@ -6,11 +6,37 @@ class Image
     protected $_type = null;
     protected $_sName = null;
 
-    function __construct($sName, $content, $type)
+    function __construct($sName, $content = null, $type = null)
     {
-        $this->_sName = $sName;
-        $this->_content = $content;
-        $this->_type = $type;
+if($content == null || $type == null)
+{
+$direccion = "/home/direccion.php";
+$extension = "";
+$archivo = "";
+
+for($i = 0; $i < strlen($direccion); $i++)
+{
+    if($direccion[$i] == '/')
+        $archivo = "";
+    else
+    {
+        if($direccion[$i] == '.')
+            $extension = "";
+        else
+            $extension .= $direccion[$i];
+        $archivo .= $direccion[$i];
+    }
+}
+
+echo $extension."<br>";
+echo $archivo;
+}
+else
+{
+    $this->_sName = $sName;
+    $this->_content = $content;
+    $this->_type = $type;
+}
     }
 
     public function name()
