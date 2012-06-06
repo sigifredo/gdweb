@@ -256,7 +256,7 @@ CREATE TABLE tb_news (
     header character varying(50) NOT NULL,
     description text,
     cc_owner character varying(10) NOT NULL,
-    id_image integer,
+    id_image integer DEFAULT 1,
     date timestamp without time zone DEFAULT now() NOT NULL
 );
 
