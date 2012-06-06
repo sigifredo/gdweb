@@ -49,15 +49,6 @@ class IndexController extends Zend_Controller_Action
         $this->view->headTitle("Inicio");
 
         $this->view->news = $this->sql->listNews($this->view->page = ($this->_hasParam('page')?$this->_getParam('page'):1));
-
-        $data = file_get_contents("/var/www/imagenes/1.jpg");
-echo "Imagen leida: ".strlen($data);
-        $image = bin2hex( $data );
-echo "<br>Imagen escapada: ".strlen($image)."<br>";
-
-        $tbUser = new TbUser();
-        echo $tbUser->update(array("image"=>new Zend_Db_Expr("decode('{$image}' , 'hex')")), "cc='1'");
-
     }
 
     /**

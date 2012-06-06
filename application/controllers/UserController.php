@@ -91,14 +91,17 @@ class UserController extends Zend_Controller_Action
         }
 
         if(isset($values['user']))
-            $image = GD3W_PATH."/img/usr/".$form->user->getFileName(null,false);
+            $values['image'] = GD3W_PATH."/img/usr/".$form->user->getFileName(null,false);
         else
-            $image = '';
+            $values['image'] = '';
 
         switch ($iUserType)
         {
             case 1:
-                $this->sql->insertAdmin($values['cc'],sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
+$tbUser = new TbUser();
+$values['id_usertype'] = $iUserType;
+$tbUser->insert($values);
+                // $this->sql->insertAdmin($values['cc'],sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
                 break;
             case 2:
                 $this->sql->insertClient($values['cc'],sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
