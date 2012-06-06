@@ -372,10 +372,7 @@ class Application_Model_SQL
 
         $iEnd = 10*$iPage;
 
-        $r = $this->dbAdapter->fetchAll("SELECT * FROM (SELECT id, title, header, image FROM tb_news LIMIT $iEnd) AS news ORDER BY id DESC LIMIT $iLimit");
-
-        foreach($r as $row)
-            $this->dbAdapter->fetchRow("SELECT lo_export(".$row['image'].", '".GDPG_PATH."/img/news/".$row['image']."')");
+        $r = $this->dbAdapter->fetchAll("SELECT * FROM (SELECT id, title, header, id_image FROM tb_news LIMIT $iEnd) AS news ORDER BY id DESC LIMIT $iLimit");
 
         return $r;
     }

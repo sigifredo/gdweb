@@ -15,7 +15,7 @@ else
             echo "<article class='artl'>";
 ?>
 <header class='title'><?php echo "<a href='".$this->url(array('controller' => 'news', 'action' => 'view', 'n' => $line['id']))."'>".$line['title']."</a>"; ?></header>
-<img class='newsimage' src='<?php echo $this->baseUrl()."/pg/img/news/".$line['image']; ?>'./>
+<img class='newsimage' src='<?php echo $this->url(array('controller'=>'index', 'action'=>'view', 'i'=>$line['id_image'])); ?>'></img>
 <p class='newsdescription'><?php echo $line['header']; ?></p>
 </article>
 <?php

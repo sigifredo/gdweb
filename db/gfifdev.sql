@@ -103,7 +103,7 @@ CREATE FUNCTION f_update_image() RETURNS trigger
     AS $$
 DECLARE
 BEGIN
-IF OLD.image <> NEW.image AND OLD.image <> 20382 THEN
+IF OLD.image <> NEW.image AND OLD.image <> 1 THEN
     PERFORM lo_unlink(OLD.image);
 END IF;
 
