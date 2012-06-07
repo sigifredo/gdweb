@@ -139,3 +139,13 @@ div.profile, div#adminmenu
     padding: 10px;
     margin: 5px;
 }
+.profimage
+{
+    width: 15%;
+    float: left;
+}
+.profinfo
+{
+    float: left;
+    padding: 10px;
+}

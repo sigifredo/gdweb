@@ -658,9 +658,9 @@ COPY tb_service (id, name, description, date, cc_owner) FROM stdin;
 --
 
 COPY tb_user (cc, password, names, lastnames, telephone, movil, id_usertype, id_image, activated) FROM stdin;
-2	e285e2e264f407492baeeb10e313981369a35259	Cliente	GfifDev	496	314	2	\N	t
-3	e285e2e264f407492baeeb10e313981369a35259	Desarrollador	GfifDev	496	314	3	\N	t
-1	e285e2e264f407492baeeb10e313981369a35259	Administrador	GfifDev	496	2314asd	1	\N	t
+2	e285e2e264f407492baeeb10e313981369a35259	Cliente	GfifDev	496	314	2	1	t
+3	e285e2e264f407492baeeb10e313981369a35259	Desarrollador	GfifDev	496	314	3	1	t
+1	e285e2e264f407492baeeb10e313981369a35259	Administrador	GfifDev	496	2314asd	1	1	t
 \.
 
 
