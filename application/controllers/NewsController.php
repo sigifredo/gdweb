@@ -145,16 +145,15 @@ class NewsController extends Zend_Controller_Action
     public function viewAction()
     {
         if(!$this->_hasParam('n'))
-        {
             $this->_helper->redirector('index', 'index');
-            return;
+        else
+        {
+            $tbNews = new TbNews();
+            $this->view->news = $tbNews->select()->where("id=".$this->getRequest()->getParam('n'))->query()->fetch();
+
+            if(count($this->view->news))
+                $this->view->headTitle($this->view->news['title']);
         }
-
-        $this->view->news = $this->sql->news($this->getRequest()->getParam('n'));
-
-        if(count($this->view->news))
-            $this->view->headTitle($this->view->news['title']);
-
     }
 
 }
