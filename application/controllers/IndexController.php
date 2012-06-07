@@ -195,6 +195,7 @@ class IndexController extends Zend_Controller_Action
             $image = $tbImage->getImage($this->getRequest()->getParam('i'));
 
             header("Content-Type: image/".$image->type());
+            header("Content-Disposition: inline; filename=".$image->name());
             fpassthru($image->content());
         }
     }
