@@ -8,35 +8,35 @@ class Image
 
     function __construct($sName, $content = null, $type = null)
     {
-if($content == null || $type == null)
-{
-$direccion = "/home/direccion.php";
-$extension = "";
-$archivo = "";
-
-for($i = 0; $i < strlen($direccion); $i++)
-{
-    if($direccion[$i] == '/')
-        $archivo = "";
-    else
-    {
-        if($direccion[$i] == '.')
+        if($content == null || $type == null)
+        {
             $extension = "";
-        else
-            $extension .= $direccion[$i];
-        $archivo .= $direccion[$i];
-    }
-}
+            $archivo = "";
 
-echo $extension."<br>";
-echo $archivo;
-}
-else
-{
-    $this->_sName = $sName;
-    $this->_content = $content;
-    $this->_type = $type;
-}
+            for($i = 0; $i < strlen($sName); $i++)
+            {
+                if($sName[$i] == '/')
+                    $archivo = "";
+                else
+                {
+                    if($sName[$i] == '.')
+                        $extension = "";
+                    else
+                        $extension .= $sName[$i];
+                    $archivo .= $sName[$i];
+                }
+            }
+
+            $this->_sName = $archivo;
+            $this->_content = file_get_contents($sName);
+            $this->_type = $extension;
+        }
+        else
+        {
+            $this->_sName = $sName;
+            $this->_content = $content;
+            $this->_type = $type;
+        }
     }
 
     public function name()

@@ -47,14 +47,17 @@ class NewsController extends Zend_Controller_Action
                 return;
             }
             $values = $form->getValues();
+            $values['cc_owner'] = $this->session->user;
 
             if(isset($values['image']))
-                $image = GD3W_PATH."/img/news/".$form->image->getFileName(null, false);
+                $values['image'] = GD3W_PATH."/img/news/".$form->image->getFileName(null, false);
             else
-                $image = '';
+                $values['image'] = '';
 
-            $this->sql->insertNews($this->session->user, $values['title'], $values['header'], $values['description'], $image);
-            $this->_helper->redirector('index', 'index');
+            $tbNews = new TbNews();
+            $tbNews->insert($values);
+            // $this->sql->insertNews($this->session->user, $values['title'], $values['header'], $values['description'], $image);
+            // $this->_helper->redirector('index', 'index');
         }
     }
 

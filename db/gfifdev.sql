@@ -124,7 +124,7 @@ SET default_with_oids = false;
 
 CREATE TABLE tb_image (
     id integer NOT NULL,
-    name character varying(50) NOT NULL,
+    name text NOT NULL,
     content bytea NOT NULL,
     type character varying(4)
 );
