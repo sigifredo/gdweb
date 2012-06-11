@@ -19,7 +19,7 @@ apache:
 	chown -R www-data.www-data /tmp/gdweb/www
 
 base_de_datos:
-	sudo -u postgres createuser -P gdadmin
+	sudo -u postgres createuser --no-createdb --no-createrole --no-superuser -P gdadmin
 	sudo -u postgres createdb gfifdev --owner=gdadmin
 	psql -U gdadmin gfifdev < db/gfifdev.sql 1> /dev/null
 

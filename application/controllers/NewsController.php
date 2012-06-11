@@ -152,10 +152,10 @@ class NewsController extends Zend_Controller_Action
         else
         {
             $tbNews = new TbNews();
-            $this->view->news = $tbNews->select()->where("id=".$this->getRequest()->getParam('n'))->query()->fetch();
+            $this->view->news = $tbNews->find($this->getRequest()->getParam('n'))[0];
 
             if(count($this->view->news))
-                $this->view->headTitle($this->view->news['title']);
+                $this->view->headTitle($this->view->news->title);
         }
     }
 
