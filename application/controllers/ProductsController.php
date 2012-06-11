@@ -22,9 +22,8 @@ class ProductsController extends Zend_Controller_Action
     {
         $this->view->headTitle("Nuestros productos");
 
-        // $this->view->proyect = $this->sql->listNonFreeProyects();
-$tbProyect = new TbProyect();
-$this->view->proyects = $tbProyect->fetchAll();
+        $tbProyect = new TbProyect();
+        $this->view->proyects = $tbProyect->fetchAll();
     }
 
     /**
@@ -96,7 +95,8 @@ $this->view->proyects = $tbProyect->fetchAll();
         if((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
             $this->_helper->redirector('index', 'index');
 
-        $this->view->products = $this->sql->listProyects();
+        $tbProyect = new TbProyect();
+        $this->view->proyects = $tbProyect->fetchAll();
     }
 
     public function updateAction()

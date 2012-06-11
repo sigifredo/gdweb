@@ -1,5 +1,5 @@
 <?php
-if(!count($this->products))
+if(!count($this->proyects))
     echo "No hay proyectos registrados.";
 else
 {
@@ -14,8 +14,8 @@ else
   </thead>
   <tbody>
   <?php
-    foreach($this->products as $product)
-        echo "<tr><td>".$product['name']."</td><td>".$product['description']."</td></td><td><a href='".$this->url(array('controller'=>'products', 'action'=>'update','p'=>$product['id']))."'>Editar</a></td><td><a href='".$this->url(array('controller'=>'products', 'action'=>'delete','p'=>$product['id']))."'>Borrar</a></td></tr>";
+    foreach($this->proyects as $proyect)
+        echo "<tr><td>".$proyect->name."</td><td>".$proyect->description."</td></td><td><a href='".$this->url(array('controller'=>'products', 'action'=>'update','p'=>$proyect->id))."'>Editar</a></td><td><a href='".$this->url(array('controller'=>'products', 'action'=>'delete','p'=>$proyect->id))."'>Borrar</a></td></tr>";
   ?>
 </tbody>
 </table>
