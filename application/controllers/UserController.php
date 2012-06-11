@@ -35,20 +35,9 @@ class UserController extends Zend_Controller_Action
             $this->_helper->redirector('index', 'index');
 
         $iUserType = $this->getRequest()->getParam('type');
-        $this->view->userType = $iUserType;
 
-        switch ($iUserType)
-        {
-            case 1:
-                $this->view->user = $this->sql->listAdmin();
-                break;
-            case 2:
-                $this->view->user = $this->sql->listClient();
-                break;
-            case 3:
-                $this->view->user = $this->sql->listDeveloper();
-                break;
-        }
+        $tbUser = new TbUser();
+        $this->view->users = $tbUser->select()->where("id_usertype=$iUserType")->query();
     }
 
     /**

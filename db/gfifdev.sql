@@ -33,8 +33,8 @@ CREATE FUNCTION f_delete_image() RETURNS trigger
     AS $$
 DECLARE
 BEGIN
-IF OLD.image <> 20382 THEN
-    PERFORM lo_unlink(OLD.image);
+IF OLD.id_image <> 1 THEN
+    DELETE FROM tb_image WHERE id=OLD.id_image;
 END IF;
 
 RETURN NULL;
@@ -103,8 +103,8 @@ CREATE FUNCTION f_update_image() RETURNS trigger
     AS $$
 DECLARE
 BEGIN
-IF OLD.image <> NEW.image AND OLD.image <> 1 THEN
-    PERFORM lo_unlink(OLD.image);
+IF OLD.id_image <> NEW.id_image AND OLD.id_image <> 1 THEN
+    DELETE FROM tb_image WHERE id=OLD.id_image;
 END IF;
 
 RETURN NEW;
@@ -788,6 +788,8 @@ CREATE TRIGGER t_update_news_image BEFORE UPDATE ON tb_news FOR EACH ROW EXECUTE
 --
 
 CREATE TRIGGER t_update_proyect_image BEFORE UPDATE ON tb_proyect FOR EACH ROW EXECUTE PROCEDURE f_update_image();
+
+CREATE TRIGGER t_update_user_image AFTER UPDATE ON tb_user FOR EACH ROW EXECUTE PROCEDURE f_update_image();
 
 
 --
