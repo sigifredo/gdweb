@@ -591,7 +591,6 @@ COPY tb_memo (id, cc_owner, title, description, activated) FROM stdin;
 --
 
 COPY tb_news (id, title, header, description, cc_owner, image, date) FROM stdin;
-1	Nuenas Cuentas	Administrador: 1<br>Cliente: 2<br>Desarrollador: 3	\N	1	20382	2012-01-30 14:07:11.285038
 \.
 
 
@@ -626,9 +625,6 @@ COPY tb_service (id, name, description, date, cc_owner) FROM stdin;
 --
 
 COPY tb_user (cc, password, names, lastnames, telephone, movil, id_usertype, image, activated) FROM stdin;
-2	e285e2e264f407492baeeb10e313981369a35259	Cliente	GfifDev	496	314	2	20382	t
-3	e285e2e264f407492baeeb10e313981369a35259	Desarrollador	GfifDev	496	314	3	20382	t
-1	e285e2e264f407492baeeb10e313981369a35259	Administrador	GfifDev	496	2314asd	1	20382	t
 \.
 
 
