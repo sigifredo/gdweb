@@ -2,11 +2,11 @@
 <?php
 
 $i=1;
-if(!count($this->proyect))
+if(!count($this->proyects))
     echo "No hay proyectos registrados.";
 else
 {
-    foreach($this->proyect as $line)
+    foreach($this->proyects as $proyect)
     {
         if($i%2 == 0)
             echo "<article class='artr'>";
@@ -16,15 +16,15 @@ else
   <table>
     <tr>
       <td>
-        <header class='name'><?php echo $line['name']; ?></header>
+        <header class='name'><?php echo $proyect->name; ?></header>
       </td>
     </tr>
     <tr>
       <td>
-        <img class='image' src='<?php echo $this->baseUrl()."/pg/img/proy/".$line['image']; ?>'/>
+        <img class='image' src='<?php echo $this->url(array('controller'=>'index', 'action'=>'view', 'i'=>$proyect->id_image)); ?>'/>
       </td>
       <td>
-        <p class='description'><?php echo $line['description']; ?></p>
+        <p class='description'><?php echo $proyect->description; ?></p>
       </td>
     </tr>
   </table>

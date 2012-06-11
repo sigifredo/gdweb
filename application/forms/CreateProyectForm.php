@@ -17,10 +17,10 @@ class CreateProyectForm extends Zend_Form
         $image->addValidator('Extension', false, 'jpg,jpeg,png,gif');// only JPEG, PNG, and GIFs
     
         $this->addElement($image);
-        $this->addElement('select','type',array('label' => 'Tipo (*)', 'multiOptions' => array('1' => 'Open Source','2' => 'Non-Free'),'required' => true));
+        $this->addElement('select','proyecttype',array('label' => 'Tipo (*)', 'multiOptions' => array('1' => 'Open Source','2' => 'Non-Free'),'required' => true));
         $this->addElement('text','name',array('label'=>'Nombre (*)','required'=>true, 'validators' => array(array('validator' => 'StringLength', 'options' => array(0, 40)))));
         $this->addElement('textarea','description',array('label'=>'Descripción (*)', 'required'=>true));
-        $this->addElement('text','cc_client',array('label'=>'Cliente (*)','required'=>true, 'validators' => array(array('validator' => 'StringLength', 'options' => array(0, 10)))));
+        $this->addElement('text','cc_client',array('label'=>'Cliente','validators' => array(array('validator' => 'StringLength', 'options' => array(0, 10)))));
 
         $this->_acceptButton = new Zend_Form_Element_Submit('create', array('label'=>'Crear'));
         $this->addElement($this->_acceptButton);

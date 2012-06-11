@@ -7,9 +7,9 @@ ifneq ($(shell ./db/sudo.dep), instalado)
     $(error "Es necesario tener 'sudo' instalado en el computador")
 endif
 
-por_defecto:apache postgres
+por_defecto:apache
 
-all:apache postgres base_de_datos
+all:apache base_de_datos
 
 apache:
 	mkdir -p /tmp/gdweb/www/img/inf
@@ -18,15 +18,8 @@ apache:
 	mkdir -p /tmp/gdweb/www/img/usr
 	chown -R www-data.www-data /tmp/gdweb/www
 
-postgres:
-	mkdir -p /tmp/gdweb/pg/img/inf
-	mkdir -p /tmp/gdweb/pg/img/news
-	mkdir -p /tmp/gdweb/pg/img/proy
-	chown -R postgres.postgres /tmp/gdweb/pg
-	ln -s /tmp/gdweb/pg public/pg
-
 base_de_datos:
-	sudo -u postgres createuser -s -P gdadmin
+	sudo -u postgres createuser -P gdadmin
 	sudo -u postgres createdb gfifdev --owner=gdadmin
 	psql -U gdadmin gfifdev < db/gfifdev.sql 1> /dev/null
 

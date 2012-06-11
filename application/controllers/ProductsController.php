@@ -22,7 +22,9 @@ class ProductsController extends Zend_Controller_Action
     {
         $this->view->headTitle("Nuestros productos");
 
-        $this->view->proyect = $this->sql->listNonFreeProyects();
+        // $this->view->proyect = $this->sql->listNonFreeProyects();
+$tbProyect = new TbProyect();
+$this->view->proyects = $tbProyect->fetchAll();
     }
 
     /**
@@ -54,11 +56,15 @@ class ProductsController extends Zend_Controller_Action
         $values = $form->getValues();
 
         if(isset($values['image']))
-            $image = GD3W_PATH."/img/proy/".$form->image->getFileName(null, false);
+            $values['image'] = GD3W_PATH."/img/proy/".$form->image->getFileName(null, false);
         else
-            $image = '';
+            $values['image'] = '';
 
-        $this->sql->insertProyect($values['name'], $values['description'], $values['cc_client'], $values['type'], $image);
+        $values['id_proyecttype'] = $values['proyecttype'];
+        unset($values['proyecttype']);
+
+        $tbProyect = new TbProyect();
+        $tbProyect->insert($values);
 
         $this->_forward('list', 'products');
     }

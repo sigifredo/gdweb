@@ -38,17 +38,4 @@ class TbNews extends Zend_Db_Table_Abstract
         }
     }
 
-    public function getImage($iId)
-    {
-        $dbAdapter = parent::getDefaultAdapter();
-        $q = $dbAdapter->prepare("SELECT name, content, type FROM tb_image WHERE id=?");
-        $q->execute(array($iId));
-        $q->bindColumn(1, $name);
-        $q->bindColumn(2, $content, PDO::PARAM_LOB);
-        $q->bindColumn(3, $type);
-        $q->fetch(PDO::FETCH_BOUND);
-
-        return new Image($name, $content, $type);;
-    }
-
 }

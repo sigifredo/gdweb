@@ -300,7 +300,7 @@ CREATE TABLE tb_proyect (
     name character varying(40) NOT NULL,
     description text NOT NULL,
     id_proyecttype integer NOT NULL,
-    image oid DEFAULT 20382 NOT NULL,
+    id_image integer DEFAULT 1,
     cc_client character varying(10)
 );
 
@@ -631,7 +631,7 @@ COPY tb_news (id, title, header, description, cc_owner, id_image, date) FROM std
 -- Data for Name: tb_proyect; Type: TABLE DATA; Schema: public; Owner: gdadmin
 --
 
-COPY tb_proyect (id, name, description, id_proyecttype, image, cc_client) FROM stdin;
+COPY tb_proyect (id, name, description, id_proyecttype, id_image, cc_client) FROM stdin;
 \.
 
 
