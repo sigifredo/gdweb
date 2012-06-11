@@ -121,40 +121,33 @@ class UserController extends Zend_Controller_Action
             if(!$form->isValid($this->_getAllParams()))
                 echo $form;
             else
-            {    
+            {
                 $values = $form->getValues();
 
                 if($values['image'] == '') // imagen
-                    $image = '';
+                    unset($values['image']);
                 else
-                    $image = GD3W_PATH."/img/usr/".$form->image->getFileName(null,false);
+                    $values['image'] = GD3W_PATH."/img/usr/".$form->image->getFileName(null,false);
 
                 if(isset($values['newpassword']) && $values['newpassword'] != '')
                 {
                     if($values['newpassword'] != $values['verifypassword'])
                     {
-                        echo "La contraseña no coincide";
+                        echo "La contraseña no coincide.";
                         echo $form;
                         return;
                     }
                     else
-                        $this->sql->updatePassword($sCCUser, sha1($values['newpassword']));
+                        $values['password'] = sha1($values['newpassword']);
                 }
 
-                switch ($values['id_usertype'])
-                {
-                    case 1:
-                        $this->sql->updateAdmin($sCCUser,$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
-                        break;
-                    case 2:
-                        $this->sql->updateClient($sCCUser,$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
-                        break;
-                    case 3:
-                        $this->sql->updateDeveloper($sCCUser,$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
-                        break;
-                }
+                unset($values['newpassword']);
+                unset($values['verifypassword']);
 
-                // $this->_forward('list', 'user', null, array('type'=>$values['id_usertype']));
+                $tbUser = new TbUser();
+                $tbUser->update($values, "cc='".$this->getRequest()->getParam('cc')."'");
+
+                $this->_forward('list', 'user', null, array('type'=>$values['id_usertype']));
             }
         }
     }
