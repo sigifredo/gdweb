@@ -19,7 +19,8 @@ class WhoController extends Zend_Controller_Action
     {
         $this->view->headTitle("¿Quiénes somos?");
 
-        $this->view->info = $this->sql->listInformation(APPLICATION_PATH."/../public/pg/img/inf");
+        $tbInfo = new TbInfo();
+        $this->view->info = $tbInfo->fetchAll();
     }
 
     /**
@@ -64,11 +65,12 @@ class WhoController extends Zend_Controller_Action
         $values = $form->getValues();
 
         if(isset($values['image']))
-            $image = GD3W_PATH."/img/inf/".$form->image->getFileName(null,false);
+            $values['image'] = GD3W_PATH."/img/inf/".$form->image->getFileName(null,false);
         else
-            $image = '';
+            $valies['image'] = '';
 
-        $this->sql->insertInfo($values['title'],$values['description'],$image);
+        $tbInfo = new TbInfo();
+        $tbInfo->insert($values);
 
         $this->_helper->redirector('index', 'who');
     }

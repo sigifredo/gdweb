@@ -169,7 +169,7 @@ CREATE TABLE tb_info (
     title character varying(20) NOT NULL,
     description text NOT NULL,
     date timestamp without time zone DEFAULT now(),
-    image oid DEFAULT 16595
+    id_image integer DEFAULT 1
 );
 
 
@@ -597,7 +597,7 @@ COPY tb_image (id, name, content, type) FROM stdin;
 -- Data for Name: tb_info; Type: TABLE DATA; Schema: public; Owner: gdadmin
 --
 
-COPY tb_info (id, title, description, date, image) FROM stdin;
+COPY tb_info (id, title, description, date, id_image) FROM stdin;
 \.
 
 
