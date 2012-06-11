@@ -21,11 +21,11 @@ class TbNews extends Zend_Db_Table_Abstract
                 $id_image = $tbImage->insert(new Image($aData['image']));
             }
 
-            if(isset($aData['description']) && $aData['description'] == '')
-                unset($aData['description']);
-
             unset($aData['image']);
             $aData['id_image'] = $id_image;
+
+            if(isset($aData['description']) && $aData['description'] == '')
+                unset($aData['description']);
 
             parent::insert($aData);
 

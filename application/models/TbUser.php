@@ -8,38 +8,40 @@ class TbUser extends Zend_Db_Table_Abstract
     public function insert($aData)
     {
         $dbAdapter = parent::getDefaultAdapter();
-        $query = $dbAdapter->prepare("INSERT INTO tb_user (cc, password, names, lastnames, telephone, movil, id_usertype, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
-        $query->bindParam(1, $aData['cc']);
-        $query->bindParam(2, $aData['password']);
-        $query->bindParam(3, $aData['names']);
+        $dbAdapter->beginTransaction();
 
-        if(isset($aData['lastnames']) && $aData['lastnames'] != '')
-            $query->bindParam(4, $aData['lastnames']);
-        else
-            $query->bindParam(4, null);
-
-        if(isset($aData['telephone']) && $aData['telephone'] != '')
-            $query->bindParam(5, $aData['telephone']);
-        else
-            $query->bindParam(5, null);
-
-        if(isset($aData['movil']) && $aData['movil'] != '')
-            $query->bindParam(6, $aData['movil']);
-        else
-            $query->bindParam(6, null);
-
-        $query->bindParam(7, $aData['id_usertype']);
-
-        if(isset($aData['image']) && $aData['image'] != '')
+        try
         {
-            $image = file_get_contents($aData['image']); 
-            $query->bindParam(8, $image, PDO::PARAM_LOB);
-        }
-        else
-            $query->bindParam(8, null);
+            $id_image = 1;
 
-        $query->execute();
+            if(isset($aData['image']) && $aData['image'] != '')
+            {
+                $tbImage = new TbImage();
+                $id_image = $tbImage->insert(new Image($aData['image']));
+            }
+
+            unset($aData['image']);
+            $aData['id_image'] = $id_image;
+
+            if(isset($aData['lastnames']) && $aData['lastnames'] == '')
+                unset($aData['lastnames']);
+
+            if(isset($aData['telephone']) && $aData['telephone'] == '')
+                unset($aData['telephone']);
+
+            if(isset($aData['movil']) && $aData['movil'] == '')
+                unset($aData['movil']);
+
+            parent::insert($aData);
+
+            $dbAdapter->commit();
+        }
+        catch(Exception $e)
+        {
+            $dbAdapter->rollback();
+            throw new GDException("No se ha podido insertar la noticia. Por favor verifique que los datos son correctos. $e", 0, $e);
+        }
     }
 
     public function getImage($sCC)

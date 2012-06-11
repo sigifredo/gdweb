@@ -89,27 +89,17 @@ class UserController extends Zend_Controller_Action
             echo $form;
             return;
         }
+        else
+            unset($values['verifypassword']);
 
-        if(isset($values['user']))
-            $values['image'] = GD3W_PATH."/img/usr/".$form->user->getFileName(null,false);
+        if(isset($values['image']))
+            $values['image'] = GD3W_PATH."/img/usr/".$form->image->getFileName(null,false);
         else
             $values['image'] = '';
 
-        switch ($iUserType)
-        {
-            case 1:
-$tbUser = new TbUser();
-$values['id_usertype'] = $iUserType;
-$tbUser->insert($values);
-                // $this->sql->insertAdmin($values['cc'],sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
-                break;
-            case 2:
-                $this->sql->insertClient($values['cc'],sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
-                break;
-            case 3:
-                $this->sql->insertDeveloper($values['cc'],sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
-                break;
-        }
+        $tbUser = new TbUser();
+        $values['id_usertype'] = $iUserType;
+        $tbUser->insert($values);
 
         $this->_forward('list', 'user');
     }
