@@ -9,27 +9,33 @@ class TbNews extends Zend_Db_Table_Abstract
     {
         $dbAdapter = parent::getDefaultAdapter();
 
-        $id_image = 1;
+        $dbAdapter->beginTransaction();
 
-        if(isset($aData['image']) && $aData['image'] != '')
+        try
         {
-            $tbImage = new TbImage();
-            $id_image = $tbImage->insert(new Image($aData['image']));
+            $id_image = 1;
+
+            if(isset($aData['image']) && $aData['image'] != '')
+            {
+                $tbImage = new TbImage();
+                $id_image = $tbImage->insert(new Image($aData['image']));
+            }
+
+            if(isset($aData['description']) && $aData['description'] == '')
+                unset($aData['description']);
+
+            unset($aData['image']);
+            $aData['id_image'] = $id_image;
+
+            parent::insert($aData);
+
+            $dbAdapter->commit();
         }
-
-        $query = $dbAdapter->prepare("INSERT INTO tb_news (title, header, description, cc_owner, id_image) VALUES (?, ?, ?, ?, ?)");
-
-        $query->bindParam(1, $aData['title']);
-        $query->bindParam(2, $aData['header']);
-        if(isset($aData['description']) && $aData['description'] != '')
-            $query->bindParam(3, $aData['description']);
-        else
-            $query->bindParam(3, null);
-
-        $query->bindParam(4, $aData['cc_owner']);
-        $query->bindParam(5, $id_image);
-
-        $query->execute();
+        catch(Exception $e)
+        {
+            $dbAdapter->rollback();
+            throw new GDException("No se ha podido insertar la noticia. Por favor verifique que los datos son correctos.", 0, $e);
+        }
     }
 
     public function getImage($iId)
