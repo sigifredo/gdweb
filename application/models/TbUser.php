@@ -82,4 +82,13 @@ class TbUser extends Zend_Db_Table_Abstract
             throw new GDException("No se ha podido actualizar el usuario. Por favor verifique que los datos son correctos.", 0, $e);
         }
     }
+
+    public function delete($where, $virtual = true)
+    {
+        if($virtual)
+            parent::update(array('activated'=>'false'), $where);
+        else
+            parent::delete($where);
+    }
+
 }

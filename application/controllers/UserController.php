@@ -4,7 +4,6 @@ class UserController extends Zend_Controller_Action
 {
     private $session = null;
     private $auth = null;
-    private $sql = null;
 
     /**
      * \brief Contruye las variables de la clase
@@ -12,7 +11,6 @@ class UserController extends Zend_Controller_Action
      */
     public function init()
     {
-        $this->sql = new Application_Model_SQL();
         $this->session = new Zend_Session_Namespace('Users');
         $this->auth = Zend_Auth::getInstance();
     }
@@ -34,10 +32,8 @@ class UserController extends Zend_Controller_Action
         if(!$this->_hasParam('type'))
             $this->_helper->redirector('index', 'index');
 
-        $iUserType = $this->getRequest()->getParam('type');
-
         $tbUser = new TbUser();
-        $this->view->users = $tbUser->select()->where("id_usertype=$iUserType")->query();
+        $this->view->users = $tbUser->select()->where("id_usertype=".$this->getRequest()->getParam('type'))->where("activated=true")->query();
     }
 
     /**
@@ -99,12 +95,10 @@ class UserController extends Zend_Controller_Action
      */
     public function updateAction()
     {
-        if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
+        if((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
             $this->_helper->redirector('index', 'index');
         if(!$this->_hasParam('cc'))
             $this->_helper->redirector('list', 'index');
-
-        $sCCUser = $this->getRequest()->getParam('cc');
 
         $form = new UpdateUserForm();
         $form->setAction($this->view->url(array("controller" => "user", "action" => "update")))->setMethod('post');
@@ -113,7 +107,8 @@ class UserController extends Zend_Controller_Action
         {
             echo "<span class='subtitle'>Nuevos datos de usuario.</span>";
 
-            $datos = $this->sql->user($sCCUser);
+            $tbUser = new TbUser();
+            $datos = $tbUser->find($this->getRequest()->getParam('cc'))[0]->toArray();
             echo $form->populate($datos);
         }
         else
@@ -166,8 +161,8 @@ class UserController extends Zend_Controller_Action
                 $this->_helper->redirector('list', 'index');
             else
             {
-                $iCCUser = $this->getRequest()->getParam('cc');
-                $this->sql->deleteUser($iCCUser);
+                $tbUser = new TbUser();
+                $tbUser->delete("cc='".$this->getRequest()->getParam('cc')."'");
                 $this->_helper->redirector('index', 'index');
             }
         }
@@ -184,7 +179,8 @@ class UserController extends Zend_Controller_Action
 
         $this->view->headTitle("Perfil");
 
-        $this->view->user = $this->sql->user($this->session->user);
+        $tbUser = new TbUser();
+        $this->view->user = $tbUser->find($this->session->user)[0];
         $this->view->session_type = $this->session->type;
 
         // NPI
