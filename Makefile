@@ -15,6 +15,7 @@ apache:
 	mkdir -p /tmp/gdweb/www/img/inf
 	mkdir -p /tmp/gdweb/www/img/news
 	mkdir -p /tmp/gdweb/www/img/proy
+	mkdir -p /tmp/gdweb/www/img/serv
 	mkdir -p /tmp/gdweb/www/img/usr
 	chown -R www-data.www-data /tmp/gdweb/www
 

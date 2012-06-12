@@ -17,7 +17,8 @@ class ServicesController extends Zend_Controller_Action
     {
         $this->view->headTitle("Nuestros servicios");
 
-        $this->view->services = $this->sql->listServices();
+        $tbService = new TbService();
+        $this->view->services = $tbService->fetchAll();
     }
 
     public function createAction()
@@ -44,7 +45,15 @@ class ServicesController extends Zend_Controller_Action
         }
         $values = $form->getValues();
 
-        $this->sql->insertService($values['name'], $values['description'], $this->session->user);
+        if(isset($values['image']))
+            $values['image'] = GD3W_PATH."/img/serv/".$form->image->getFileName(null, false);
+        else
+            $values['image'] = '';
+
+        $values['cc_owner'] = $this->session->user;
+
+        $tbService = new TbService();
+        $tbService->insert($values);
 
         $this->_forward('list', 'services');
     }

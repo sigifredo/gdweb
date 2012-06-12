@@ -384,6 +384,7 @@ CREATE TABLE tb_service (
     name character varying(20) NOT NULL,
     description text NOT NULL,
     date timestamp without time zone DEFAULT now() NOT NULL,
+    id_image integer DEFAULT 1,
     cc_owner character varying(10) NOT NULL
 );
 
