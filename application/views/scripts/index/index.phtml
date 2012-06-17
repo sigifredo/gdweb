@@ -24,26 +24,26 @@ else
 
     echo "<div class=\"clear\"></div></div>";
 
-    $sql = new Application_Model_SQL();
-    $numPages = $sql->newsNumber();
-    $page = $this->page;
+    // $sql = new Application_Model_SQL();
+    // $numPages = $sql->newsNumber();
+    // $page = $this->page;
 
-    echo "<div class='pagination'>";
-    if($page-1 > 0)
-        echo "<a href=".$this->url(array('controller'=>'index','action'=>'index','page' => $page-1))."> Anterior </a>";
+    // echo "<div class='pagination'>";
+    // if($page-1 > 0)
+    //     echo "<a href=".$this->url(array('controller'=>'index','action'=>'index','page' => $page-1))."> Anterior </a>";
 
-    for($j=1; $j<=$numPages; $j++)
-    {
-        if($j != $page)
-            echo "<a href=".$this->url(array('controller'=>'index','action'=>'index','page' => $j)).">".$j."</a>";
-        else
-            echo " $j ";
-    }
+    // for($j=1; $j<=$numPages; $j++)
+    // {
+    //     if($j != $page)
+    //         echo "<a href=".$this->url(array('controller'=>'index','action'=>'index','page' => $j)).">".$j."</a>";
+    //     else
+    //         echo " $j ";
+    // }
 
-    if($page != $numPages)
-        echo "<a href=".$this->url(array('controller'=>'index','action'=>'index','page' => $page+1))."> Siguiente </a>";
+    // if($page != $numPages)
+    //     echo "<a href=".$this->url(array('controller'=>'index','action'=>'index','page' => $page+1))."> Siguiente </a>";
 
-    echo "</div>";
+    // echo "</div>";
 }
 
 ?>
