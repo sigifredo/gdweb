@@ -57,9 +57,6 @@ class ProductsController extends Zend_Controller_Action
         else
             $values['image'] = '';
 
-        $values['id_proyecttype'] = $values['proyecttype'];
-        unset($values['proyecttype']);
-
         $tbProyect = new TbProyect();
         $tbProyect->insert($values);
 

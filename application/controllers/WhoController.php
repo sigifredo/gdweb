@@ -3,14 +3,10 @@
 class WhoController extends Zend_Controller_Action
 {
     private $session = null;
-
     private $auth = null;
-
-    private $sql=null;
 
     public function init()
     {
-        $this->sql = new Application_Model_SQL();
         $this->session = new Zend_Session_Namespace('Users');
         $this->auth = Zend_Auth::getInstance();
     }
@@ -75,7 +71,7 @@ class WhoController extends Zend_Controller_Action
         $tbInfo = new TbInfo();
         $tbInfo->insert($values);
 
-        $this->_helper->redirector('index', 'who');
+        $this->_helper->redirector('list', 'who');
     }
 
 
@@ -97,39 +93,38 @@ class WhoController extends Zend_Controller_Action
             return;
         }
 
-        $iIdInfo = $this->getRequest()->getParam('info');
         $form = new UpdateInfoForm();
         $form->setAction($this->view->url(array("controller" => "who", "action" => "update")))
              ->setMethod('post');
 
-        $datos = $this->sql->listInformation();
-
         if(!$this->getRequest()->isPost())
         {
             echo "<span class='subtitle'>Nuevos datos.</span>";
-            foreach($datos as $line)
-                if($line['id'] == $iIdInfo)
-                    echo $form->populate($line);
 
-            return;
+            $tbInfo = new TbInfo();
+            $datos = $tbInfo->find($this->getRequest()->getParam('info'))[0]->toArray();
+            echo $form->populate($datos);
         }
-        if(!$form->isValid($this->_getAllParams()))
-        {
-            echo $form;
-            return;
-        }
-
-        $values = $form->getValues();
-
-        if(isset($values['image']))
-            $image = GD3W_PATH."/img/inf/".$form->image->getFileName(null, false);
         else
-            $image = '';
+        {
+            if(!$form->isValid($this->_getAllParams()))
+            {
+                echo $form;
+                return;
+            }
 
-        $this->sql->updateInfo($iIdInfo,$values['title'],$values['description'],$image);
+            $values = $form->getValues();
 
-        $this->_helper->redirector('index', 'who');
-        return;
+            if($values['image'] == '')
+                unset($values['image']);
+            else
+                $values['image'] = GD3W_PATH."/img/inf/".$form->image->getFileName(null, false);
+
+            $tbInfo = new TbInfo();
+            $datos = $tbInfo->update($values, "id=".$this->getRequest()->getParam('info'));
+
+            $this->_helper->redirector('list', 'who');
+        }
     }
 
 
@@ -150,11 +145,10 @@ class WhoController extends Zend_Controller_Action
             return;
         }
 
-        $iIdInfo = $this->getRequest()->getParam('info');
+        $tbInfo = new TbInfo();
+        $tbInfo->delete("id=".$this->getRequest()->getParam('info'));
 
-        $this->sql->deleteInfo($iIdInfo);
-
-        $this->_helper->redirector('index', 'who');
+        $this->_helper->redirector('list', 'who');
     }
 
 }
