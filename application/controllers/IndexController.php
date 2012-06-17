@@ -4,8 +4,6 @@ class IndexController extends Zend_Controller_Action
 {
     private $session = null;
     private $auth = null;
-    private $form = null;
-    private $sql = null;
 
     /**
      * \brief Contruye las variables de la clase
@@ -13,7 +11,6 @@ class IndexController extends Zend_Controller_Action
      */
     public function init()
     {
-        $this->sql = new Application_Model_SQL();
         $this->session = new Zend_Session_Namespace('Users');
         $this->auth = Zend_Auth::getInstance();
     }
@@ -48,7 +45,8 @@ class IndexController extends Zend_Controller_Action
     {
         $this->view->headTitle("Inicio");
 
-        $this->view->news = $this->sql->listNews($this->view->page = ($this->_hasParam('page')?$this->_getParam('page'):1));
+        $tbNews = new TbNews();
+        $this->view->news = $tbNews->select()->query()->fetchAll();
     }
 
     /**

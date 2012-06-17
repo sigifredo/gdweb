@@ -242,27 +242,32 @@ class UserController extends Zend_Controller_Action
         $sCCUser = $values['user'];
         $sPassword = sha1($values['password']);
 
-        $sql = new Application_Model_SQL();
-        $authAdapter = $sql->getAuthDbTable('tb_user','cc','password');
+        $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+        $authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter, 'tb_user', 'cc', 'password');
 
         $authAdapter->setIdentity($sCCUser);
         $authAdapter->setCredential($sPassword);
 
         $result = $this->auth->authenticate($authAdapter);
 
-        $this->session->type = $sql->userType($sCCUser, $sPassword);
-        $this->session->user = $sCCUser;
+        $type = $dbAdapter->select()->from("tb_user", "id_usertype")->where("cc='".$sCCUser."'")->where("password='".$sPassword."'")->query()->fetchAll();
 
-        if(!$result->isValid())
+        if(!$result->isValid() || $type == null)
         {
-            if($this->session->type==null)
+            if($type == null)
             {
                 echo "<span class='subtitle'>El usuario o la contraseña no coinciden.</span>";
                 echo $form;
             }
         }
         else
-            $this->_helper->redirector('index', 'index');
+        {
+            $this->session->type = $type[0]['id_usertype'];
+            $this->session->user = $sCCUser;
+
+            $this->_helper->redirector('profile', 'user');
+        }
+
     }
 
 }
