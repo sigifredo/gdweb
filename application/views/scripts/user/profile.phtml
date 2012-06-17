@@ -1,11 +1,11 @@
 <div class='profile'>
 <?php
-echo "Identificación: ".$this->user['cc'];
+echo "<img class='profimage' src='".$this->url(array('controller'=>'index', 'action'=>'view', 'i'=>$this->user['id_image']))."'></img>";
+echo "<div class='profinfo'>Identificación: ".$this->user['cc'];
 echo "<br>Nombre completo: ".$this->user['names']." ".$this->user['lastnames'];
 echo "<br>Teléfono: ".$this->user['telephone'];
 echo "<br>Celular: ".$this->user['movil']."<br>";
-echo "<a href='".$this->url(array('controller'=>'user', 'action'=>'update', 'cc'=>$this->user['cc']))."'>Editar</a>";
-// cc, names, lastnames, telephone, movil
+echo "<a href='".$this->url(array('controller'=>'user', 'action'=>'update', 'cc'=>$this->user['cc']))."'>Editar</a></div><div class='clear'></div>";
 ?>
 </div>
 

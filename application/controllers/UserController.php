@@ -4,7 +4,6 @@ class UserController extends Zend_Controller_Action
 {
     private $session = null;
     private $auth = null;
-    private $sql = null;
 
     /**
      * \brief Contruye las variables de la clase
@@ -12,7 +11,6 @@ class UserController extends Zend_Controller_Action
      */
     public function init()
     {
-        $this->sql = new Application_Model_SQL();
         $this->session = new Zend_Session_Namespace('Users');
         $this->auth = Zend_Auth::getInstance();
     }
@@ -34,21 +32,8 @@ class UserController extends Zend_Controller_Action
         if(!$this->_hasParam('type'))
             $this->_helper->redirector('index', 'index');
 
-        $iUserType = $this->getRequest()->getParam('type');
-        $this->view->userType = $iUserType;
-
-        switch ($iUserType)
-        {
-            case 1:
-                $this->view->user = $this->sql->listAdmin();
-                break;
-            case 2:
-                $this->view->user = $this->sql->listClient();
-                break;
-            case 3:
-                $this->view->user = $this->sql->listDeveloper();
-                break;
-        }
+        $tbUser = new TbUser();
+        $this->view->users = $tbUser->select()->where("id_usertype=".$this->getRequest()->getParam('type'))->where("activated=true")->query();
     }
 
     /**
@@ -89,24 +74,17 @@ class UserController extends Zend_Controller_Action
             echo $form;
             return;
         }
-
-        if(isset($values['user']))
-            $image = GD3W_PATH."/img/usr/".$form->user->getFileName(null,false);
         else
-            $image = '';
+            unset($values['verifypassword']);
 
-        switch ($iUserType)
-        {
-            case 1:
-                $this->sql->insertAdmin($values['cc'],sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
-                break;
-            case 2:
-                $this->sql->insertClient($values['cc'],sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
-                break;
-            case 3:
-                $this->sql->insertDeveloper($values['cc'],sha1($values['password']),$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
-                break;
-        }
+        if(isset($values['image']))
+            $values['image'] = GD3W_PATH."/img/usr/".$form->image->getFileName(null,false);
+        else
+            $values['image'] = '';
+
+        $tbUser = new TbUser();
+        $values['id_usertype'] = $iUserType;
+        $tbUser->insert($values);
 
         $this->_forward('list', 'user');
     }
@@ -117,12 +95,10 @@ class UserController extends Zend_Controller_Action
      */
     public function updateAction()
     {
-        if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
+        if((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
             $this->_helper->redirector('index', 'index');
         if(!$this->_hasParam('cc'))
             $this->_helper->redirector('list', 'index');
-
-        $sCCUser = $this->getRequest()->getParam('cc');
 
         $form = new UpdateUserForm();
         $form->setAction($this->view->url(array("controller" => "user", "action" => "update")))->setMethod('post');
@@ -131,7 +107,8 @@ class UserController extends Zend_Controller_Action
         {
             echo "<span class='subtitle'>Nuevos datos de usuario.</span>";
 
-            $datos = $this->sql->user($sCCUser);
+            $tbUser = new TbUser();
+            $datos = $tbUser->find($this->getRequest()->getParam('cc'))[0]->toArray();
             echo $form->populate($datos);
         }
         else
@@ -139,38 +116,31 @@ class UserController extends Zend_Controller_Action
             if(!$form->isValid($this->_getAllParams()))
                 echo $form;
             else
-            {    
+            {
                 $values = $form->getValues();
 
-                if(isset($values['updateusr']))
-                    $image = GD3W."/img/usr/".$form->user->getFileName(null,false);
+                if($values['image'] == '') // imagen
+                    unset($values['image']);
                 else
-                    $image = '';
+                    $values['image'] = GD3W_PATH."/img/usr/".$form->image->getFileName(null,false);
 
                 if(isset($values['newpassword']) && $values['newpassword'] != '')
                 {
                     if($values['newpassword'] != $values['verifypassword'])
                     {
-                        echo "La contraseña no coincide";
+                        echo "La contraseña no coincide.";
                         echo $form;
                         return;
                     }
                     else
-                        $this->sql->updatePassword($sCCUser, sha1($values['newpassword']));
+                        $values['password'] = sha1($values['newpassword']);
                 }
 
-                switch ($values['id_usertype'])
-                {
-                    case 1:
-                        $this->sql->updateAdmin($sCCUser,$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
-                        break;
-                    case 2:
-                        $this->sql->updateClient($sCCUser,$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
-                        break;
-                    case 3:
-                        $this->sql->updateDeveloper($sCCUser,$values['names'],$values['lastnames'],$values['telephone'],$values['movil'],$image);
-                        break;
-                }
+                unset($values['newpassword']);
+                unset($values['verifypassword']);
+
+                $tbUser = new TbUser();
+                $tbUser->update($values, "cc='".$this->getRequest()->getParam('cc')."'");
 
                 $this->_forward('list', 'user', null, array('type'=>$values['id_usertype']));
             }
@@ -191,8 +161,8 @@ class UserController extends Zend_Controller_Action
                 $this->_helper->redirector('list', 'index');
             else
             {
-                $iCCUser = $this->getRequest()->getParam('cc');
-                $this->sql->deleteUser($iCCUser);
+                $tbUser = new TbUser();
+                $tbUser->delete("cc='".$this->getRequest()->getParam('cc')."'");
                 $this->_helper->redirector('index', 'index');
             }
         }
@@ -209,7 +179,8 @@ class UserController extends Zend_Controller_Action
 
         $this->view->headTitle("Perfil");
 
-        $this->view->user = $this->sql->user($this->session->user);
+        $tbUser = new TbUser();
+        $this->view->user = $tbUser->find($this->session->user)[0];
         $this->view->session_type = $this->session->type;
 
         // NPI
@@ -271,26 +242,32 @@ class UserController extends Zend_Controller_Action
         $sCCUser = $values['user'];
         $sPassword = sha1($values['password']);
 
-        $authAdapter = $this->sql->getAuthDbTable('tb_user','cc','password');
+        $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+        $authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter, 'tb_user', 'cc', 'password');
 
         $authAdapter->setIdentity($sCCUser);
         $authAdapter->setCredential($sPassword);
 
         $result = $this->auth->authenticate($authAdapter);
 
-        $this->session->type = $this->sql->userType($sCCUser, $sPassword);
-        $this->session->user = $sCCUser;
+        $type = $dbAdapter->select()->from("tb_user", "id_usertype")->where("cc='".$sCCUser."'")->where("password='".$sPassword."'")->query()->fetchAll();
 
-        if(!$result->isValid())
+        if(!$result->isValid() || $type == null)
         {
-            if($this->session->type==null)
+            if($type == null)
             {
                 echo "<span class='subtitle'>El usuario o la contraseña no coinciden.</span>";
                 echo $form;
             }
         }
         else
-            $this->_helper->redirector('index', 'index');
+        {
+            $this->session->type = $type[0]['id_usertype'];
+            $this->session->user = $sCCUser;
+
+            $this->_helper->redirector('profile', 'user');
+        }
+
     }
 
 }

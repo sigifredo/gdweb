@@ -1,28 +1,24 @@
 <div id='listInfo'>
-
 <?php
-
 if(!count($this->info))
     echo "No hay información.";
 else
 {
 ?>
-<table>
-  <tr>
-    <td></td>
-    <td></td>
-    <td></td>
-    </tr>
-    <?php
-    foreach($this->info as $line)
-    {
-        echo "<tr>
-        <td>".$line['title']."</td>
-        <td><a href=".$this->url(array('controller'=>'who', 'action'=>'update','info'=>$line['id'])).">Editar</a></td>
-        <td><a href=".$this->url(array('controller'=>'who', 'action'=>'delete','info'=>$line['id'])).">Borrar</a></td>
-        </tr>";
-    }
-    ?>
-</table>
+  <table class='tbupdate'>
+    <thead>
+      <tr>
+        <th>Título</th>
+        <th>Descripción</th>
+        <th colspan='2'>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+      foreach($this->info as $info)
+          echo "<tr><td>".$info['title']."</td><td>".$info['description']."</td><td><a href=".$this->url(array('controller'=>'who', 'action'=>'update','info'=>$info['id'])).">Editar</a></td><td><a href=".$this->url(array('controller'=>'who', 'action'=>'delete','info'=>$info['id'])).">Borrar</a></td></tr>";
+      ?>
+    </tbody>
+  </table>
 <?php
 }

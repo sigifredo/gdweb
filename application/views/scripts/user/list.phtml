@@ -1,29 +1,25 @@
-<html>
-  <head>
-  </head>
-  <body>
-    <div id='users'>
-      <table>
-        <tr>
-          <td>Usuario</td>
-          <td>Nombre</td>
-          <td>Apellido</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <?php
-        foreach($this->user as $line)
-        {
-            echo "<tr>
-            <td>".$line['cc']."</td>
-            <td>".$line['names']."</td>
-            <td>".$line['lastnames']."</td>
-            <td><a href=".$this->url(array('controller'=>'user', 'action'=>'update','cc'=>$line['cc'])).">Editar</a></td>
-            <td><a href=".$this->url(array('controller'=>'user', 'action'=>'delete','cc'=>$line['cc'])).">Borrar</a></td>
-            </tr>";
-        }
-        ?>
-      </table>
-    </div>
-  </body>
-</html>
+<?php
+if(!count($this->users))
+    echo "No hay usuarios registrados";
+else
+?>
+<div id='users'>
+  <table class='tbupdate'>
+    <thead>
+      <tr>
+        <th>CC</td>
+        <th>Nombre</td>
+        <th>Apellido</td>
+        <th>Teléfono</td>
+        <th>Celular</td>
+        <th colspan='2'>Acciones</td>
+      </tr>
+    </thead>
+    <tbody>
+    <?php
+      foreach($this->users as $user)
+          echo "<tr><td>".$user['cc']."</td><td>".$user['names']."</td><td>".$user['lastnames']."</td><td>".$user['telephone']."</td><td>".$user['movil']."</td><td><a href=".$this->url(array('controller'=>'user', 'action'=>'update','cc'=>$user['cc'])).">Editar</a></td><td><a href=".$this->url(array('controller'=>'user', 'action'=>'delete','cc'=>$user['cc'])).">Borrar</a></td></tr>";
+    ?>
+    </tbody>
+  </table>
+</div>

@@ -4,12 +4,12 @@
 
 if(!count($this->info))
     echo "No hay información.";
-foreach($this->info as $line)
+foreach($this->info as $info)
 {
     echo "<br><article>";
-    echo "<header class='title'>".$line['title']."</header>";
-    echo "<img src='".$this->baseUrl()."/pg/img/inf/".$line['image']."'/>";
-    echo "<p>".$line['description']."</p>";
+    echo "<header class='title'>".$info->title."</header>";
+    echo "<img src='".$this->url(array('controller'=>'index', 'action'=>'view', 'i'=>$info->id_image))."' />";
+    echo "<p>".$info->description."</p>";
     echo "<div class='clear'></div></article>";
 }
 

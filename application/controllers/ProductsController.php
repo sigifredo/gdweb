@@ -5,7 +5,6 @@ class ProductsController extends Zend_Controller_Action
 
     private $session = null;
     private $auth = null;
-    private $sql = null;
 
     /**
      * \brief Contruye las variables de la clase
@@ -13,7 +12,6 @@ class ProductsController extends Zend_Controller_Action
      */
     public function init()
     {
-        $this->sql = new Application_Model_SQL();
         $this->session = new Zend_Session_Namespace('Users');
         $this->auth = Zend_Auth::getInstance();
     }
@@ -22,7 +20,8 @@ class ProductsController extends Zend_Controller_Action
     {
         $this->view->headTitle("Nuestros productos");
 
-        $this->view->proyect = $this->sql->listNonFreeProyects();
+        $tbProyect = new TbProyect();
+        $this->view->proyects = $tbProyect->fetchAll();
     }
 
     /**
@@ -54,11 +53,12 @@ class ProductsController extends Zend_Controller_Action
         $values = $form->getValues();
 
         if(isset($values['image']))
-            $image = GD3W_PATH."/img/proy/".$form->image->getFileName(null, false);
+            $values['image'] = GD3W_PATH."/img/proy/".$form->image->getFileName(null, false);
         else
-            $image = '';
+            $values['image'] = '';
 
-        $this->sql->insertProyect($values['name'], $values['description'], $values['cc_client'], $values['type'], $image);
+        $tbProyect = new TbProyect();
+        $tbProyect->insert($values);
 
         $this->_forward('list', 'products');
     }
@@ -80,7 +80,8 @@ class ProductsController extends Zend_Controller_Action
             return;
         }
 
-        $this->sql->deleteProyect($this->getRequest()->getParam('p'));
+        $tbProyect = new TbProyect();
+        $tbProyect->delete("id=".$this->getRequest()->getParam('p'));
 
         $this->_forward('list', 'products');
     }
@@ -90,7 +91,8 @@ class ProductsController extends Zend_Controller_Action
         if((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
             $this->_helper->redirector('index', 'index');
 
-        $this->view->products = $this->sql->listProyects();
+        $tbProyect = new TbProyect();
+        $this->view->proyects = $tbProyect->fetchAll();
     }
 
     public function updateAction()
@@ -101,7 +103,6 @@ class ProductsController extends Zend_Controller_Action
         if(!$this->_hasParam('p'))
             $this->_helper->redirector('list', 'products');
 
-        $iIdProyect = $this->getRequest()->getParam('p');
         $form = new UpdateProyectForm();
         $form->setAction($this->view->url(array("controller" => "products", "action" => "update")))
              ->setMethod('post');
@@ -109,8 +110,9 @@ class ProductsController extends Zend_Controller_Action
         if(!$this->getRequest()->isPost())
         {
             echo "<span class='subtitle'>Nuevos datos del proyecto.</span>";
-            $datos = $this->sql->proyect($iIdProyect);
 
+            $tbProyect = new TbProyect();
+            $datos = $tbProyect->find($this->getRequest()->getParam('p'))[0]->toArray();
             echo $form->populate($datos);
         }
         else
@@ -123,12 +125,13 @@ class ProductsController extends Zend_Controller_Action
 
             $values = $form->getValues();
 
-            if(isset($values['image']))
-                $sImage = GD3W_PATH."/img/proy/".$form->image->getFileName(null,false);
+            if($values['image'] == '')
+                unset($values['image']);
             else
-                $sImage = '';
+                $values['image'] = GD3W_PATH."/img/proy/".$form->image->getFileName(null,false);
 
-            $this->sql->updateProyect($iIdProyect, $values['name'], $values['description'], $values['cc_client'], $values['type'], $sImage);
+            $tbProyect = new TbProyect();
+            $tbProyect->update($values, "id=".$this->getRequest()->getParam('p'));
 
             $this->_forward('list', 'products');
         }

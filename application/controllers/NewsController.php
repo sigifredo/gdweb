@@ -4,14 +4,10 @@ class NewsController extends Zend_Controller_Action
 {
 
     private $auth = null;
-
     private $session = null;
-
-    private $sql = null;
 
     public function init()
     {
-        $this->sql = new Application_Model_SQL();
         $this->session = new Zend_Session_Namespace('Users');
         $this->auth = Zend_Auth::getInstance();
     }
@@ -47,20 +43,22 @@ class NewsController extends Zend_Controller_Action
                 return;
             }
             $values = $form->getValues();
+            $values['cc_owner'] = $this->session->user;
 
             if(isset($values['image']))
-                $image = GD3W_PATH."/img/news/".$form->image->getFileName(null, false);
+                $values['image'] = GD3W_PATH."/img/news/".$form->image->getFileName(null, false);
             else
-                $image = '';
+                $values['image'] = '';
 
-            $this->sql->insertNews($this->session->user, $values['title'], $values['header'], $values['description'], $image);
+            $tbNews = new TbNews();
+            $tbNews->insert($values);
+
             $this->_helper->redirector('index', 'index');
         }
     }
 
     /**
      * \brief action para borrar noticia
-     *
      *
      */
     public function deleteAction()
@@ -76,11 +74,10 @@ class NewsController extends Zend_Controller_Action
             return;
         }
 
-        $iIdNews = $this->getRequest()->getParam('news');
+        $tbNews = new TbNews();
+        $tbNews->delete("id=".$this->getRequest()->getParam('news'));
 
-        $this->sql->deleteNews($iIdNews);
-
-        $this->_helper->redirector('index', 'index');
+        $this->_forward('list', 'news');
     }
 
     /**
@@ -91,10 +88,9 @@ class NewsController extends Zend_Controller_Action
     {
         if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
             $this->_helper->redirector('index', 'index');
-        if($this->_hasParam('page'))
-            $this->view->news = $this->sql->listNews($this->_getParam('page'));
-        else
-            $this->view->news = $this->sql->listNews(1);
+
+        $tbNews = new TbNews();
+        $this->view->news = $tbNews->select()->query()->fetchAll();
     }
 
     /**
@@ -109,7 +105,6 @@ class NewsController extends Zend_Controller_Action
         if(!$this->_hasParam('news'))
             $this->_helper->redirector('list', 'index');
 
-        $iIdNews = $this->getRequest()->getParam('news');
         $form = new UpdateNewsForm();
         $form->setAction($this->view->url(array("controller" => "news", "action" => "update")))
              ->setMethod('post');
@@ -117,8 +112,9 @@ class NewsController extends Zend_Controller_Action
         if(!$this->getRequest()->isPost())
         {
             echo "<span class='subtitle'>Nuevos datos de noticia.</span>";
-            $datos = $this->sql->news($iIdNews);
 
+            $tbNews = new TbNews();
+            $datos = $tbNews->find($this->getRequest()->getParam('news'))[0]->toArray();
             echo $form->populate($datos);
         }
         else
@@ -131,12 +127,13 @@ class NewsController extends Zend_Controller_Action
 
             $values = $form->getValues();
 
-            if(isset($values['image']))
-                $image = GD3W_PATH."/img/news/".$form->image->getFileName(null,false);
+            if($values['image'] == '')
+                unset($values['image']);
             else
-                $image = '';
+                $values['image'] = GD3W_PATH."/img/news/".$form->image->getFileName(null,false);
 
-            $this->sql->updateNews($iIdNews, $values['title'], $values['header'], $values['description'], $image);
+            $tbNews = new TbNews();
+            $tbNews->update($values, "id=".$this->getRequest()->getParam('news'));
 
             $this->_helper->redirector('index', 'index');
         }
@@ -145,16 +142,15 @@ class NewsController extends Zend_Controller_Action
     public function viewAction()
     {
         if(!$this->_hasParam('n'))
-        {
             $this->_helper->redirector('index', 'index');
-            return;
+        else
+        {
+            $tbNews = new TbNews();
+            $this->view->news = $tbNews->find($this->getRequest()->getParam('n'))[0];
+
+            if(count($this->view->news))
+                $this->view->headTitle($this->view->news->title);
         }
-
-        $this->view->news = $this->sql->news($this->getRequest()->getParam('n'));
-
-        if(count($this->view->news))
-            $this->view->headTitle($this->view->news['title']);
-
     }
 
 }

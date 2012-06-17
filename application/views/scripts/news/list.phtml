@@ -1,43 +1,31 @@
-<div id='listNews'>
-  <table>
-    <tr>
-      <td>Titulo</td>
-      <td></td>
-      <td></td>
-    </tr>
+<div id='news'>
+<?php
+if(!count($this->news))
+    echo "No hay noticias.";
+else
+{
+?>
+  <table class='tbupdate'>
+    <thead>
+      <tr>
+        <th>Titulo</th>
+        <th>Cabecera</th>
+        <th>Descripción</th>
+        <th colspan='2'>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
     <?php
-    
-    foreach($this->news as $line)
+
+    foreach($this->news as $news)
     {
-        echo "<tr>
-        <td>".$line['title']."</td>
-        <td><a href=".$this->url(array('controller'=>'news', 'action'=>'update','news'=>$line['id'])).">Editar</a></td>
-        <td><a href=".$this->url(array('controller'=>'news', 'action'=>'delete','news'=>$line['id'])).">Borrar</a></td>
-        </tr>";
+        echo "<tr><td>".$news['title']."</td><td>".$news['header']."</td><td>".$news['description']."</td><td><a href=".$this->url(array('controller'=>'news', 'action'=>'update','news'=>$news['id'])).">Editar</a></td><td><a href=".$this->url(array('controller'=>'news', 'action'=>'delete','news'=>$news['id'])).">Borrar</a></td></tr>";
     }
     ?>
+    </tbody>
   </table>
+<?php
+}
+?>
 </div>
 
-<?php
-
-$sql = new Application_Model_SQL();
-$numPages = $sql->newsNumber();
-$page = $this->page;
-
-echo "<div class='pagination'><table><tr>";
-if($page-1 > 0)
-    echo "<td><a href=".$this->url(array('controller'=>'index','action'=>'list-news','page' => $page-1))."> Anterior </a></td>";
-
-for($j=1; $j<=$numPages; $j++)
-    if($j != $page)
-        echo "<td><a href=".$this->url(array('controller'=>'index','action'=>'list-news','page' => $j)).">".$j."</a></td>";
-    else
-        echo "<td> ".$j." </td>";
-
-if($page!=$numPages)
-    echo "<td><a href=".$this->url(array('controller'=>'index','action'=>'list-news','page' => $page+1))."> Siguiente </a></td>";
-
-echo "</tr></table></div>";
-
-?>

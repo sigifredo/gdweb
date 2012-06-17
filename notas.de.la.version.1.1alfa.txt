@@ -1,4 +1,0 @@
-Servicios no era visible si no se estaba autenticado (corregido).
-Titulo de las vistas (parcialmente corregido).
-Arte de la página de perfil (parcialmente corregido).
-Actualizar usuario.

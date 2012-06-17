@@ -7,10 +7,11 @@ else
     {
         ?>
         <article>
-          <header>
-            <?php echo $service['name']; ?>
+          <header class='title'>
+            <?php echo $service->name; ?>
           </header>
-            <p><?php echo $service['description']; ?></p>
+            <img src='<?php echo $this->url(array('controller'=>'index', 'action'=>'view', 'i'=>$service->id_image)); ?>' />
+            <p><?php echo $service->description; ?></p>
         </article>
         <?php
     }
