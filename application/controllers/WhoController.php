@@ -11,7 +11,7 @@ class WhoController extends Zend_Controller_Action
     public function init()
     {
         $this->sql = new Application_Model_SQL();
-        $this->session=new Zend_Session_Namespace('Users');
+        $this->session = new Zend_Session_Namespace('Users');
         $this->auth = Zend_Auth::getInstance();
     }
 
@@ -32,7 +32,10 @@ class WhoController extends Zend_Controller_Action
         if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
             $this->_helper->redirector('index', 'who');
         else
-            $this->view->info = $this->sql->listInformation();
+        {
+            $tbInfo = new TbInfo();
+            $this->view->info = $tbInfo->select()->query()->fetchAll();
+        }
     }
 
     /**
