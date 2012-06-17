@@ -56,14 +56,13 @@ class NewsController extends Zend_Controller_Action
 
             $tbNews = new TbNews();
             $tbNews->insert($values);
-            // $this->sql->insertNews($this->session->user, $values['title'], $values['header'], $values['description'], $image);
-            // $this->_helper->redirector('index', 'index');
+
+            $this->_helper->redirector('index', 'index');
         }
     }
 
     /**
      * \brief action para borrar noticia
-     *
      *
      */
     public function deleteAction()
@@ -79,11 +78,10 @@ class NewsController extends Zend_Controller_Action
             return;
         }
 
-        $iIdNews = $this->getRequest()->getParam('news');
+        $tbNews = new TbNews();
+        $tbNews->delete("id=".$this->getRequest()->getParam('news'));
 
-        $this->sql->deleteNews($iIdNews);
-
-        $this->_helper->redirector('index', 'index');
+        $this->_forward('list', 'news');
     }
 
     /**
@@ -94,10 +92,9 @@ class NewsController extends Zend_Controller_Action
     {
         if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
             $this->_helper->redirector('index', 'index');
-        if($this->_hasParam('page'))
-            $this->view->news = $this->sql->listNews($this->_getParam('page'));
-        else
-            $this->view->news = $this->sql->listNews(1);
+
+        $tbNews = new TbNews();
+        $this->view->news = $tbNews->select()->query()->fetchAll();
     }
 
     /**
