@@ -55,8 +55,8 @@ class TbNews extends Zend_Db_Table_Abstract
                 $aData['id_image'] = $id_image;
             }
 
-            if(isset($values['description']) && $values['description'] == '')
-                unset($values['description']);
+            if(isset($aData['description']) && $aData['description'] == '')
+                unset($aData['description']);
 
             parent::update($aData, $where);
 

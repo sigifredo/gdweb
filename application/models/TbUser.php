@@ -61,14 +61,14 @@ class TbUser extends Zend_Db_Table_Abstract
                 $aData['id_image'] = $id_image;
             }
 
-            if(isset($values['lastnames']) && $values['lastnames'] == '')
-                unset($values['lastnames']);
+            if(isset($aData['lastnames']) && $aData['lastnames'] == '')
+                unset($aData['lastnames']);
 
-            if(isset($values['telephone']) && $values['telephone'] == '')
-                unset($values['telephone']);
+            if(isset($aData['telephone']) && $aData['telephone'] == '')
+                unset($aData['telephone']);
 
-            if(isset($values['movil']) && $values['movil'] == '')
-                unset($values['movil']);
+            if(isset($aData['movil']) && $aData['movil'] == '')
+                unset($aData['movil']);
 
             parent::update($aData, $where);
 
