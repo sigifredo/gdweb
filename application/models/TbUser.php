@@ -52,8 +52,6 @@ class TbUser extends Zend_Db_Table_Abstract
 
         try
         {
-            $id_image = 1;
-
             if(isset($aData['image']) && $aData['image'] != '')
             {
                 $tbImage = new TbImage();

@@ -112,7 +112,6 @@ class NewsController extends Zend_Controller_Action
         if(!$this->_hasParam('news'))
             $this->_helper->redirector('list', 'index');
 
-        $iIdNews = $this->getRequest()->getParam('news');
         $form = new UpdateNewsForm();
         $form->setAction($this->view->url(array("controller" => "news", "action" => "update")))
              ->setMethod('post');
@@ -120,8 +119,9 @@ class NewsController extends Zend_Controller_Action
         if(!$this->getRequest()->isPost())
         {
             echo "<span class='subtitle'>Nuevos datos de noticia.</span>";
-            $datos = $this->sql->news($iIdNews);
 
+            $tbNews = new TbNews();
+            $datos = $tbNews->find($this->getRequest()->getParam('news'))[0]->toArray();
             echo $form->populate($datos);
         }
         else
@@ -134,12 +134,13 @@ class NewsController extends Zend_Controller_Action
 
             $values = $form->getValues();
 
-            if(isset($values['image']))
-                $image = GD3W_PATH."/img/news/".$form->image->getFileName(null,false);
+            if($values['image'] == '')
+                unset($values['image']);
             else
-                $image = '';
+                $values['image'] = GD3W_PATH."/img/news/".$form->image->getFileName(null,false);
 
-            $this->sql->updateNews($iIdNews, $values['title'], $values['header'], $values['description'], $image);
+            $tbNews = new TbNews();
+            $tbNews->update($values, "id=".$this->getRequest()->getParam('news'));
 
             $this->_helper->redirector('index', 'index');
         }

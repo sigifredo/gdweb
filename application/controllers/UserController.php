@@ -242,14 +242,15 @@ class UserController extends Zend_Controller_Action
         $sCCUser = $values['user'];
         $sPassword = sha1($values['password']);
 
-        $authAdapter = $this->sql->getAuthDbTable('tb_user','cc','password');
+        $sql = new Application_Model_SQL();
+        $authAdapter = $sql->getAuthDbTable('tb_user','cc','password');
 
         $authAdapter->setIdentity($sCCUser);
         $authAdapter->setCredential($sPassword);
 
         $result = $this->auth->authenticate($authAdapter);
 
-        $this->session->type = $this->sql->userType($sCCUser, $sPassword);
+        $this->session->type = $sql->userType($sCCUser, $sPassword);
         $this->session->user = $sCCUser;
 
         if(!$result->isValid())
