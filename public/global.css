@@ -16,7 +16,7 @@ div#content
 {
     margin-top: 5px;
 }
-#news article, #information article
+article.card
 {
     padding: 0px;
     font-family: Arial, Helvetica, sans-serif;
@@ -30,49 +30,46 @@ div#content
     width: 470px;
     height: 200px;
 }
-#news article:hover, #information article:hover
+article.card:hover
 {
     background-color: #fff;
-}
-div#news article.artl
-{
-    margin: 10px 5px 10px 10px;
-    clear: left;
-    float: left;
-}
-div#news article.artr
-{
-    margin: 10px 10px 10px 5px;
-    float: left;
 }
 div.clear
 {
     clear: both;
 }
-div.pagination
-{
-    text-align: center;
-}
-article p, article header
+article.card p, article.card header
 {
     margin: 15px;
 }
-#information img
+article.card img.default
 {
     float: left;
     height: 120px;
     border-width: 2px;
     margin: 0px 15px 15px 15px;
 }
-article header, article header a
+article.artl
+{
+    margin: 10px 5px 10px 10px;
+    clear: left;
+    float: left;
+}
+article.artr
+{
+    margin: 10px 10px 10px 5px;
+    float: left;
+}
+article.card header, article.card header a
 {
     color: #086900;
     font-size: 17px;
 }
-article p
+article.card p
 {
     color: #507050;
     font-size: 15px;
+    padding: 10px 0px 10px 0px;
 }
 footer
 {
@@ -113,10 +110,6 @@ img.newsimage
     height: 100px;
     float: left;
     padding: 10px 20px 10px 20px;
-}
-p.newsdescription
-{
-    padding: 10px 0px 10px 0px;
 }
 h2
 {

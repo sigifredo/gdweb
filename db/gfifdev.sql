@@ -45,36 +45,6 @@ $$;
 ALTER FUNCTION public.f_delete_image() OWNER TO gdadmin;
 
 --
--- Name: f_insertinfo(character varying, character varying, character varying); Type: FUNCTION; Schema: public; Owner: gdadmin
---
-
-CREATE FUNCTION f_insertinfo(title1 character varying, description2 character varying, image3 character varying) RETURNS void
-    LANGUAGE plpgsql
-    AS $_$BEGIN
-  IF $3 = '' THEN
-    INSERT INTO tb_info (title, description) VALUES ($1, $2);
-  ELSE
-    INSERT INTO tb_info (title, description, image) VALUES ($1, $2, lo_import($3));
-  END IF;
-END;$_$;
-
-
-ALTER FUNCTION public.f_insertinfo(title1 character varying, description2 character varying, image3 character varying) OWNER TO gdadmin;
-
---
--- Name: f_insertmemo(character varying, character varying, text); Type: FUNCTION; Schema: public; Owner: gdadmin
---
-
-CREATE FUNCTION f_insertmemo(cc1 character varying, title2 character varying, description3 text) RETURNS void
-    LANGUAGE plpgsql
-    AS $_$BEGIN
-  INSERT INTO tb_memo (cc_owner, title, description) VALUES ($1, $2, $3);
-END;$_$;
-
-
-ALTER FUNCTION public.f_insertmemo(cc1 character varying, title2 character varying, description3 text) OWNER TO gdadmin;
-
---
 -- Name: f_update_image(); Type: FUNCTION; Schema: public; Owner: gdadmin
 --
 
@@ -146,7 +116,7 @@ SELECT pg_catalog.setval('tb_image_id_seq', 1, true);
 
 CREATE TABLE tb_info (
     id integer NOT NULL,
-    title character varying(20) NOT NULL,
+    title character text NOT NULL,
     description text NOT NULL,
     date timestamp without time zone DEFAULT now(),
     id_image integer DEFAULT 1
@@ -652,7 +622,7 @@ COPY tb_usertype (id, name) FROM stdin;
 --
 
 COPY version (version) FROM stdin;
-14
+2.1
 \.
 
 
