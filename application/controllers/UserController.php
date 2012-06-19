@@ -75,7 +75,10 @@ class UserController extends Zend_Controller_Action
             return;
         }
         else
+        {
+            $values['password'] = sha1($values['password']);
             unset($values['verifypassword']);
+        }
 
         if(isset($values['image']))
             $values['image'] = GD3W_PATH."/img/usr/".$form->image->getFileName(null,false);
