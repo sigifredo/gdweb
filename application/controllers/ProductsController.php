@@ -112,7 +112,8 @@ class ProductsController extends Zend_Controller_Action
             echo "<span class='subtitle'>Nuevos datos del proyecto.</span>";
 
             $tbProyect = new TbProyect();
-            $datos = $tbProyect->find($this->getRequest()->getParam('p'))[0]->toArray();
+            $datos = $tbProyect->find($this->getRequest()->getParam('p'));
+            $datos = $datos[0]->toArray();
             echo $form->populate($datos);
         }
         else

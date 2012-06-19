@@ -1,7 +1,8 @@
+<br>
+<b>Versión de la plataforma:</b> <?php echo $this->about->version(); ?><br>
+<b>Fecha de liberación:</b> <?php echo $this->about->releaseDate()->toStr(); ?><br><br>
 
-Versión de la plataforma: <?php echo $this->about->version(); ?><br>
-
-Autores:<br>
+<b>Autores:</b><br><br>
 <?php
 
 $authors = $this->about->authors();
@@ -9,7 +10,7 @@ $authors = $this->about->authors();
 foreach($authors as $author)
 {
     echo $author['Name']."<br>";
-    echo $author['Task']."<br>";
+    echo $author['Task']."<br><br>";
 }
 
 ?>

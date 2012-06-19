@@ -1,18 +1,21 @@
+<div id='services'>
+
 <?php
+
 if(!count($this->services))
     echo "No hay servicios registrados.";
 else
 {
     foreach($this->services as $service)
     {
-        ?>
-        <article>
-          <header class='title'>
-            <?php echo $service->name; ?>
-          </header>
-            <img src='<?php echo $this->url(array('controller'=>'index', 'action'=>'view', 'i'=>$service->id_image)); ?>' />
-            <p><?php echo $service->description; ?></p>
-        </article>
-        <?php
+        echo "<br><article class='card'>";
+        echo "<header class='title'>$service->name</header>";
+        echo "<img class='default' src='".$this->url(array('controller'=>'index', 'action'=>'view', 'i'=>$service->id_image))."' />";
+        echo "<p>$service->description</p>";
+        echo "<div class='clear'></div></article>";
     }
 }
+
+?>
+</div>
+<br>

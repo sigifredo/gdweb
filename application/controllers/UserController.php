@@ -108,7 +108,8 @@ class UserController extends Zend_Controller_Action
             echo "<span class='subtitle'>Nuevos datos de usuario.</span>";
 
             $tbUser = new TbUser();
-            $datos = $tbUser->find($this->getRequest()->getParam('cc'))[0]->toArray();
+            $datos = $tbUser->find($this->getRequest()->getParam('cc'));
+            $datos = $datos[0]->toArray();
             echo $form->populate($datos);
         }
         else
@@ -180,7 +181,8 @@ class UserController extends Zend_Controller_Action
         $this->view->headTitle("Perfil");
 
         $tbUser = new TbUser();
-        $this->view->user = $tbUser->find($this->session->user)[0];
+        $this->view->user = $tbUser->find($this->session->user);
+        $this->view->user = $this->view->user[0];
         $this->view->session_type = $this->session->type;
 
         // NPI

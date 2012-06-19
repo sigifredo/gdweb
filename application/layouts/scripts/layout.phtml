@@ -25,7 +25,8 @@ echo $this->doctype("HTML5");
     if($auth->hasIdentity())
     {
         $tbUser = new TbUser();
-        $datos = $tbUser->find($auth->getIdentity())[0];
+        $datos = $tbUser->find($auth->getIdentity());
+        $datos = $datos[0];
 
         echo "<div id=\"\">Perfil: <a href='".$this->url(array("controller" => "user", "action" => "profile"), null, true)."'>".$datos['names']." ".$datos['lastnames']."</a></div>";
         echo "<div id=\"\"><a href='".$this->url(array("controller" => "user", "action" => "logout"))."'>Logout</a></div>";

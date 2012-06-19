@@ -102,7 +102,8 @@ class WhoController extends Zend_Controller_Action
             echo "<span class='subtitle'>Nuevos datos.</span>";
 
             $tbInfo = new TbInfo();
-            $datos = $tbInfo->find($this->getRequest()->getParam('info'))[0]->toArray();
+            $datos = $tbInfo->find($this->getRequest()->getParam('info'));
+            $datos = $datos[0]->toArray();
             echo $form->populate($datos);
         }
         else

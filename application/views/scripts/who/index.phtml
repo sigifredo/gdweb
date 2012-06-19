@@ -6,14 +6,13 @@ if(!count($this->info))
     echo "No hay información.";
 foreach($this->info as $info)
 {
-    echo "<br><article>";
-    echo "<header class='title'>".$info->title."</header>";
-    echo "<img src='".$this->url(array('controller'=>'index', 'action'=>'view', 'i'=>$info->id_image))."' />";
-    echo "<p>".$info->description."</p>";
+    echo "<br><article class='card'>";
+    echo "<header class='title'>$info->title</header>";
+    echo "<img class='default' src='".$this->url(array('controller'=>'index', 'action'=>'view', 'i'=>$info->id_image))."' />";
+    echo "<p>$info->description</p>";
     echo "<div class='clear'></div></article>";
 }
 
 ?>
-
-<br>
 </div>
+<br>

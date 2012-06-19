@@ -32,7 +32,6 @@ base_de_datos_leer:
 
 clean:
 	rm -rf /tmp/gdweb
-	rm -f public/pg
 
 clean-all:clean
 	pg_dump -U gdadmin gfifdev > db/gfifdev.sql.bk

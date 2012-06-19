@@ -1,4 +1,5 @@
 <div id="news">
+
 <?php
 
 $i=1;
@@ -10,40 +11,16 @@ else
     foreach($this->news as $line)
     {
         if($i%2 == 0)
-            echo "<article class='artr'>";
+            echo "<article class='card artr'>";
         else
-            echo "<article class='artl'>";
-?>
-<header class='title'><?php echo "<a href='".$this->url(array('controller' => 'news', 'action' => 'view', 'n' => $line['id']))."'>".$line['title']."</a>"; ?></header>
-<img class='newsimage' src='<?php echo $this->url(array('controller'=>'index', 'action'=>'view', 'i'=>$line['id_image'])); ?>'></img>
-<p class='newsdescription'><?php echo $line['header']; ?></p>
-</article>
-<?php
+            echo "<article class='card artl'>";
+        echo "<header class='title'><a href='".$this->url(array('controller' => 'news', 'action' => 'view', 'n' => $line['id']))."'>".$line['title']."</a></header>";
+        echo "<img class='newsimage' src='".$this->url(array('controller'=>'index', 'action'=>'view', 'i'=>$line['id_image']))."' />";
+        echo "<p>".$line['header']."</p></article>";
         $i++;
     }
 
     echo "<div class=\"clear\"></div></div>";
-
-    // $sql = new Application_Model_SQL();
-    // $numPages = $sql->newsNumber();
-    // $page = $this->page;
-
-    // echo "<div class='pagination'>";
-    // if($page-1 > 0)
-    //     echo "<a href=".$this->url(array('controller'=>'index','action'=>'index','page' => $page-1))."> Anterior </a>";
-
-    // for($j=1; $j<=$numPages; $j++)
-    // {
-    //     if($j != $page)
-    //         echo "<a href=".$this->url(array('controller'=>'index','action'=>'index','page' => $j)).">".$j."</a>";
-    //     else
-    //         echo " $j ";
-    // }
-
-    // if($page != $numPages)
-    //     echo "<a href=".$this->url(array('controller'=>'index','action'=>'index','page' => $page+1))."> Siguiente </a>";
-
-    // echo "</div>";
 }
 
 ?>

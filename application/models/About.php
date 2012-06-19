@@ -5,22 +5,19 @@ class About
     public function authors()
     {
         $aAuthors = array(
-                         array("Name" => "Sigifredo Escobar Gómez", "Task" => "Designer, Developer"),
-                         array("Name" => "Marisol Correa Henao", "Task" => "Developer")
+                         array("Name" => "Sigifredo Escobar Gómez", "Task" => "Diseñador, desarrollador"),
+                         array("Name" => "Marisol Correa Henao", "Task" => "Desarrolladora")
                          );
         return $aAuthors;
     }
 
     public function version()
     {
-        return "2-experimental";
+        return "2.2alfa";
     }
 
     public function releaseDate()
     {
-    }
-
-    public function dbVersion()
-    {
+        return new Date(18, 6, 2012);
     }
 }
