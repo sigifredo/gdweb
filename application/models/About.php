@@ -13,11 +13,11 @@ class About
 
     public function version()
     {
-        return "2.2alfa";
+        return "2.3alfa";
     }
 
     public function releaseDate()
     {
-        return new Date(18, 6, 2012);
+        return new Date(19, 6, 2012);
     }
 }
