@@ -71,7 +71,7 @@ article.card p
     font-size: 15px;
     padding: 10px 0px 10px 0px;
 }
-footer
+footer#ftppal
 {
     text-align: center;
     color: #606060;
@@ -141,4 +141,33 @@ div.profile, div#adminmenu
 {
     float: left;
     padding: 10px;
+}
+/* NewsView */
+article.news
+{
+    font-family: Arial, Helvetica, sans-serif;
+}
+article.news header
+{
+    color: #086900;
+    font-size: 19px;
+    margin: 15px;
+}
+article.news p#head
+{
+    color: #507050;
+    font-size: 15px;
+    padding: 0px 10px 0px 10px;
+}
+article.news p#description
+{
+    color: #000;
+    font-size: 15px;
+    padding: 0px 10px 0px 10px;
+}
+article.news footer#date
+{
+    color: #606060;
+    font-size: 12px;
+    padding: 0px 10px 0px 15px;
 }

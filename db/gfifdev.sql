@@ -116,7 +116,7 @@ SELECT pg_catalog.setval('tb_image_id_seq', 1, true);
 
 CREATE TABLE tb_info (
     id integer NOT NULL,
-    title character text NOT NULL,
+    title text NOT NULL,
     description text NOT NULL,
     date timestamp without time zone DEFAULT now(),
     id_image integer DEFAULT 1
@@ -202,8 +202,8 @@ SELECT pg_catalog.setval('tb_memo_id_seq', 1, false);
 
 CREATE TABLE tb_news (
     id integer NOT NULL,
-    title character varying(20) NOT NULL,
-    header character varying(50) NOT NULL,
+    title text NOT NULL,
+    header text NOT NULL,
     description text,
     cc_owner character varying(10) NOT NULL,
     id_image integer DEFAULT 1,
@@ -622,7 +622,7 @@ COPY tb_usertype (id, name) FROM stdin;
 --
 
 COPY version (version) FROM stdin;
-2.1
+2.2
 \.
 
 
