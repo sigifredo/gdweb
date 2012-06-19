@@ -167,7 +167,8 @@ class UserController extends Zend_Controller_Action
             {
                 $tbUser = new TbUser();
                 $tbUser->delete("cc='".$this->getRequest()->getParam('cc')."'");
-                $this->_helper->redirector('index', 'index');
+
+                $this->_forward('list', 'user', null, array('type'=>$this->getRequest()->getParam('type')));
             }
         }
     }
