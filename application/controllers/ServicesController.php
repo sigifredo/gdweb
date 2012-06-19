@@ -106,7 +106,8 @@ class ServicesController extends Zend_Controller_Action
             echo "<span class='subtitle'>Nuevos datos del servicio.</span>";
 
             $tbService = new TbService();
-            $datos = $tbService->find($this->getRequest()->getParam('s'))[0]->toArray();
+            $datos = $tbService->find($this->getRequest()->getParam('s'));
+            $datos = $datos[0]->toArray();
             echo $form->populate($datos);
         }
         else

@@ -114,7 +114,8 @@ class NewsController extends Zend_Controller_Action
             echo "<span class='subtitle'>Nuevos datos de noticia.</span>";
 
             $tbNews = new TbNews();
-            $datos = $tbNews->find($this->getRequest()->getParam('news'))[0]->toArray();
+            $datos = $tbNews->find($this->getRequest()->getParam('news'));
+            $datos = $datos[0]->toArray();
             echo $form->populate($datos);
         }
         else
@@ -146,7 +147,8 @@ class NewsController extends Zend_Controller_Action
         else
         {
             $tbNews = new TbNews();
-            $this->view->news = $tbNews->find($this->getRequest()->getParam('n'))[0];
+            $this->view->news = $tbNews->find($this->getRequest()->getParam('n'));
+            $this->view->news = $this->view->news[0];
 
             if(count($this->view->news))
                 $this->view->headTitle($this->view->news->title);
