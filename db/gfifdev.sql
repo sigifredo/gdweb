@@ -331,7 +331,7 @@ SELECT pg_catalog.setval('tb_proyecttype_id_seq', 2, true);
 
 CREATE TABLE tb_service (
     id integer NOT NULL,
-    name character varying(20) NOT NULL,
+    name text NOT NULL,
     description text NOT NULL,
     date timestamp without time zone DEFAULT now() NOT NULL,
     id_image integer DEFAULT 1,
