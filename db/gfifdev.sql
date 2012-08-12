@@ -704,6 +704,7 @@ ALTER TABLE ONLY tb_usertype
 
 CREATE TRIGGER t_delete_info_image AFTER DELETE ON tb_info FOR EACH ROW EXECUTE PROCEDURE f_delete_image();
 
+CREATE TRIGGER t_delete_service_image AFTER DELETE ON tb_service FOR EACH ROW EXECUTE PROCEDURE f_delete_image();
 
 --
 -- Name: t_delete_news_image; Type: TRIGGER; Schema: public; Owner: gdadmin
@@ -740,6 +741,10 @@ CREATE TRIGGER t_update_news_image BEFORE UPDATE ON tb_news FOR EACH ROW EXECUTE
 CREATE TRIGGER t_update_proyect_image BEFORE UPDATE ON tb_proyect FOR EACH ROW EXECUTE PROCEDURE f_update_image();
 
 CREATE TRIGGER t_update_user_image AFTER UPDATE ON tb_user FOR EACH ROW EXECUTE PROCEDURE f_update_image();
+
+CREATE TRIGGER t_update_info_image AFTER UPDATE ON tb_info FOR EACH ROW EXECUTE PROCEDURE f_update_image();
+
+CREATE TRIGGER t_update_service_image AFTER UPDATE ON tb_service FOR EACH ROW EXECUTE PROCEDURE f_update_image();
 
 
 --

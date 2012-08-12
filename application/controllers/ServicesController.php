@@ -79,7 +79,7 @@ class ServicesController extends Zend_Controller_Action
         }
 
         $tbService = new TbService();
-        $tbService->delete($this->getRequest()->getParam('s'));
+        $tbService->delete("id=".$this->getRequest()->getParam('s'));
 
         $this->_forward('list', 'services');
     }
@@ -137,7 +137,7 @@ class ServicesController extends Zend_Controller_Action
                 $values['image'] = GD3W_PATH."/img/usr/".$form->image->getFileName(null,false);
 
             $tbService = new TbService();
-            $datos = $tbService->update($values, $this->getRequest()->getParam('s'));
+            $datos = $tbService->update($values, "id=".$this->getRequest()->getParam('s'));
 
             $this->_forward('list', 'services');
         }
