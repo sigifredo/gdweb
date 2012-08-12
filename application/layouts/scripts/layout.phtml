@@ -10,7 +10,7 @@ echo $this->doctype("HTML5");
     echo $this->headScript();
 
     $this->headLink(array('rel' => 'icon', 'href' => $this->baseUrl().'/img/favicon.png','type' => 'image/x-icon'));
-    echo $this->headLink()->appendStylesheet($this->baseUrl().'/global.css');
+    echo $this->headLink()->appendStylesheet($this->baseUrl().'/css/global.css');
 
     $this->headTitle()->prepend('GfifDev - ');
     echo $this->headTitle();
@@ -35,9 +35,8 @@ echo $this->doctype("HTML5");
 ?>
 
     <header class="ppal">
-      <img class="img-logo" src="<?php echo $this->baseUrl()."/img/logo.png"; ?>"></img>
+      <a href="<?php echo $this->baseUrl(); ?>"><img class="img-logo" src="<?php echo $this->baseUrl()."/img/logo.png"; ?>"></img></a>
       <ul id="menu-ppal">
-        <li class="menu-ppal-item"><a href="<?php echo $this->url(array("controller" => "index", "action" => "index"), null, true); ?>">Inicio</a></li>
         <li class="menu-ppal-item"><a href="<?php echo $this->url(array("controller" => "who", "action" => "index"), null, true); ?>">¿Quiénes somos?</a></li>
         <li class="menu-ppal-item"><a href="<?php echo $this->url(array("controller" => "products", "action" => "index"), null, true); ?>">Productos</a></li>
         <li class="menu-ppal-item"><a href="<?php echo $this->url(array("controller" => "services", "action" => "index"), null, true); ?>">Servicios</a></li>

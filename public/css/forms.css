@@ -1,0 +1,15 @@
+input
+{
+    border: 1px solid #387838;
+    background: #ebefeb;
+    padding: 3px 7px 3px 7px;
+}
+input[type="text"]:focus, input[type="password"]:focus
+{
+    background: #f7fff7;
+}
+input[type="submit"]
+{
+    border-radius: 2px;
+    background: #f0f7f0;
+}

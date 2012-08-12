@@ -227,6 +227,7 @@ class UserController extends Zend_Controller_Action
     public function loginAction()
     {
         $this->view->headTitle("Iniciar sesión");
+        $this->view->headLink()->appendStylesheet($this->view->baseUrl().'/css/forms.css');
 
         $form = new LoginForm();
         $form->setAction($this->view->url(array("controller" => "user", "action" => "login")))
