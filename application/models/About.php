@@ -13,11 +13,11 @@ class About
 
     public function version()
     {
-        return "2.3.3dev";
+        return "3.0.1";
     }
 
     public function releaseDate()
     {
-        return new Date(19, 6, 2012);
+        return new Date(14, 8, 2012);
     }
 }
