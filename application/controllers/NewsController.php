@@ -27,6 +27,9 @@ class NewsController extends Zend_Controller_Action
             $this->_helper->redirector('index', 'index');
         else
         {
+            $this->view->headTitle("Crear noticia");
+            $this->view->headLink()->appendStylesheet($this->view->baseUrl().'/css/forms.css');
+
             $form = new CreateNewsForm();
             $form->setAction($this->view->url(array("controller" => "news", "action" => "create")))
                  ->setMethod('post');

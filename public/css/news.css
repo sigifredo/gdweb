@@ -7,9 +7,9 @@
 }
 .card
 {
-    padding: 0px;
-    margin: 15px;
-    width: 460px;
+    padding: 15px;
+    margin: 0px;
+    width: 459px;
     float: left;
 }
 .card header a
@@ -30,8 +30,4 @@
 .artl
 {
     border-right: 1px solid #ccc;
-}
-.artr
-{
-    border-left: 1px solid #ccc;
 }

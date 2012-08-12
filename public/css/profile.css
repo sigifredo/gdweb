@@ -1,0 +1,26 @@
+.profile, .menu-admin
+{
+    border: 1px dotted #b7b7b7;
+    width: 100%;
+    padding: 10px;
+    margin: 5px;
+}
+.profimage
+{
+    width: 15%;
+    float: left;
+}
+.profinfo
+{
+    float: left;
+    padding: 10px;
+}
+.menu-admin-item
+{
+    float: left;
+    width: 50%;
+}
+.clear
+{
+    clear: both;
+}

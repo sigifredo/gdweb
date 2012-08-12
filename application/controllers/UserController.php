@@ -183,6 +183,7 @@ class UserController extends Zend_Controller_Action
             $this->_helper->redirector('index', 'index');
 
         $this->view->headTitle("Perfil");
+        $this->view->headLink()->appendStylesheet($this->view->baseUrl().'/css/profile.css');
 
         $tbUser = new TbUser();
         $this->view->user = $tbUser->find($this->session->user);
