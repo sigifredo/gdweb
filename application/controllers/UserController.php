@@ -32,6 +32,9 @@ class UserController extends Zend_Controller_Action
         if(!$this->_hasParam('type'))
             $this->_helper->redirector('index', 'index');
 
+        $this->view->headTitle("Usuarios");
+        $this->view->headLink()->appendStylesheet($this->view->baseUrl().'/css/list.css');
+
         $tbUser = new TbUser();
         $this->view->users = $tbUser->select()->where("id_usertype=".$this->getRequest()->getParam('type'))->where("activated=true")->query();
     }

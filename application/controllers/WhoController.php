@@ -14,6 +14,7 @@ class WhoController extends Zend_Controller_Action
     public function indexAction()
     {
         $this->view->headTitle("¿Quiénes somos?");
+        $this->view->headLink()->appendStylesheet($this->view->baseUrl().'/css/info.css');
 
         $tbInfo = new TbInfo();
         $this->view->info = $tbInfo->fetchAll();
@@ -29,6 +30,9 @@ class WhoController extends Zend_Controller_Action
             $this->_helper->redirector('index', 'who');
         else
         {
+            $this->view->headTitle("Información");
+            $this->view->headLink()->appendStylesheet($this->view->baseUrl().'/css/list.css');
+
             $tbInfo = new TbInfo();
             $this->view->info = $tbInfo->select()->query()->fetchAll();
         }
@@ -96,6 +100,9 @@ class WhoController extends Zend_Controller_Action
             $this->_helper->redirector('list', 'who');
             return;
         }
+
+        $this->view->headTitle("Actualizar información");
+        $this->view->headLink()->appendStylesheet($this->view->baseUrl().'/css/forms.css');
 
         $form = new UpdateInfoForm();
         $form->setAction($this->view->url(array("controller" => "who", "action" => "update")))

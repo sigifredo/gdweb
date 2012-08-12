@@ -14,6 +14,7 @@ class ServicesController extends Zend_Controller_Action
     public function indexAction()
     {
         $this->view->headTitle("Nuestros servicios");
+        $this->view->headLink()->appendStylesheet($this->view->baseUrl().'/css/info.css');
 
         $tbService = new TbService();
         $this->view->services = $tbService->fetchAll();
@@ -88,6 +89,9 @@ class ServicesController extends Zend_Controller_Action
         if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
             $this->_helper->redirector('index', 'index');
 
+        $this->view->headTitle("Servicios");
+        $this->view->headLink()->appendStylesheet($this->view->baseUrl().'/css/list.css');
+
         $tbService = new TbService();
         $this->view->services = $tbService->select()->query()->fetchAll();
     }
@@ -99,6 +103,9 @@ class ServicesController extends Zend_Controller_Action
 
         if(!$this->_hasParam('s'))
             $this->_helper->redirector('list', 'services');
+
+        $this->view->headTitle("Actualizar servicio");
+        $this->view->headLink()->appendStylesheet($this->view->baseUrl().'/css/forms.css');
 
         $iIdService = $this->getRequest()->getParam('s');
         $form = new UpdateServiceForm();

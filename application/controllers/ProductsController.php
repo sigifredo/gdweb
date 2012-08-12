@@ -19,6 +19,7 @@ class ProductsController extends Zend_Controller_Action
     public function indexAction()
     {
         $this->view->headTitle("Nuestros productos");
+        $this->view->headLink()->appendStylesheet($this->view->baseUrl().'/css/info.css');
 
         $tbProyect = new TbProyect();
         $this->view->proyects = $tbProyect->fetchAll();
@@ -95,6 +96,9 @@ class ProductsController extends Zend_Controller_Action
         if((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
             $this->_helper->redirector('index', 'index');
 
+        $this->view->headTitle("Proyectos");
+        $this->view->headLink()->appendStylesheet($this->view->baseUrl().'/css/list.css');
+
         $tbProyect = new TbProyect();
         $this->view->proyects = $tbProyect->fetchAll();
     }
@@ -106,6 +110,9 @@ class ProductsController extends Zend_Controller_Action
 
         if(!$this->_hasParam('p'))
             $this->_helper->redirector('list', 'products');
+
+        $this->view->headTitle("Actualizar proyecto");
+        $this->view->headLink()->appendStylesheet($this->view->baseUrl().'/css/forms.css');
 
         $form = new UpdateProyectForm();
         $form->setAction($this->view->url(array("controller" => "products", "action" => "update")))

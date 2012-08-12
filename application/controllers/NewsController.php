@@ -92,6 +92,9 @@ class NewsController extends Zend_Controller_Action
         if ((!$this->auth->hasIdentity()) || ($this->session->type != '1'))
             $this->_helper->redirector('index', 'index');
 
+        $this->view->headTitle("Noticias");
+        $this->view->headLink()->appendStylesheet($this->view->baseUrl().'/css/list.css');
+
         $tbNews = new TbNews();
         $this->view->news = $tbNews->select()->query()->fetchAll();
     }

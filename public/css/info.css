@@ -1,0 +1,24 @@
+article.card p, article.card header
+{
+    margin: 15px;
+}
+article.card header.title
+{
+    color: #086900;
+    font-size: 17px;
+}
+article.card p
+{
+    color: #507050;
+    font-size: 15px;
+    padding: 10px 0px 10px 0px;
+}
+img.default
+{
+    height: 120px;
+    float: left;
+}
+.clear
+{
+    clear: both;
+}
