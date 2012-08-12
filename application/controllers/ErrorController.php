@@ -12,6 +12,9 @@ class ErrorController extends Zend_Controller_Action
             return;
         }
 
+        $this->view->headTitle("Ha ocurrido un error");
+        $this->view->headLink()->appendStylesheet($this->view->baseUrl().'/css/error.css');
+
         switch ($errors->type) {
         case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_ROUTE:
         case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_CONTROLLER:
