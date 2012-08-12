@@ -8,15 +8,15 @@ echo $this->doctype("HTML5");
   <?php
     echo $this->headMeta();
     echo $this->headScript();
+
+    $this->headLink(array('rel' => 'icon', 'href' => $this->baseUrl().'/img/favicon.png','type' => 'image/x-icon'));
     echo $this->headLink()->appendStylesheet($this->baseUrl().'/global.css');
-    echo $this->headLink(array('rel' => 'icon', 'href' => $this->baseUrl().'/img/favicon.png','type' => 'image/x-icon'));
+
     $this->headTitle()->prepend('GfifDev - ');
     echo $this->headTitle();
-
-?>
+  ?>
   </head>
   <body>
-
 <?php
 
     $auth = Zend_Auth::getInstance();
@@ -34,17 +34,18 @@ echo $this->doctype("HTML5");
 
 ?>
 
-    <header id="hdppal"></header>
-    <ul id="menu">
-      <li><a href="<?php echo $this->url(array("controller" => "index", "action" => "index"), null, true); ?>">Inicio</a></li>
-      <li><a href="<?php echo $this->url(array("controller" => "who", "action" => "index"), null, true); ?>">¿Quiénes somos?</a></li>
-      <li><a href="<?php echo $this->url(array("controller" => "products", "action" => "index"), null, true); ?>">Productos</a></li>
-      <li><a href="<?php echo $this->url(array("controller" => "services", "action" => "index"), null, true); ?>">Servicios</a></li>
-      <!-- <li>Entrenamiento</li> -->
-      <!-- <li><a href="<?php //echo $this->url(array("controller" => "opensource", "action" => "index")); ?>">Open Source</a></li> -->
-      <!-- <li>Contáctenos</li> -->
-    </ul>
-    <div id="content"><?php echo $this->layout()->content; ?></div>
-    <footer id="ftppal">Copyright © 2012 GfifDev S.A.S. Todos los derechos reservados.</footer>
+    <header class="ppal">
+      <img class="img-logo" src="<?php echo $this->baseUrl()."/img/logo.png"; ?>"></img>
+      <ul id="menu-ppal">
+        <li class="menu-ppal-item"><a href="<?php echo $this->url(array("controller" => "index", "action" => "index"), null, true); ?>">Inicio</a></li>
+        <li class="menu-ppal-item"><a href="<?php echo $this->url(array("controller" => "who", "action" => "index"), null, true); ?>">¿Quiénes somos?</a></li>
+        <li class="menu-ppal-item"><a href="<?php echo $this->url(array("controller" => "products", "action" => "index"), null, true); ?>">Productos</a></li>
+        <li class="menu-ppal-item"><a href="<?php echo $this->url(array("controller" => "services", "action" => "index"), null, true); ?>">Servicios</a></li>
+      </ul>
+      <div class="hline"></div>
+    </header>
+    <div class="ppal"><?php echo $this->layout()->content; ?></div>
+    <div class="hline"></div>
+    <footer class="ppal">Copyright © 2012 GfifDev S.A.S. Todos los derechos reservados.</footer>
   </body>
 </html>
