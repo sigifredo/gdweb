@@ -1,0 +1,37 @@
+.newsimage
+{
+    width: 100px;
+    height: 100px;
+    float: left;
+    padding: 10px 20px 10px 20px;
+}
+.card
+{
+    padding: 0px;
+    margin: 15px;
+    width: 460px;
+    float: left;
+}
+.card header a
+{
+    color: #408840;
+    font-size: 17px;
+}
+.card p
+{
+    color: #507050;
+    margin: 15px;
+    padding: 10px 0px 10px 0px;
+}
+.clear
+{
+    clear: both;
+}
+.artl
+{
+    border-right: 1px solid #ccc;
+}
+.artr
+{
+    border-left: 1px solid #ccc;
+}

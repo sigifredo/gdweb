@@ -44,6 +44,7 @@ class IndexController extends Zend_Controller_Action
     public function indexAction()
     {
         $this->view->headTitle("Inicio");
+        $this->view->headLink()->appendStylesheet($this->view->baseUrl().'/css/news.css');
 
         $tbNews = new TbNews();
         $this->view->news = $tbNews->select()->query()->fetchAll();

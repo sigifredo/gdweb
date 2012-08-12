@@ -3,6 +3,10 @@ html
     font-size: 14px;
     font-family: Arial, Helvetica, sans-serif;
 }
+img
+{
+    border: 0px;
+}
 .ppal
 {
     width: 980px;
@@ -46,4 +50,10 @@ footer.ppal
     color: #606060;
     font-size: 12px;
     clear: left;
+}
+.session
+{
+    text-align: right;
+    width: 980px;
+    margin: 15px auto 0;
 }

@@ -28,8 +28,8 @@ echo $this->doctype("HTML5");
         $datos = $tbUser->find($auth->getIdentity());
         $datos = $datos[0];
 
-        echo "<div id=\"\">Perfil: <a href='".$this->url(array("controller" => "user", "action" => "profile"), null, true)."'>".$datos['names']." ".$datos['lastnames']."</a></div>";
-        echo "<div id=\"\"><a href='".$this->url(array("controller" => "user", "action" => "logout"))."'>Logout</a></div>";
+        echo "<div class=\"session\"><a href='".$this->url(array("controller" => "user", "action" => "profile"), null, true)."'>".$datos['names']." ".$datos['lastnames']."</a>";
+        echo "<br><a href='".$this->url(array("controller" => "user", "action" => "logout"))."'>Logout</a></div>";
     }
 
 ?>
@@ -41,8 +41,8 @@ echo $this->doctype("HTML5");
         <li class="menu-ppal-item"><a href="<?php echo $this->url(array("controller" => "products", "action" => "index"), null, true); ?>">Productos</a></li>
         <li class="menu-ppal-item"><a href="<?php echo $this->url(array("controller" => "services", "action" => "index"), null, true); ?>">Servicios</a></li>
       </ul>
-      <div class="hline"></div>
     </header>
+    <div class="hline"></div>
     <div class="ppal"><?php echo $this->layout()->content; ?></div>
     <div class="hline"></div>
     <footer class="ppal">Copyright © 2012 GfifDev S.A.S. Todos los derechos reservados.</footer>
