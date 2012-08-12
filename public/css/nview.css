@@ -1,0 +1,25 @@
+article.news header
+{
+    color: #408840;
+    font-size: 19px;
+    margin: 15px;
+}
+article.news p
+{
+    font-size: 15px;
+    padding: 0px 10px 0px 10px;
+}
+article.news p.head
+{
+    color: #507050;
+}
+article.news p.description
+{
+    color: black;
+}
+article.news footer.date
+{
+    color: #606060;
+    font-size: 12px;
+    padding: 0px 10px 0px 10px;
+}

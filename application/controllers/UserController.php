@@ -48,6 +48,9 @@ class UserController extends Zend_Controller_Action
         if(!$this->_hasParam('type'))
             $this->_helper->redirector('user', 'profile');
 
+        $this->view->headTitle("Crear usuario");
+        $this->view->headLink()->appendStylesheet($this->view->baseUrl().'/css/forms.css');
+
         $iUserType = $this->getRequest()->getParam('type');
 
         $form = new CreateUserForm();
@@ -102,6 +105,9 @@ class UserController extends Zend_Controller_Action
             $this->_helper->redirector('index', 'index');
         if(!$this->_hasParam('cc'))
             $this->_helper->redirector('list', 'index');
+
+        $this->view->headTitle("Actualizar usuario");
+        $this->view->headLink()->appendStylesheet($this->view->baseUrl().'/css/forms.css');
 
         $form = new UpdateUserForm();
         $form->setAction($this->view->url(array("controller" => "user", "action" => "update")))->setMethod('post');

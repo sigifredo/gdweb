@@ -108,6 +108,9 @@ class NewsController extends Zend_Controller_Action
         if(!$this->_hasParam('news'))
             $this->_helper->redirector('list', 'index');
 
+        $this->view->headTitle("Actualizar noticia");
+        $this->view->headLink()->appendStylesheet($this->view->baseUrl().'/css/forms.css');
+
         $form = new UpdateNewsForm();
         $form->setAction($this->view->url(array("controller" => "news", "action" => "update")))
              ->setMethod('post');
@@ -149,6 +152,8 @@ class NewsController extends Zend_Controller_Action
             $this->_helper->redirector('index', 'index');
         else
         {
+            $this->view->headLink()->appendStylesheet($this->view->baseUrl().'/css/nview.css');
+
             $tbNews = new TbNews();
             $this->view->news = $tbNews->find($this->getRequest()->getParam('n'));
             $this->view->news = $this->view->news[0];

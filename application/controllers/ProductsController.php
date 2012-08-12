@@ -35,6 +35,10 @@ class ProductsController extends Zend_Controller_Action
             $this->_helper->redirector('index', 'index');
             return;
         }
+
+        $this->view->headTitle("Crear proyecto");
+        $this->view->headLink()->appendStylesheet($this->view->baseUrl().'/css/forms.css');
+
         $form = new CreateProyectForm();
         $form->setAction($this->view->url(array("controller" => "products", "action" => "create")))
              ->setMethod('post');

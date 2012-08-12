@@ -26,6 +26,10 @@ class ServicesController extends Zend_Controller_Action
             $this->_helper->redirector('index', 'index');
             return;
         }
+
+        $this->view->headTitle("Crear servicio");
+        $this->view->headLink()->appendStylesheet($this->view->baseUrl().'/css/forms.css');
+
         $form = new CreateServiceForm();
         $form->setAction($this->view->url(array("controller" => "services", "action" => "create")))
              ->setMethod('post');

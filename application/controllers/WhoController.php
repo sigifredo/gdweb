@@ -45,6 +45,10 @@ class WhoController extends Zend_Controller_Action
             $this->_helper->redirector('index', 'who');
             return;
         }
+
+        $this->view->headTitle("Guardar información");
+        $this->view->headLink()->appendStylesheet($this->view->baseUrl().'/css/forms.css');
+
         $form = new CreateInfoForm();
         $form->setAction($this->view->url(array("controller" => "who", "action" => "create")))
              ->setMethod('post');
