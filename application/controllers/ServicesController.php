@@ -134,7 +134,7 @@ class ServicesController extends Zend_Controller_Action
             if($values['image'] == '')
                 unset($values['image']);
             else
-                $values['image'] = GD3W_PATH."/img/usr/".$form->image->getFileName(null,false);
+                $values['image'] = GD3W_PATH."/img/serv/".$form->image->getFileName(null,false);
 
             $tbService = new TbService();
             $datos = $tbService->update($values, "id=".$this->getRequest()->getParam('s'));
