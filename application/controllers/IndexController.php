@@ -47,7 +47,7 @@ class IndexController extends Zend_Controller_Action
         $this->view->headLink()->appendStylesheet($this->view->baseUrl().'/css/news.css');
 
         $tbNews = new TbNews();
-        $this->view->news = $tbNews->select()->query()->fetchAll();
+        $this->view->news = $tbNews->select()->order('id DESC')->query()->fetchAll();
     }
 
     /**
